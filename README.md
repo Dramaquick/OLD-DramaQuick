@@ -12,13 +12,16 @@
 
 <hr/>
 
+<br/>
+
 ## ⚡️ À propos
 
 DramaQuick est une version de DramaQuiz **accélérée** ; des questionnaires temporaires, des sessions de quiz... Tout cela a été créé avec une idée : **l’éphémérité** !
 
 <br/>
 
-> ❗ **Attention, ce README changera à l'avenir.**
+> ❗ **Attention**<br/>
+> **Ce README changera à l'avenir.** Vous en serez informé sur Discord.
 
 <br/>
 
@@ -90,3 +93,89 @@ npm run dev
 Vous verrez alors la ligne "VITE v3.2.5 ready in ... ms". Cela signifie que le serveur **front-end** est s'est lancé avec succès.
 
 Vous pouvez désormais vous rendre à l'adresse http://127.0.0.1:8000 et voir le site !
+
+> 📝 **À noter**<br/>
+> Tout le front-end se situe dans `/resources/js/`. Grâce au *🔥 hot reload 🔥*, toute modification appliquée se verra en direct sur votre page, il n'y a pas besoin de relancer le serveur front-end.
+
+## 💾 Base de données
+
+A terme, nous utiliserons une base de données PostgreSQL. Sur votre serveur de développement, vous allez utiliser la base de données MySQL fournie par Laragon. 
+
+Assurez-vous également que la partie DB de votre fichier .env est identique à la suivante :
+
+```dosini
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=dramaquick
+DB_USERNAME=root
+DB_PASSWORD=
+```
+
+*Libre à vous de modifier les paramètres, mais faites attention à les prendre en compte pour la suite.* 
+
+Tout d'abord, **si vous ne l'avez pas déjà mis en place**, rendez vous dans Laragon et cliquez sur "Base de données". Cela vous ouvrira une fenêtre **HeidiSQL** qui vous permettra de gérer la base de données.
+
+Si vous avez une autre préférence en ce qui concerne le logiciel (JetBrains DataGrip, etc...), vous pouvez l'utiliser. Les identifiants par défaut de **Laragon** sont alors les suivants :
+- Host : `127.0.0.1`
+- Port : `3306`
+- Username : `root`
+- Password : *Il n'y en a pas*
+  
+Vous aurez besoin d'exécuter **une seule commande** pour la mise en place. Pour cela, dans **HeidiSQL**, rendez-vous dans l'onglet `▶ Requête` et exécutez la requête suivante :
+
+```sql
+CREATE DATABASE dramaquick;
+```
+
+Cliquez ensuite sur `🐬 Laragon.MySQL`, à gauche, et faites F5. Vous verrez ensuite votre base de données "dramaquick" apparaître si tout s'est bien passé.
+
+<br/>
+
+### 🛠️ Migrations de la base de données
+
+On appelle une migration toute modification appliquée sur la structure de la base de données. 
+
+#### ⚡ Appliquer des migrations
+
+Par défaut, si vous venez de créer la base de données, vous devrez faire la commande suivante dans votre **Cmder** :
+
+```bash
+php artisan migrate
+```
+Cela aura pour effet de mettre en place la première structure de la base de données.
+
+#### ⏳ Status des migrations 
+
+Pour voir les migrations réalisées jusqu'à présent, vous pouvez faire la commande suivante :
+
+```bash
+php artisan migrate:status
+```
+Si vous voyez "Ran" sous status, cela veut dire que la migration a bien été appliquée sur la base de données. Si vous voyez "Pending", c'est que ce n'est pas le cas, auquel cas faites la première commande ci-dessus.
+
+#### 🧩 Créer une migration
+
+Si vous venez à modifier la structure de la base de données, vous devrez exécuter la commande suivante pour créer une migration :
+
+```bash
+php artisan make:migration nom_de_la_migration
+```
+Si Laravel parvient à déterminer les migrations automatiquement, le nouveau fichier créé dans `/database/migrations/` sera pré-rempli. Sinon, vous devrez le remplir vous-même.
+
+> 📝 **À noter**<br/>
+> Les migrations créées ne sont pas appliquées par défaut. Vous devrez les appliquer vous-même.
+
+<br/>
+
+## 🎯 Code de conduite
+
+Pour garder un maximum d'organisation, vous êtes priés de respecter une certaine nomenclature sur toute modification que vous apporterez au projet.
+
+- 🚨 Commits compréhensibles, vrais noms de commit
+- ❗❗ **Aucun push** sur la branche principale. Pour une nouvelle fonctionnalité, créez une nouvelle branche et nommez la de la façon suivante : `features/authentication` ou `features/dessin_quiz`, par exemple. Si la fonctionnalité existe déjà, libre à vous de push sur cette branche-ci. Une fois les features finies, un **dev senior** s'occupera de merge sur la branche principale.
+- 🛠️ Vrais noms de migrations compréhensibles
+
+<br/>
+
+> ***Optionnel*** : si vous pouvez préciser les modifications/ajouts que vous faites ailleurs (Figma, Notion), faites-le, cela permet de tenir l'équipe entière au courant et de ne pas faire de travail en double ! 😀
