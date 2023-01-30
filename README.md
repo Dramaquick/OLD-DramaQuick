@@ -55,7 +55,7 @@ Si vous ne l'avez pas encore fait, rendez-vous dans n'importe quelle console, na
 git clone https://github.com/Dramaquick/DramaQuick.git
 ```
 
-Une fois le repository cloné, retourez dans votre Cmder et exécutez les commandes suivantes :
+Une fois le repository cloné, retournez dans votre Cmder, dirigez-vous vers le répertoire DramaQuick, et exécutez les commandes suivantes :
 
 ```bash
 composer install
