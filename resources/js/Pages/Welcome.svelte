@@ -3,6 +3,7 @@
     import {onMount} from "svelte";
     import Button from "../Components/Button.svelte";
     import RadioButton from "../Components/RadioButton.svelte";
+    import Slider from "../Components/Slider.svelte";
 
     export let canLogin;
     export let canRegister;
@@ -13,7 +14,7 @@
     export let errors;
     /** @type {{date: Date, email: string, email_verified_at: null, id: int, name: string, updated_at: Date}}*/
     export let auth;
-    let form = {selected: 1};
+    let form = {selected: 1, slider1: 50, slider2: 50};
     // Celles-ci sont définies automatiquement par Inertia
     // A savoir que la variable auth est un objet qui permet d'accéder aux attributs publics de l'utilisateur :
 
@@ -41,7 +42,11 @@
         <RadioButton class="" name="test" value={2} bind:selected={form.selected} disabled></RadioButton>
         <RadioButton class="" name="test" value={3} bind:selected={form.selected}></RadioButton>
         <RadioButton class="" name="test" value={4} bind:selected={form.selected} disabled></RadioButton>
+        <Slider class="" bind:value={form.slider1}></Slider>
+        <Slider class="" bind:value={form.slider2} disabled></Slider>
         <p>{form.selected}</p>
+        <p>{form.slider1}</p>
+        <p>{form.slider2}</p>
     </div>
 </main>
 
