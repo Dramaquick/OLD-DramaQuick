@@ -1,13 +1,15 @@
 <script>
-    let className = "submit_button";
+    let className = "";
 
     export { className as class };
+    export let disabled = false;
 </script>
 
 <button
     class="{className}"
     {...$$restProps}
     on:click
+    {disabled}
 >
     <slot />
 </button>
@@ -44,7 +46,7 @@
 
     }
 
-    .disabled{
+    button:disabled{
 
         background-color: #d0dbd7;
         color: #a7aeab;
@@ -52,17 +54,17 @@
 
     }
 
-    .disabled:hover{
+    button:disabled:hover{
 
         transform: translateY(0px);
         box-shadow: none;
         
     }
 
-    .disabled.outline{
+    .outline:disabled{
             
-            border: 4px solid #a7aeab;
-            background-color: transparent;
+        border: 4px solid #a7aeab;
+        background-color: transparent;
 
     }
 </style>
