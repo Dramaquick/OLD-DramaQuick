@@ -1,14 +1,13 @@
 <script>
     let className = "submit_button";
 
-    export let type = "submit";
     export { className as class };
 </script>
 
 <button
-    {type}
     class="{className}"
     {...$$restProps}
+    on:click
 >
     <slot />
 </button>

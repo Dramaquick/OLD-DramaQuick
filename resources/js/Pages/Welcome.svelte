@@ -33,6 +33,7 @@
     <div>
         <Button class="">Rejoindre une session</Button>
         <Button class="outline">Créer une session</Button>
+        <Button class="disabled">Disabled</Button>
     </div>
 </main>
 
