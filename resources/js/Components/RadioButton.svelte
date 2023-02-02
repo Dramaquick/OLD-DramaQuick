@@ -9,7 +9,7 @@
 
 </script>
 
-<input type="radio" 
+<input type="radio"
     class="{className}"
     {...$$restProps}
     {name}
@@ -28,6 +28,7 @@
         box-sizing: border-box;
         border: 3px solid #dfdfdf;
         border-radius: 50px;
+        color: white;
 
     }
 
@@ -49,6 +50,10 @@
         border: 6px solid #797979;
         cursor: not-allowed;
 
+    }
+
+    input[type="radio"]:focus {
+        box-shadow: none;
     }
 
 </style>
