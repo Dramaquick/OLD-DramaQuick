@@ -1,5 +1,5 @@
 <script>
-    let className;
+    let className = "submit_button";
 
     export let type = "submit";
     export { className as class };
@@ -7,8 +7,63 @@
 
 <button
     {type}
-    class="{className} inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:shadow-outline-gray transition ease-in-out duration-150"
+    class="{className}"
     {...$$restProps}
 >
     <slot />
 </button>
+
+<style>
+    button {
+
+        height: 3.625rem;
+        padding: 0 2rem;
+        font-size: 1.25rem;
+        border-radius: 10px;
+        background: #34ffad;
+        border: none;
+        outline: none;
+        transition: .2s;
+        color: #0D241B;
+        font-family: 'Poppins', sans-serif;
+        font-weight: 500;
+        box-sizing: border-box;
+
+    }
+
+    button:hover {
+
+        transform: translateY(-5px);
+        box-shadow: #d0dbd7 0px 5px 12px;
+
+    }
+    .outline{
+
+        background-color: transparent;
+        border: 4px solid #15EF97;
+        color: #15EF97;
+
+    }
+
+    .disabled{
+
+        background-color: #d0dbd7;
+        color: #a7aeab;
+        cursor: not-allowed;
+
+    }
+
+    .disabled:hover{
+
+        transform: translateY(0px);
+        box-shadow: none;
+        
+    }
+
+    .disabled.outline{
+            
+            border: 4px solid #a7aeab;
+            background-color: transparent;
+
+    }
+</style>

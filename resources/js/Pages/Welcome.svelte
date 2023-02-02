@@ -1,6 +1,7 @@
 <script>
     import { Link, page } from "@inertiajs/inertia-svelte";
     import {onMount} from "svelte";
+    import Button from "../Components/Button.svelte";
 
     export let canLogin;
     export let canRegister;
@@ -29,6 +30,10 @@
 
 <!-- Contenu de la page -->
 <main class="min-h-screen w-full">
+    <div>
+        <Button class="">Rejoindre une session</Button>
+        <Button class="outline">Créer une session</Button>
+    </div>
 </main>
 
 <!-- Ici j'utilise style pour styliser le fond qui est un peu compliqué -->
