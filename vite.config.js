@@ -26,8 +26,9 @@ export default defineConfig({
         alias: {
             '@': resolve(projectRootDir, 'resources/js'),
             '~': resolve(projectRootDir, 'resources'),
+            '@public': resolve(projectRootDir, 'public')
         },
-        extensions: ['.js', '.svelte', '.json'],
+        extensions: ['.js', '.svelte', '.json', '.svg'],
     },
     server: detectServerConfig(host),
 });
