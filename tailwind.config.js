@@ -10,6 +10,10 @@ module.exports = {
         './resources/js/**/*.js',
     ],
 
+    corePlugins: {
+        outline: false
+    },
+
     theme: {
         extend: {
             fontFamily: {
