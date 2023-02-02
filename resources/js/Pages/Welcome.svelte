@@ -47,7 +47,7 @@
         <Slider class="" bind:value={form.slider1}></Slider>
         <Slider class="" bind:value={form.slider2} disabled></Slider>
         <Checkbox bind:checked={form.checked}/>
-        <TextBox bind:value={form.text}/>
+        <TextBox bind:value={form.text} placeholder="Entrez du texte..."/>
         <p>{form.selected}</p>
         <p>{form.slider1}</p>
         <p>{form.slider2}</p>
@@ -59,7 +59,7 @@
 <!-- Ici j'utilise style pour styliser le fond qui est un peu compliqué -->
 <style>
     main::before {
-        background: url("../../img/landing/square.png") 0 0 no-repeat;
+        background: url("/img/landing/square.png") 0 0 no-repeat;
         background-size: cover;
         content: "";
         position: absolute;
