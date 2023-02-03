@@ -8,6 +8,7 @@
     import TextBox from "../Components/TextBox.svelte";
     import SelectList from "@/Components/SelectList.svelte";
     import TextArea from "../Components/TextArea.svelte";
+    import TimeDisplay from "@/Components/TimeDisplay.svelte";
 
     // export let canLogin;
     // export let canRegister;
@@ -28,6 +29,17 @@
     // id: (int) L'identifiant de l'utilisateur
     // name: (string) Le pseudo de l'utilisateur
     // updated_at: (date) La date & l'heure de dernière mise à jour de l'utilisateur
+
+    // Mise à jour en temps réel de TimeDisplay
+    let minutes = new Date().getMinutes();
+    let seconds = new Date().getSeconds();
+
+    onMount(() => {
+        setInterval(() => {
+            minutes = new Date().getMinutes();
+            seconds = new Date().getSeconds();
+        }, 1000);
+    });
 </script>
 
 <!-- Permet de modifier l'head de la page -->
@@ -52,6 +64,7 @@
         <TextBox bind:value={form.text} placeholder="Entrez du texte..."/>
         <SelectList bind:value={form.selectValue} placeholder="Sélectionnez une valeur..."/>
         <TextArea bind:value={form.textArea} placeholder="Entrez du texte..."/>
+        <TimeDisplay {minutes} {seconds}/>
         <p>{form.selected}</p>
         <p>{form.slidersimple}</p>
         <p>{form.sliderdouble}</p>
