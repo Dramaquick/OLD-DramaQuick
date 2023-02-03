@@ -1,4 +1,5 @@
 <script>
+    import clickOutside from './util/clickOutside.js';
     let className = "";
 
     export { className as class };
@@ -11,9 +12,10 @@
     export let pattern = "";
     export let minlength = "";
     export let maxlength = "";
+    let focused = false;
 </script>
 
-<div class="area">
+<div class={`area ${focused ? "focused" : ''}`} use:clickOutside on:outclick={() => focused = false} on:click={() => focused = true}>
 <textarea
     class="{className}"
     {...$$restProps}
@@ -31,6 +33,7 @@
 
 <style>
     .area {
+        transition: all 0.2s ease;
         height: 7.125rem;
         width: 25.625rem;
         border-radius: 4px;
@@ -88,4 +91,10 @@
         background-color: #47524e;
         border-radius: 10px;
     }
+
+    .area.focused {
+        border-color: #00E589;
+        box-shadow: 0 0 2px #00E589;
+    }
+
 </style>
