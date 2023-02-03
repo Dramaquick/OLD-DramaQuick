@@ -8,7 +8,8 @@
     import TextBox from "../Components/TextBox.svelte";
     import SelectList from "@/Components/SelectList.svelte";
     import TextArea from "../Components/TextArea.svelte";
-    import TimeDisplay from "@/Components/TimeDisplay.svelte";
+    import TimeDisplay from "../Components/TimeDisplay.svelte";
+    import Counter from "../Components/Counter.svelte";
 
     // export let canLogin;
     // export let canRegister;
@@ -19,7 +20,7 @@
     // export let errors;
     // /** @type {{date: Date, email: string, email_verified_at: null, id: int, name: string, updated_at: Date}}*/
     // export let auth;
-    let form = {selected: 1, slidersimple: [5], sliderdouble: [0,5], text: "", textArea: "", checked: false, selectValue: 0};
+    let form = {selected: 1, slidersimple: [5], sliderdouble: [0,5], text: "", textArea: "", checked: false, selectValue: 0, counter: 0};
     // Celles-ci sont définies automatiquement par Inertia
     // A savoir que la variable auth est un objet qui permet d'accéder aux attributs publics de l'utilisateur :
 
@@ -64,7 +65,8 @@
         <TextBox bind:value={form.text} placeholder="Entrez du texte..."/>
         <SelectList bind:value={form.selectValue} placeholder="Sélectionnez une valeur..."/>
         <TextArea bind:value={form.textArea} placeholder="Entrez du texte..."/>
-        <TimeDisplay {minutes} {seconds}/>
+        <TimeDisplay minutes={minutes} seconds={seconds}/>
+        <Counter max={15} min={-10} bind:value={form.counter}/>
         <p>{form.selected}</p>
         <p>{form.slidersimple}</p>
         <p>{form.sliderdouble}</p>
@@ -72,6 +74,7 @@
         <p>{form.text}</p>
         <p>{form.selectValue}</p>
         <p>{form.textArea}</p>
+        <p>{form.counter}</p>
     </div>
 </main>
 
