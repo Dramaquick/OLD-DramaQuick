@@ -73,6 +73,7 @@
 
 <style>
     .select-list {
+        transition: all 0.2s ease;
         position: relative;
         width: clamp(13rem, 100%, 20rem);
         height: 3.5rem;
@@ -125,6 +126,7 @@
     }
 
     .selected-item__icon svg {
+        transition: all 0.2s ease;
         transform: scale(1.5);
     }
 
