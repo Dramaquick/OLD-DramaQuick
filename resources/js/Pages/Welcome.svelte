@@ -17,7 +17,7 @@
     // export let errors;
     // /** @type {{date: Date, email: string, email_verified_at: null, id: int, name: string, updated_at: Date}}*/
     // export let auth;
-    let form = {selected: 1, slider1: 50, slider2: 50, text: "", checked: false, selectValue: 0};
+    let form = {selected: 1, slidersimple: [5], sliderdouble: [0,5], text: "", checked: false, selectValue: 0};
     // Celles-ci sont définies automatiquement par Inertia
     // A savoir que la variable auth est un objet qui permet d'accéder aux attributs publics de l'utilisateur :
 
@@ -45,14 +45,14 @@
         <RadioButton class="" name="test" value={2} bind:selected={form.selected} disabled></RadioButton>
         <RadioButton class="" name="test" value={3} bind:selected={form.selected}></RadioButton>
         <RadioButton class="" name="test" value={4} bind:selected={form.selected} disabled></RadioButton>
-        <Slider class="" bind:value={form.slider1}></Slider>
-        <Slider class="" bind:value={form.slider2} disabled></Slider>
+        <Slider type="simple" class="" bind:values={form.slidersimple} min={0} max={10}></Slider>
+        <Slider type="double" bind:values={form.sliderdouble} min={0} max={10}></Slider>
         <Checkbox bind:checked={form.checked}/>
         <TextBox bind:value={form.text} placeholder="Entrez du texte..."/>
         <SelectList bind:value={form.selectValue} placeholder="Sélectionnez une valeur..."/>
         <p>{form.selected}</p>
-        <p>{form.slider1}</p>
-        <p>{form.slider2}</p>
+        <p>{form.slidersimple}</p>
+        <p>{form.sliderdouble}</p>
         <p>{form.checked}</p>
         <p>{form.text}</p>
         <p>{form.selectValue}</p>

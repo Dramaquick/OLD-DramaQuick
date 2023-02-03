@@ -1,75 +1,127 @@
 <script>
-    let className = "";
+    import RangeSlider from "svelte-range-slider-pips";
+    let sliderType = "simple";
 
-    export { className as class };
-    export let disabled = false;
-    export let name = "";
-    export let value = "";
-    export let min = 0;
+    export { sliderType as type };
+    export let values;
+    export let stiffness = 0;
+    export let damping = 0;
     export let max = 100;
-    export let step = 1;
+    export let min = 0;
 </script>
 
-<input type="range"
-    class="{className}"
-    {...$$restProps}
-    {name}
-    bind:value={value}
-    {min}
-    {max}
-    {step}
-    {disabled}
-    >
+<div class="globalrange">
+{#if sliderType == "simple"}
+<div class="simplestyle">
+    <RangeSlider range="min" bind:values={values} float="true" springValues={stiffness,damping} {max} {min}/>
+</div>
+{:else}
+<div class="doublestyle">
+    <RangeSlider bind:values={values} pushy range="true" float="true" springValues={stiffness,damping} {max} {min}/>
+</div>
+{/if}
+</div>
 
 <style>
 
-    input[type="range"] {
+    .globalrange {
+        width: 11.8125rem;
+    }
+
+    .doublestyle :global(.rangeSlider .rangeBar) {
+
+        background-color: #00e589;
+
+    }
+
+    .doublestyle :global(.rangeSlider .rangeNub) {
+
+        background-color: #00e589;
+
+    }
+
+    .doublestyle :global(.rangeSlider.range .rangeNub) {
+
+        border: 4px solid #FFFFFF;
+        box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.15);
+        border-radius: 50px;
+        box-sizing: border-box;
+        cursor: pointer;
         
-        height: 0.5rem;
-        border-radius: 5px;
-        background: #E8E8E8;
-        -webkit-appearance: none;
-        -moz-appearance: none;
-        appearance: none;
+    }
+
+    .doublestyle :global(.rangeSlider .rangeHandle.active .rangeNub) {
+
+        box-shadow: rgba(0, 0, 0, 0.30) 0px 5px 12px;
+        background-color: #00e589;
+        -webkit-box-shadow: rgba(0, 0, 0, 0.30) 0px 5px 12px;
+
+    }
+
+    .doublestyle :global(.rangeSlider) {
+
+        --handle: none;
+
+    }
+
+    .doublestyle :global(.rangeSlider .rangeFloat) {
+
+        background-color: #0D241B;
+
+    }
+
+    .doublestyle :global(.rangeSlider.focus .rangeFloat) {
+
+        background-color: #0D241B;
+
+    }
+
+    .simplestyle :global(.rangeSlider .rangeBar) {
+        
+        background-color: #00e589;
+        
     }
     
-    input[type=range]::-webkit-slider-thumb {
-                
-        -webkit-appearance: none;
-        -moz-appearance: none;
-        appearance: none;
-        width: 1.40625rem;
-        height: 1.40625rem;
-        background: #00E689;
-        border: 4.5px solid #FFFFFF;
+    .simplestyle :global(.rangeSlider .rangeNub) {
+    
+        background-color: #00e589;
+    
+    }
+    
+    .simplestyle :global(.rangeSlider.range .rangeNub) {
+    
+        border: 4px solid #FFFFFF;
+        box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.15);
         border-radius: 50px;
-        cursor: pointer;
-        -webkit-box-sizing: border-box;
         box-sizing: border-box;
-        -webkit-box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.15);
-        box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.15);
-                
+        cursor: pointer;
+    
     }
-
-    input[type=range]:active::-webkit-slider-thumb  {
-            
-        -webkit-box-shadow: rgba(0, 0, 0, 0.30) 0px 5px 12px;
+    
+    .simplestyle :global(.rangeSlider .rangeHandle.active .rangeNub) {
+    
         box-shadow: rgba(0, 0, 0, 0.30) 0px 5px 12px;
-            
+        background-color: #00e589;
+        -webkit-box-shadow: rgba(0, 0, 0, 0.30) 0px 5px 12px;
+    
     }
-
-    input[type=range]:disabled::-webkit-slider-thumb  {
-            
-        background: #797979;
-        cursor: not-allowed;
-            
+    
+    .simplestyle :global(.rangeSlider) {
+    
+        --handle: none;
+    
     }
-
-    input[type=range]:disabled:active::-webkit-slider-thumb  {
-            
-        -webkit-box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.15);
-        box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.15);
-                
+    
+    .simplestyle :global(.rangeSlider .rangeFloat) {
+    
+        background-color: #0D241B;
+    
+    }
+    
+    .simplestyle :global(.rangeSlider.focus .rangeFloat) {
+    
+        background-color: #0D241B;
+    
     }
 
 </style>
