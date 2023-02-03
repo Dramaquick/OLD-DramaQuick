@@ -7,6 +7,7 @@
     import Slider from "../Components/Slider.svelte";
     import TextBox from "../Components/TextBox.svelte";
     import SelectList from "@/Components/SelectList.svelte";
+    import TextArea from "../Components/TextArea.svelte";
 
     // export let canLogin;
     // export let canRegister;
@@ -17,7 +18,7 @@
     // export let errors;
     // /** @type {{date: Date, email: string, email_verified_at: null, id: int, name: string, updated_at: Date}}*/
     // export let auth;
-    let form = {selected: 1, slidersimple: [5], sliderdouble: [0,5], text: "", checked: false, selectValue: 0};
+    let form = {selected: 1, slidersimple: [5], sliderdouble: [0,5], text: "", textArea: "", checked: false, selectValue: 0};
     // Celles-ci sont définies automatiquement par Inertia
     // A savoir que la variable auth est un objet qui permet d'accéder aux attributs publics de l'utilisateur :
 
@@ -50,12 +51,14 @@
         <Checkbox bind:checked={form.checked}/>
         <TextBox bind:value={form.text} placeholder="Entrez du texte..."/>
         <SelectList bind:value={form.selectValue} placeholder="Sélectionnez une valeur..."/>
+        <TextArea bind:value={form.textArea} placeholder="Entrez du texte..."/>
         <p>{form.selected}</p>
         <p>{form.slidersimple}</p>
         <p>{form.sliderdouble}</p>
         <p>{form.checked}</p>
         <p>{form.text}</p>
         <p>{form.selectValue}</p>
+        <p>{form.textArea}</p>
     </div>
 </main>
 
