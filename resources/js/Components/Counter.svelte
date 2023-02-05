@@ -48,7 +48,6 @@
 <style>
     .box {
         display: inline-flex;
-        flex-direction: line;
         align-items: center;
         justify-content: center;
         width: 8rem;

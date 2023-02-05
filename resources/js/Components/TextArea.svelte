@@ -41,6 +41,7 @@
         border: 2px solid #DEEEE7;
         box-sizing: border-box;
         padding: 0.25rem .5rem;
+        display: inline-block;
     }
 
     textarea {

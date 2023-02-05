@@ -63,7 +63,7 @@
         font-weight: 400;
         box-sizing: border-box;
         padding: 0.5rem .75rem;
-        display: flex;
+        display: inline-flex;
         align-items: center;
         justify-content: space-between;
         transition: all 0.2s ease;
