@@ -76,6 +76,12 @@
         <p>{form.textArea}</p>
         <p>{form.counter}</p>
     </div>
+    <div>
+        <h1>Une nouvelle version de DramaQuiz</h1>
+    </div>
+    <div>
+        <p>DramaQuick est une version de DramaQuiz accélérée ; des questionnaires temporaires, des sessions de quiz... Tout cela a été créé avec une idée : l’éphémérité !</p>
+    </div>
 </main>
 
 <!-- Ici j'utilise style pour styliser le fond qui est un peu compliqué -->
@@ -93,5 +99,28 @@
         right: -8rem;
         overflow: hidden;
         border-radius: 5rem;
+    }
+
+    h1 {
+        position: absolute;
+        width: 37.875rem;
+        height: 8.375rem;
+        font-family: 'Poppins';
+        font-style: normal;
+        font-weight: 600;
+        font-size: 3rem;
+        line-height: 4.5rem;
+        color: #000000;
+    }
+    p {
+        position: absolute;
+        width: 37.875rem;
+        height: 9.125rem;
+        font-family: 'Poppins';
+        font-style: normal;
+        font-weight: 400;
+        font-size: 1.5rem;
+        line-height: 2.25rem;
+        color: #000000;
     }
 </style>
