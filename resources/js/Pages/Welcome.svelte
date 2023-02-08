@@ -1,3 +1,7 @@
+<script>
+    import Button from '../Components/Button.svelte';
+</script>
+
 <!-- Permet de modifier l'head de la page -->
 <svelte:head>
     <title>DramaQuick</title>
@@ -12,6 +16,10 @@
             questionnaires temporaires, des sessions de quiz... Tout cela a été
             créé avec une idée : l’éphémérité !
         </p>
+    </div>
+    <div>
+        <Button class="" on:click={()=>window.location.href='/login'}>Rejoindre une session</Button>
+        <Button class="outline" on:click={()=>window.location.href='/login'}>Créer une session</Button>
     </div>
     <div class="flex flex-row gap-6 text-center">
         <div>
