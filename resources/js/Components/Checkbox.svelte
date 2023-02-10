@@ -21,7 +21,7 @@
     }
 
     input[type="checkbox"]:checked {
-        background: #00E589 url("/img/components/check.svg") no-repeat center;
+        background: #00E589 url("/img/components/check.svg") no-repeat center 5px;
         background-size: 70%;
     }
 

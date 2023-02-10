@@ -82,7 +82,6 @@
         padding: 0 .75rem;
         font-weight: 500;
         box-sizing: border-box;
-        display: inline-block;
     }
 
     .select-list.open {

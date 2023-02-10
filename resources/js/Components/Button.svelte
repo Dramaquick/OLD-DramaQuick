@@ -3,6 +3,7 @@
 
     export { className as class };
     export let disabled = false;
+    export let style = "";
 </script>
 
 <button
@@ -10,6 +11,7 @@
     {...$$restProps}
     on:click
     {disabled}
+    {style}
 >
     <slot />
 </button>

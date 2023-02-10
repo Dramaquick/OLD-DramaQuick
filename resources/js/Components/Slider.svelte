@@ -26,8 +26,6 @@
 
     .globalrange {
         width: 11.8125rem;
-        display: inline-flex;
-        flex-direction: column;
     }
 
     .doublestyle :global(.rangeSlider .rangeBar) {
