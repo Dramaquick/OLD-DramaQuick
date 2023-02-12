@@ -18,6 +18,8 @@
         cursor: pointer;
         outline: none;
         position: relative;
+        transition: .2s ease-in;
+        background-position: center;
     }
 
     input[type="checkbox"]:checked {
