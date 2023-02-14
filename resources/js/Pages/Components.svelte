@@ -10,6 +10,8 @@
     import TextArea from "../Components/TextArea.svelte";
     import TimeDisplay from "../Components/TimeDisplay.svelte";
     import Counter from "../Components/Counter.svelte";
+    import NavLink from "../Components/NavLink.svelte";
+    import Value from "../Components/Value.svelte";
 
     // export let canLogin;
     // export let canRegister;
@@ -29,6 +31,7 @@
         checked: false,
         selectValue: 0,
         counter: 0,
+        value: "120",
     };
     // Celles-ci sont définies automatiquement par Inertia
     // A savoir que la variable auth est un objet qui permet d'accéder aux attributs publics de l'utilisateur :
@@ -112,6 +115,8 @@
         <TextArea bind:value={form.textArea} placeholder="Entrez du texte..." />
         <TimeDisplay {minutes} {seconds} />
         <Counter max={15} min={-10} bind:value={form.counter} />
+        <NavLink href="/login">Login</NavLink>
+        <Value bind:value={form.value} />
         <div class="flex gap-8">
             <p>{form.selected}</p>
             <p>{form.slidersimple}</p>
@@ -121,6 +126,7 @@
             <p>{form.selectValue}</p>
             <p>{form.textArea}</p>
             <p>{form.counter}</p>
+            <p>{form.value}</p>
         </div>
     </div>
 </main>
