@@ -1,15 +1,37 @@
 <script>
-    import { inertia } from "@inertiajs/inertia-svelte";
+    import { inertia, page } from "@inertiajs/inertia-svelte";
     let classes;
     export let href;
     export let active;
     $: {
-        classes = active
-            ? "inline-flex items-center px-1 pt-1 border-b-2 border-indigo-400 text-sm font-medium leading-5 text-gray-900 focus:outline-none focus:border-indigo-700 transition  duration-150 ease-in-out"
-            : "inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium leading-5 text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out";
+        classes = "nav-link";
+        classes += $page.url === href ? ' active' : '';
+        console.log($page);
     }
 </script>
 
 <a use:inertia {href} class={classes}>
     <slot />
 </a>
+
+<style>
+    .nav-link {
+        display: inline-block;
+        padding: 0.5rem 1rem;
+        color: #666666;
+        position: relative;
+        z-index: 0;
+        width: fit-content;
+    }
+    .nav-link.active::before {
+        z-index: -1;
+        color: black;
+        width: 85%;
+        position: absolute;
+        bottom: 0.5rem;
+        left: 7.5%;
+        background-color: #34FFAD;
+        height: 0.75rem;
+        content: " ";
+    }
+</style>
