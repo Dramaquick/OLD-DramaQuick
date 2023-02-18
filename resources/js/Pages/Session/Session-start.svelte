@@ -28,7 +28,7 @@
 
 <style>
     main {
-        background: url(/img/landing/back.png);
+        background-image: url(/img/landing/back.png);
         background-size: cover;
         background-repeat: no-repeat;
     }
@@ -51,7 +51,7 @@
         margin-left: 228px;
         margin-top: 71px;
         background: #FFFFFF;
-        box-shadow: 0px 2px 20px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
         border-radius: 20px;
     }
 
@@ -60,7 +60,7 @@
         height: 100px;
         margin-top: 98px;
         background: #D6F5FF;
-        border-radius: 20px 20px 0px 0px;
+        border-radius: 20px 20px 0 0;
     }
 
     .top {
@@ -122,7 +122,7 @@
         padding-left: 18.1px;
         margin-left: 80px;
         margin-top: 52.81px;
-        font-family: 'Poppins';
+        font-family: 'Poppins', sans-serif;
         font-style: normal;
         font-weight: 400;
         font-size: 24px;
