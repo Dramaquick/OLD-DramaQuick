@@ -40,6 +40,30 @@ Route::get('/about', function () {
     return Inertia::render('About');
 })->middleware(['auth', 'verified'])->name('about');
 
+Route::get('/components', function () {
+    return Inertia::render('Components');
+});
+
+Route::get('/session-start', function () {
+    return Inertia::render('Session/Session-start');
+});
+
+Route::get('/login', function () {
+    return true;
+});
+
+Route::get('/register', function () {
+    return true;
+});
+
+Route::get('/create-quiz', function () {
+    return true;
+});
+
+Route::get('/quiz/{session}', function ($session) {
+    return $session;
+})->middleware('isconnected')->where('session', '[0-9]+');
+
 // Links
 Route::get('/links', [LinkController::class, 'index'])->middleware(['auth', 'verified'])->name('links.index');
 Route::post('/links', [LinkController::class, 'store'])->name('links.store');
