@@ -2,6 +2,7 @@
     import { inertia, page } from "@inertiajs/inertia-svelte";
     let classes;
     export let href;
+    export let style = "";
     export let active;
     $: {
         classes = "nav-link";
@@ -10,7 +11,7 @@
     }
 </script>
 
-<a use:inertia {href} class={classes}>
+<a use:inertia {href} class="{classes} hover-underline-animation" {...$$restProps} {style}>
     <slot />
 </a>
 
@@ -33,5 +34,33 @@
         background-color: #34FFAD;
         height: 0.75rem;
         content: " ";
+    }
+
+    .hover-underline-animation {
+        padding: 0.5rem 1rem;
+        display: inline-block;
+        position: relative;
+    }
+
+    .hover-underline-animation::after {
+        content: '';
+        position: absolute;
+        width: 85%;
+        transform: scaleX(0);
+        height: 2px;
+        bottom: 5px;
+        left: 7.5%;
+        background-color: #666666;
+        transform-origin: bottom right;
+        transition: transform 0.25s ease-out;
+    }
+
+    .hover-underline-animation:hover::after {
+        transform: scaleX(1);
+        transform-origin: bottom left;
+    }
+
+    .active.hover-underline-animation::after {
+        background-color: transparent;
     }
 </style>
