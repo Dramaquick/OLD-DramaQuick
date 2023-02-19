@@ -48,6 +48,10 @@ Route::get('/session-start', function () {
     return Inertia::render('Session/Session-start');
 });
 
+Route::get('/session-text', function () {
+    return Inertia::render('Session/Session-text');
+});
+
 // Links
 Route::get('/links', [LinkController::class, 'index'])->middleware(['auth', 'verified'])->name('links.index');
 Route::post('/links', [LinkController::class, 'store'])->name('links.store');
