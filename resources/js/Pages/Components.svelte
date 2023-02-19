@@ -13,6 +13,7 @@
     import NavLink from "../Components/NavLink.svelte";
     import Value from "../Components/Value.svelte";
     import UserButton from "../Components/UserButton.svelte";
+    import Member from "../Components/Member.svelte";
 
     // export let canLogin;
     // export let canRegister;
@@ -132,7 +133,10 @@
         />
         <div class="test">
         <UserButton src="https://cdn.discordapp.com/avatars/394156737558741004/70b75a1870c4a43fa348c7bde4f23d6c.png?size=1024" />
-    </div>
+        </div>
+        <div class="test">
+        <Member src="https://cdn.discordapp.com/avatars/394156737558741004/70b75a1870c4a43fa348c7bde4f23d6c.png?size=1024" />
+        </div>
         <div class="flex gap-8">
             <p>{form.selected}</p>
             <p>{form.slidersimple}</p>
