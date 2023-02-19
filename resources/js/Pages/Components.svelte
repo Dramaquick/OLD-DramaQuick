@@ -14,6 +14,7 @@
     import Value from "../Components/Value.svelte";
     import UserButton from "../Components/UserButton.svelte";
     import Member from "../Components/Member.svelte";
+    import Timer from "../Components/Timer.svelte";
 
     // export let canLogin;
     // export let canRegister;
@@ -55,6 +56,23 @@
             seconds = new Date().getSeconds();
         }, 1000);
     });
+
+    // Décompteur en temps réel pour Timer
+    let timer = {
+        minutes: 0,
+        seconds: 10,
+    };
+    onMount(() => {
+        setInterval(() => {
+            if (timer.seconds > 0) {
+                timer.seconds--;
+            } else if (timer.minutes > 0) {
+                timer.minutes--;
+                timer.seconds = 59;
+            }
+        }, 1000);
+    });
+
 </script>
 
 <!-- Permet de modifier l'head de la page -->
@@ -137,6 +155,10 @@
         <div class="test">
         <Member src="https://cdn.discordapp.com/avatars/394156737558741004/70b75a1870c4a43fa348c7bde4f23d6c.png?size=1024" />
         </div>
+        <Timer
+            bind:minutes={timer.minutes}
+            bind:seconds={timer.seconds}
+        />
         <div class="flex gap-8">
             <p>{form.selected}</p>
             <p>{form.slidersimple}</p>
@@ -147,6 +169,10 @@
             <p>{form.textArea}</p>
             <p>{form.counter}</p>
             <p>{form.value}</p>
+            <p>{minutes}</p>
+            <p>{seconds}</p>
+            <p>{timer.minutes}</p>
+            <p>{timer.seconds}</p>
         </div>
     </div>
 </main>
