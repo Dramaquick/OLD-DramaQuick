@@ -15,6 +15,7 @@
     import UserButton from "../Components/UserButton.svelte";
     import Member from "../Components/Member.svelte";
     import Timer from "../Components/Timer.svelte";
+    import Tag from "../Components/Tag.svelte";
 
     // export let canLogin;
     // export let canRegister;
@@ -35,6 +36,9 @@
         selectValue: 0,
         counter: 0,
         value: "120",
+        emoji: "👍",
+        tag: "Tag",
+        color: "#34FFAD",
     };
     // Celles-ci sont définies automatiquement par Inertia
     // A savoir que la variable auth est un objet qui permet d'accéder aux attributs publics de l'utilisateur :
@@ -159,6 +163,11 @@
             bind:minutes={timer.minutes}
             bind:seconds={timer.seconds}
         />
+        <Tag
+            bind:text={form.tag}
+            bind:color={form.color}
+            bind:emoji={form.emoji}
+        />
         <div class="flex gap-8">
             <p>{form.selected}</p>
             <p>{form.slidersimple}</p>
@@ -173,6 +182,9 @@
             <p>{seconds}</p>
             <p>{timer.minutes}</p>
             <p>{timer.seconds}</p>
+            <p>{form.tag}</p>
+            <p>{form.color}</p>
+            <p>{form.emoji}</p>
         </div>
     </div>
 </main>
