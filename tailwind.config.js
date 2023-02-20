@@ -36,12 +36,14 @@ module.exports = {
             },
             height: {
                 '156': '39rem',
+                '12': '3rem',
             },
             borderRadius: {
                 '2.5xl': '1.25rem',
             },
             width: {
                 '144': '36rem',
+                '120': '30rem',
             },
             colors: {
                 'whitegray': '#666666',

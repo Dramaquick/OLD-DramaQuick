@@ -25,7 +25,7 @@
 <style>
 
     .globalrange {
-        width: 11.8125rem;
+        width: 15rem;
     }
 
     .doublestyle :global(.rangeSlider .rangeBar) {
