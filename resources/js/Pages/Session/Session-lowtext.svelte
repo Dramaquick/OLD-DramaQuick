@@ -60,6 +60,7 @@
                 bind:minutes={timer.minutes}
                 bind:seconds={timer.seconds}
             />
+            <p class="text-[1.5rem] color font-normal w-fit flex items-center h-12">restantes</p>
         </div>
         <div class="button flex justify-end items-end">
             <Button class="outline">Quitter la session</Button>
