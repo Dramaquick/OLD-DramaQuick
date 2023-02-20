@@ -86,7 +86,7 @@
         title : "Quiz ultime de la mort qui fait pas trop vivre !",
         description : "Voici une petit quiz plutôt pipou pour relancer un peu la mode parce qu’en vrai c’était vachement cool ✨",
         session : "#35878454",
-        createur : "Créé par Edouard",
+        createur : "Ewen.G",
         size : "9/10",
     }
 </script>
@@ -97,208 +97,116 @@
 </svelte:head>
 
 <!-- Contenu de la page -->
-<main class="h-screen w-full overflow-hidden">
-    <div class="title">
-        <h1>DramaQuick</h1>
-    </div>
-    <div class="content">
-        <div class="top">
-            <p class="session">Session {text.session}</p>
-            <p class="create">{text.createur}</p>
-            <p class="size">{text.size}</p>
+<main class="h-screen w-full overflow-hidden bg-cover bg-no-repeat">
+    <h1 class="font-semibold text-[2rem] text-black py-12 pl-56 w-full">DramaQuick</h1>
+    <div class="pl-56 pr-56">
+    <div class="content bg-white w-full h-156 shadow rounded-2.5xl px-20 py-16">
+        <p class="session text-[1.5rem] color font-normal">Session {text.session}</p>
+        <p class="creator text-[1.25rem] font-normal text-right pr-12">Créé par : &nbsp;&nbsp;<i class="not-italic z-0 relative inline-block font-medium creator-style">{text.createur}</i></p>
+        <p class="size font-semibold text-[1.5rem] text-black text-right">{text.size}</p>
+        <div class="text">
+            <h1 class="w-144 font-semibold text-[2.25rem]">{text.title}</h1>
+            <h2 class="bordered mt-11.25 pl-6 w-144 font-normal text-[1.5rem] h-fit">{text.description}</h2>
         </div>
-        <div class="container">
-        <div class="left">
-            <h1 class="session-title">{text.title}</h1>
-            <h2>{text.description}</h2>
+        <div class="members1 flex flex-col gap-3 pl-24">
+            <Member bind:user={users.user1}/>
+            <Member bind:user={users.user2}/>
+            <Member bind:user={users.user3}/>
+            <Member bind:user={users.user4}/>
+            <Member bind:user={users.user5}/>
         </div>
-        <div class="right">
-            <div class="left-member">
-                <Member bind:user={users.user1}/>
-                <Member bind:user={users.user2}/>
-                <Member bind:user={users.user3}/>
-                <Member bind:user={users.user4}/>
-                <Member bind:user={users.user5}/>
-            </div>
-            <div class="right-member">
-                <Member bind:user={users.user6}/>
-                <Member bind:user={users.user7}/>
-                <Member bind:user={users.user8}/>
-                <Member bind:user={users.user9}/>
-            </div>
+        <div class="members2 flex flex-col gap-3">
+            <Member bind:user={users.user6}/>
+            <Member bind:user={users.user7}/>
+            <Member bind:user={users.user8}/>
+            <Member bind:user={users.user9}/>
         </div>
-    </div>
-        <div class="bottom">
-            <div class="left-bottom">
-                <div class="timer-container w-24">
-                    <Timer
-                        bind:minutes={timer.minutes}
-                        bind:seconds={timer.seconds}
-                    />
-                </div>
-
-            <Tag bind:text={tag.text1} bind:emoji={tag.emo1} bind:color={tag.color1}/>
-            <Tag bind:text={tag.text2} bind:emoji={tag.emo2} bind:color={tag.color2}/>
-            <Tag bind:text={tag.text3} bind:emoji={tag.emo3} bind:color={tag.color3}/>
-            </div>
-            <div class="right-bottom">
-                <Button class="outline">Quitter la session</Button>
+        <div class="timer-tags flex flex-row items-center gap-10">
+            <Timer
+                bind:minutes={timer.minutes}
+                bind:seconds={timer.seconds}
+            />
+            <div class="tags flex flex-row items-center gap-4">
+                <Tag bind:text={tag.text1} bind:emoji={tag.emo1} bind:color={tag.color1}/>
+                <Tag bind:text={tag.text2} bind:emoji={tag.emo2} bind:color={tag.color2}/>
+                <Tag bind:text={tag.text3} bind:emoji={tag.emo3} bind:color={tag.color3}/>
             </div>
         </div>
-
+        <div class="button flex items-center justify-end">
+            <Button class="outline">Quitter la session</Button>
+        </div>
     </div>
 </main>
 
 <style>
     main {
         background-image: url(/img/landing/back.png);
-        background-size: cover;
-        background-repeat: no-repeat;
     }
 
-    .title {
-        font-family: 'Poppins', sans-serif;
-        font-style: normal;
-        font-weight: 600;
-        font-size: 32px;
-        line-height: 48px;
-        color: #000000;
-        margin-left: 14.25rem;
-        margin-top: 2.5625rem;
-        width: fit-content;
-    }
-
-    .content {
-        width: 1463px;
-        height: 625px;
-        margin-left: 228px;
-        margin-top: 71px;
-        background: #FFFFFF;
+    .shadow {
         box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
-        border-radius: 20px;
     }
 
-    .bottom {
-        display: flex;
-        justify-content: space-between;
+    .creator {
+        grid-row: 1;
+        grid-column: 1;
     }
-
-    .right-bottom {
-        display: flex;
-        align-items: center;
-        justify-content: flex-end;
-        margin-right: 80px;
-        margin-top: 160px;
-    }
-
-    .left-bottom {
-        display: flex;
-        align-items: center;
-        justify-content: flex-start;
-        flex-direction: row;
-        margin-left: 80px;
-        margin-top: 170px;
-        gap: 20px;
-    }
-
-    .top {
-        display: flex;
-        justify-content: space-between;
-        margin-left: 80px;
-        margin-right: 80px;
-    }
-
-    .top p {
-        font-family: 'Poppins', sans-serif;
-        font-style: normal;
-        line-height: 36px;
-        margin-top: 31px;
-    }
-
-    .create {
-        margin-right: 500px;
-        font-size: 20px;
-        line-height: 30px;
-        font-weight: 400;
+    .content {
+        display: grid;
     }
 
     .session {
-        font-size: 24px;
-        line-height: 36px;
-        display: flex;
-        align-items: center;
-        color: rgba(0, 0, 0, 0.6);
-        font-weight: 400;
+        grid-row: 1;
+        grid-column: 1;
     }
 
     .size {
-        font-weight: 600;
-        font-size: 24px;
-        line-height: 36px;
-        text-align: right;
-        color: #000000;
+        grid-row: 1;
+        grid-column: 3;
     }
 
-    .session-title {
-        width: 578px;
-        height: 94px;
-        margin-left: 80px;
-        margin-top: 45px;
-
-        font-family: 'Poppins', sans-serif;
-        font-style: normal;
-        font-weight: 600;
-        font-size: 36px;
-        line-height: 54px;
-
-        color: #000000;
+    .color {
+        color: #666666;
     }
 
-    .left h2 {
-        width: 577.14px;
-        height: 106.19px;
-        padding-left: 18.1px;
-        margin-left: 80px;
-        margin-top: 52.81px;
-        font-family: 'Poppins', sans-serif;
-        font-style: normal;
-        font-weight: 400;
-        font-size: 24px;
-        line-height: 36px;
-        color: #000000;
-        border-left: 4.76px solid #34FFAD;
+    .text {
+        grid-row: 2/4;
+        grid-column: 1;
     }
 
-    .right {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        margin-right: 200px;
-        margin-top: 45px;
+    .bordered {
+        border-left: 4px solid #34FFAD;
     }
 
-    .left-member {
-        margin-right: 150px;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        align-items: flex-start;
-        height: 120%;
+    .members1 {
+        grid-row: 2/4;
+        grid-column: 2;
     }
 
-    .right-member {
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        height: 95%;
-        align-items: flex-start;
+    .members2 {
+        grid-row: 2/4;
+        grid-column: 3;
     }
 
+    .timer-tags {
+        grid-row: 4;
+        grid-column: 1/3;
+    }
 
-    .container {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        width: 100%;
+    .button {
+        grid-row: 4;
+        grid-column: 3;
+    }
+
+    .creator-style::before {
+        z-index: -1;
+        color: black;
+        width: 110%;
+        position: absolute;
+        bottom: 0.09rem;
+        left: -5%;
+        background-color: #34FFAD;
+        height: 0.75rem;
+        content: " ";
     }
 </style>

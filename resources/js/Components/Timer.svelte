@@ -18,9 +18,8 @@
         font-style: normal;
         font-weight: 600;
         font-size: 2.25rem;
-        width: 100%;
+        width: 5rem;
         text-align: center;
-
         color: #000000;
     }
 </style>
