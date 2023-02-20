@@ -1,4 +1,7 @@
 <script>
+    import {inertia} from '@inertiajs/inertia-svelte';
+    import BreezeDropdownLink from "@/components/DropdownLink.svelte";
+
     export let user = {};
 
     let src = user.hasCustomIcon ? "/img/users/" + user.id + ".webp" : "/img/components/user.svg";
@@ -7,16 +10,16 @@
 
 <div class="user-button-container">
     {#if hasCustomImage}
-        <img class="user-image custom-image" src={src} alt="user_image" />
+        <img class="user-image custom-image" src={src} alt="user_image"/>
     {:else}
-        <img class="user-image" src={src} alt="user_image" />
+        <img class="user-image" src={src} alt="user_image"/>
     {/if}
     <div class="user-menu">
         <a class="user-menu-item" href="#">Profile</a>
         <div class="separator"></div>
         <a class="user-menu-item" href="#">Paramètres</a>
         <div class="separator"></div>
-        <a class="user-menu-item" href="#">Se déconnecter</a>
+        <button use:inertia={{ href: "/logout", method: "post" }} class="user-menu-item">Se déconnecter</button>
     </div>
 </div>
 
@@ -30,10 +33,9 @@
 
     .user-menu {
         /* positionner le menu en dessous de l'image & le cacher */
-        display: none;
+        display: inline-flex;
         position: absolute;
         bottom: -25%;
-        transform: translateY(100%);
         flex-direction: column;
         justify-content: center;
         align-items: flex-start;
@@ -44,6 +46,9 @@
         background: #FFFFFF;
         box-shadow: 0px 2px 20px rgba(0, 0, 0, 0.1);
         border-radius: 5px;
+        opacity: 0;
+        transform: translateY(90%) scale(0.9);
+        transition: .2s;
     }
 
     .user-menu-item {
@@ -52,7 +57,8 @@
 
     .user-button-container:hover .user-menu {
         /* permet d'afficher le menu en dessous */
-        display: flex !important;
+        transform: translateY(100%);
+        opacity: 1;
     }
 
     .user-image {

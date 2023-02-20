@@ -2,6 +2,8 @@
     import Button from '../Components/Button.svelte';
     import NavLink from "@/Components/NavLink.svelte";
     import Value from "@/Components/Value.svelte";
+    import UserButton from "@/Components/UserButton.svelte";
+    import { page } from '@inertiajs/inertia-svelte';
 </script>
 
 <!-- Permet de modifier l'head de la page -->
@@ -12,65 +14,70 @@
 <!-- Contenu de la page -->
 <main class="h-screen w-full overflow-hidden">
     <div class="flex justify-between">
-    <div class="title">
-        <h1>DramaQuick</h1>
-    </div>
-    <nav class="">
-        <NavLink href="/">Accueil</NavLink>
-        <NavLink href="">Rejoindre une session</NavLink>
-        <NavLink href="/login">Se connecter</NavLink>
-        <NavLink href="/register">S'inscrire</NavLink>
-    </nav>
+        <div class="title">
+            <h1>DramaQuick</h1>
+        </div>
+        <nav class="">
+            <NavLink href="/">Accueil</NavLink>
+            <NavLink href="">Rejoindre une session</NavLink>
+            {#if $page.props.auth.user}
+                <UserButton user={$page.props.auth.user} />
+            {:else}
+                <NavLink href="/login">Se connecter</NavLink>
+                <NavLink href="/register">S'inscrire</NavLink>
+            {/if}
+
+        </nav>
     </div>
     <div class="contenu">
-    <div class="left h-[90%]">
-        <div class="flex flex-col gap-6 w-1/4">
-            <h1 class="font-w600 text-[3rem] text-black width-606">
-                Une nouvelle version de DramaQuiz
-            </h1>
-            <p class="text-lg font-w400 width-606 text-[1.5rem] lineh">
-                DramaQuick est une version de DramaQuiz accélérée ; des
-                questionnaires temporaires, des sessions de quiz... Tout cela a
-                été créé avec une idée : l’éphémérité !
-            </p>
-        </div>
-        <div class="margint flex flex-row">
-            <div class="space">
-            <Button class="" on:click={() => (window.location.href = "/login")}
-                >Rejoindre une session</Button
-            >
+        <div class="left h-[90%]">
+            <div class="flex flex-col gap-6 w-1/4">
+                <h1 class="font-w600 text-[3rem] text-black width-606">
+                    Une nouvelle version de DramaQuiz
+                </h1>
+                <p class="text-lg font-w400 width-606 text-[1.5rem] lineh">
+                    DramaQuick est une version de DramaQuiz accélérée ; des
+                    questionnaires temporaires, des sessions de quiz... Tout cela a
+                    été créé avec une idée : l’éphémérité !
+                </p>
             </div>
-            <Button
-                class="outline"
-                on:click={() => (window.location.href = "/login")}
+            <div class="margint flex flex-row">
+                <div class="space">
+                    <Button class="" on:click={() => (window.location.href = "/login")}
+                    >Rejoindre une session</Button
+                    >
+                </div>
+                <Button
+                    class="outline"
+                    on:click={() => (window.location.href = "/login")}
                 >Créer une session</Button
-            >
-        </div>
-        <div class="flex flex-row gap-20 text-center margint2">
-            <div>
-                <Value value="15"/>
-                <p
-                    class="text-2xl text-[#273C33] leading-9 font-w400 w-fit"
                 >
-                    Quiz<br />réalisés
-                </p>
             </div>
-            <div>
-                <Value value="3"/>
-                <p
-                    class="text-2xl text-[#273C33] leading-9 font-w400 w-fit"
-                >
-                    Sessions<br />actives
-                </p>
-            </div>
-            <div>
-                <Value value="124"/>
-                <p class="text-2xl text-[#273C33] leading-9 font-w400 w-fit">
-                    Participa-<br />tions
-                </p>
+            <div class="flex flex-row gap-20 text-center margint2">
+                <div>
+                    <Value value="15"/>
+                    <p
+                        class="text-2xl text-[#273C33] leading-9 font-w400 w-fit"
+                    >
+                        Quiz<br />réalisés
+                    </p>
+                </div>
+                <div>
+                    <Value value="3"/>
+                    <p
+                        class="text-2xl text-[#273C33] leading-9 font-w400 w-fit"
+                    >
+                        Sessions<br />actives
+                    </p>
+                </div>
+                <div>
+                    <Value value="124"/>
+                    <p class="text-2xl text-[#273C33] leading-9 font-w400 w-fit">
+                        Participa-<br />tions
+                    </p>
+                </div>
             </div>
         </div>
-    </div>
         <div class="right">
             <img class="arrow" src="/img/landing/arrow.svg" alt="" />
             <img class="logo" src="/img/landing/logo.svg" alt="" />
