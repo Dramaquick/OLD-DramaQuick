@@ -80,13 +80,14 @@
             role: "member",
             hasCustomIcon: false,
         },
-        let text = {
-            title : "Quiz ultime de la mort qui fait pas trop vivre !",
-            description : "Voici une petit quiz plutôt pipou pour relancer un peu la mode parce qu’en vrai c’était vachement cool ✨"
-            session : "#35878454"
-            createur : "Créé par Edouard"
-            size : "9/10"
-        }
+    }
+
+    let text = {
+        title : "Quiz ultime de la mort qui fait pas trop vivre !",
+        description : "Voici une petit quiz plutôt pipou pour relancer un peu la mode parce qu’en vrai c’était vachement cool ✨",
+        session : "#35878454",
+        createur : "Créé par Edouard",
+        size : "9/10",
     }
 </script>
 
