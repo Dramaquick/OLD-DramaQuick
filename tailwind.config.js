@@ -19,8 +19,21 @@ module.exports = {
             fontFamily: {
                 sans: ['Poppins', ...defaultTheme.fontFamily.sans],
             },
+            spacing: {
+                '128': '32rem',
+                '144': '36rem',
+                '160': '40rem',
+                '176': '44rem',
+            },
+            padding: {
+                '45': '11.25rem',
+                '50': '12.5rem',
+                '90': '22.5rem',
+                '100': '25rem',
+                '110': '27.5rem',
+            },
+            }
         },
-    },
 
     plugins: [require('@tailwindcss/forms')],
 };
