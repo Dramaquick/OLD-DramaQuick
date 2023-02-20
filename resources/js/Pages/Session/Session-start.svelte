@@ -19,9 +19,10 @@
 
     // Décompteur en temps réel pour Timer
     let timer = {
-        minutes: 0,
-        seconds: 30,
+        minutes: 1,
+        seconds: 10,
     };
+
     onMount(() => {
         setInterval(() => {
             if (timer.seconds > 0) {
@@ -52,7 +53,7 @@
         user4: {
             pseudo: "Hugo.M",
             role: "admin",
-            hasCustomIcon: false,
+            hasCustomIcon: true,
         },
         user5: {
             pseudo: "Nathan.R",
@@ -129,10 +130,13 @@
     </div>
         <div class="bottom">
             <div class="left-bottom">
-            <Timer
-                bind:minutes={timer.minutes}
-                bind:seconds={timer.seconds}
-            />
+                <div class="timer-container w-24">
+                    <Timer
+                        bind:minutes={timer.minutes}
+                        bind:seconds={timer.seconds}
+                    />
+                </div>
+
             <Tag bind:text={tag.text1} bind:emoji={tag.emo1} bind:color={tag.color1}/>
             <Tag bind:text={tag.text2} bind:emoji={tag.emo2} bind:color={tag.color2}/>
             <Tag bind:text={tag.text3} bind:emoji={tag.emo3} bind:color={tag.color3}/>

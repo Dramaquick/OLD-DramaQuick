@@ -1,5 +1,10 @@
 <script>
-    export let user = {};
+    export let user = {
+        id: 1,
+        pseudo: "Invité",
+        role: "member",
+        hasCustomIcon: false
+    };
 
     const colors = {
         creator: "#FFFACC",

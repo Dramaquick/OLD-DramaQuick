@@ -7,8 +7,7 @@
 </script>
 
 <span class="timer">
-    <p>{minutes}:</p>
-    <p>{secondString}</p>
+{minutes}:{secondString}
 </span>
 
 <style>
@@ -16,12 +15,11 @@
         display: flex;
         align-items: center;
         justify-content: start;
-        font-family: 'Poppins';
         font-style: normal;
         font-weight: 600;
         font-size: 2.25rem;
-        line-height: 3.375rem;
-        width: 75px;
+        width: 100%;
+        text-align: center;
 
         color: #000000;
     }
