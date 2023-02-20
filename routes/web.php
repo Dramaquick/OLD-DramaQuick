@@ -52,6 +52,31 @@ Route::get('/session-text', function () {
     return Inertia::render('Session/Session-text');
 });
 
+Route::get('/session-select', function () {
+    return Inertia::render('Session/Session-select');
+});
+
+Route::get('/session-paint', function () {
+    return Inertia::render('Session/Session-paint');
+});
+
+Route::get('/session-checkbox', function () {
+    return Inertia::render('Session/Session-checkbox');
+});
+
+Route::get('/session-lowtext', function () {
+    return Inertia::render('Session/Session-lowtext');
+});
+
+Route::get('/session-radiobutton', function () {
+    return Inertia::render('Session/Session-radiobutton');
+});
+
+Route::get('/session-slider', function () {
+    return Inertia::render('Session/Session-slider');
+});
+
+
 // Links
 Route::get('/links', [LinkController::class, 'index'])->middleware(['auth', 'verified'])->name('links.index');
 Route::post('/links', [LinkController::class, 'store'])->name('links.store');
