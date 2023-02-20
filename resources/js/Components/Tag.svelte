@@ -1,11 +1,13 @@
 <script>
+    import {lightenColor} from "@/Components/util/ColorUtil";
+
     export let text="none";
     export let emoji="❌";
     export let color="#34FFAD";
 </script>
 
-<span class="tag" style="background-color: {color};">
-{emoji}{text.toUpperCase()}
+<span class="tag" style="--tag-color: {color}; --bg-color: {lightenColor(color, -25)}">
+{emoji} {text.toUpperCase()}
 </span>
 
 <style>
@@ -13,16 +15,22 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        font-family: 'Poppins';
         font-style: normal;
         font-weight: 600;
-        font-size: 0.9375rem;
-        line-height: 1.4375rem;
+        font-size: 1rem;
         width: fit-content;
         height: fit-content;
-        padding: 5px 16px;
+        padding: .25rem 1rem;
         border-radius: 62px;
-        padding-left: 0.625rem;
         color: #000000;
+        background-color: var(--tag-color);
+        transition: .2s;
+        position: relative;
+        z-index: 1;
+    }
+
+    .tag:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 6px 1px var(--bg-color);
     }
 </style>
