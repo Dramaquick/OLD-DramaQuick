@@ -4,7 +4,6 @@
     import Tag from "../../Components/Tag.svelte";
     import Member from "../../Components/Member.svelte";
     import Button from "../../Components/Button.svelte";
-    import { text } from "svelte/internal";
 
     let tag = {
         emo1: "⌛",
