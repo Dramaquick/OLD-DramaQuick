@@ -4,6 +4,7 @@
     import Tag from "../../Components/Tag.svelte";
     import Member from "../../Components/Member.svelte";
     import Button from "../../Components/Button.svelte";
+    import { text } from "svelte/internal";
 
     let tag = {
         emo1: "⌛",
@@ -79,6 +80,13 @@
             role: "member",
             hasCustomIcon: false,
         },
+        let text = {
+            title : "Quiz ultime de la mort qui fait pas trop vivre !",
+            description : "Voici une petit quiz plutôt pipou pour relancer un peu la mode parce qu’en vrai c’était vachement cool ✨"
+            session : "#35878454"
+            createur : "Créé par Edouard"
+            size : "9/10"
+        }
     }
 </script>
 
@@ -94,14 +102,14 @@
     </div>
     <div class="content">
         <div class="top">
-            <p class="session">Session #35878454</p>
-            <p class="create">Créé par: Edouard</p>
-            <p class="size">9/10</p>
+            <p class="session">Session {text.session}</p>
+            <p class="create">{text.createur}</p>
+            <p class="size">{text.size}</p>
         </div>
         <div class="container">
         <div class="left">
-            <h1 class="session-title">Quiz ultime de la mort qui fait pas trop vivre !</h1>
-            <h2>Voici une petit quiz plutôt pipou pour relancer un peu la mode parce qu’en vrai c’était vachement cool ✨</h2>
+            <h1 class="session-title">{text.title}</h1>
+            <h2>{text.description}</h2>
         </div>
         <div class="right">
             <div class="left-member">
