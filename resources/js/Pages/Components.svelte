@@ -16,6 +16,7 @@
     import Member from "../Components/Member.svelte";
     import Timer from "../Components/Timer.svelte";
     import Tag from "../Components/Tag.svelte";
+    import Paint from "../Components/Paint.svelte";
 
     // export let canLogin;
     // export let canRegister;
@@ -168,6 +169,9 @@
             bind:color={form.color}
             bind:emoji={form.emoji}
         />
+        <div class="draw">
+        <Paint />
+        </div>
         <div class="flex gap-8">
             <p>{form.selected}</p>
             <p>{form.slidersimple}</p>
@@ -196,5 +200,13 @@
         display: flex;
         justify-content: center;
         align-items: center;
+    }
+    .draw {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 100px;
+        margin-bottom: 100px;
     }
 </style>
