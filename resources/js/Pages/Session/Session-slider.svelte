@@ -42,7 +42,7 @@
 <main class="h-screen w-full overflow-hidden bg-cover bg-no-repeat">
     <h1 class="font-semibold text-[2rem] text-black py-12 pl-56 w-full">DramaQuick</h1>
     <div class="pl-56 pr-56">
-    <div class="content bg-white w-full h-156 shadow rounded-2.5xl px-20 py-16">
+    <div class="grid bg-white w-full h-156 shadow rounded-2.5xl px-20 py-16">
         <div>
             <p class="session text-[1.5rem] color font-normal w-fit">Session {text.session}</p>
             <h1 class="title py-2 w-144 font-semibold text-[2.25rem] w-fit">{text.title}</h1>
@@ -78,10 +78,6 @@
 
     .shadow {
         box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
-    }
-
-    .content {
-        display: grid;
     }
 
     .color {

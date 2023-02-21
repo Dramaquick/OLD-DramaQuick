@@ -100,7 +100,7 @@
 <main class="h-screen w-full overflow-hidden bg-cover bg-no-repeat">
     <h1 class="font-semibold text-[2rem] text-black py-12 pl-56 w-full">DramaQuick</h1>
     <div class="pl-56 pr-56">
-    <div class="content bg-white w-full h-156 shadow rounded-2.5xl px-20 py-16">
+    <div class="grid bg-white w-full h-156 shadow rounded-2.5xl px-20 py-16">
         <p class="session text-[1.5rem] color font-normal">Session {text.session}</p>
         <p class="creator text-[1.25rem] font-normal text-right pr-12">Créé par : &nbsp;&nbsp;<i class="not-italic z-0 relative inline-block font-medium creator-style">{text.createur}</i></p>
         <p class="size font-semibold text-[1.5rem] text-black text-right">{text.size}</p>
@@ -150,9 +150,6 @@
     .creator {
         grid-row: 1;
         grid-column: 1;
-    }
-    .content {
-        display: grid;
     }
 
     .session {
