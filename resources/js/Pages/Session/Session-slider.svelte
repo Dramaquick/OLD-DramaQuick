@@ -49,7 +49,7 @@
             <h2 class="desc bordered pl-6 w-144 font-normal text-[1.5rem] h-fit w-fit">{text.description}</h2>
         </div>
         <p class="page font-semibold text-[1.5rem] text-black text-right">{text.page}</p>
-        <div class="slider flex justify-center items-center">
+        <div class="slider flex justify-center items-center scale-150">
             <Slider
                 type="double"
                 bind:values={form.sliderdouble}

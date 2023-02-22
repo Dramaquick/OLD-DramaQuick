@@ -1,5 +1,4 @@
 <script>
-    import { Link, page } from "@inertiajs/inertia-svelte";
     import { onMount } from "svelte";
     import Button from "../Components/Button.svelte";
     import RadioButton from "../Components/RadioButton.svelte";
@@ -41,7 +40,7 @@
         emoji: "👍",
         tag: "Tag",
         color: "#34FFAD",
-        canvasImage: ""
+        canvasImage: "",
     };
     // Celles-ci sont définies automatiquement par Inertia
     // A savoir que la variable auth est un objet qui permet d'accéder aux attributs publics de l'utilisateur :
