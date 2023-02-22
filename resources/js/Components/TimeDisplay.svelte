@@ -9,62 +9,29 @@
     $: secondString = seconds.toString().padStart(2, '0');
 </script>
 
-<div class="time-display">
-    <div class="minutes">
-        <div class={`digit ${ minuteString[0] === '0' ? "isZero" : "" }`}>
+<div class="flex items-center justify-center text-[2rem] font-medium ">
+    <div class="flex items-center justify-center">
+        <div class={`digit rounded-t-lg flex items-center justify-center w-14 h-17 bg-[#f3f3f3] m-1 relative ${ minuteString[0] === '0' ? "text-[#ADADAD]" : "" }`}>
             {minuteString[0]}
         </div>
-        <div class={`digit ${ minuteString[1] === '0' ? "isZero" : "" }`}>
+        <div class={`digit rounded-t-lg flex items-center justify-center w-14 h-17 bg-[#f3f3f3] m-1 relative ${ minuteString[1] === '0' ? "text-[#ADADAD]" : "" }`}>
             {minuteString[1]}
         </div>
     </div>
-    <div class="colon">
+    <div class="my-0 mx-2 text-[#ADADAD]">
         :
     </div>
-    <div class="seconds">
-        <div class={`digit ${ secondString[0] === '0' ? "isZero" : "" }`}>
+    <div class="flex items-center justify-center">
+        <div class={`digit rounded-t-lg flex items-center justify-center w-14 h-17 bg-[#f3f3f3] m-1 relative ${ secondString[0] === '0' ? "text-[#ADADAD]" : "" }`}>
             {secondString[0]}
         </div>
-        <div class={`digit ${ secondString[1] === '0' ? "isZero" : "" }`}>
+        <div class={`digit rounded-t-lg flex items-center justify-center w-14 h-17 bg-[#f3f3f3] m-1 relative ${ secondString[1] === '0' ? "text-[#ADADAD]" : "" }`}>
             {secondString[1]}
         </div>
     </div>
 </div>
 
 <style>
-    .time-display {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 3rem;
-        font-family: 'Poppins', sans-serif;
-        font-weight: 500;
-        font-size: 2rem;
-    }
-
-    .minutes,
-    .seconds {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .digit {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 3.5rem;
-        height: 4.25rem;
-        border-radius: 8px 8px 0 0;
-        background-color: #f3f3f3;
-        margin: 0.25rem;
-        position: relative;
-    }
-
-    .digit.isZero {
-        color: #ADADAD;
-    }
-
     .digit::after {
         content: '';
         display: block;
@@ -75,10 +42,5 @@
         height: 0.3rem;
         border-radius: 0 0 8px 8px;
         background-color: #00E589;
-    }
-
-    .colon {
-        margin: 0 0.5rem;
-        color: #ADADAD;
     }
 </style>
