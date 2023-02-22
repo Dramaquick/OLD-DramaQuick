@@ -16,6 +16,7 @@
     let undo = [];
     let redo = [];
     let type = "crayon";
+    let segment = [];
 
     let colors = [
         "#ff0000",
@@ -52,7 +53,7 @@
         context.strokeStyle = color;
         if (type == "gomme") {
             context.strokeStyle = background;
-            context.lineWidth = 10;
+            context.lineWidth = 15;
         }
         else {
             context.strokeStyle = color;
@@ -90,6 +91,7 @@
     // Fonction qui permet de changer la couleur du trait
     const handleColor = (e) => {
         color = e.target.value;
+        tp_color = color;
         context.strokeStyle = color;
     };
 
@@ -134,6 +136,30 @@
         color = tp_color;
     };
 
+    // Fonction qui permet de dessiner une ligne
+    const handleLine = () => {
+        type = "line";
+        color = tp_color;
+        segment = [];
+    };
+
+    // Sauvegarde des coordonnées de la souris pour un futur segment
+    const handleMouse = (e) => {
+        if (type === "line") {
+        segment.push({ x: e.offsetX, y: e.offsetY });
+        if (segment.length === 2) {
+            context.strokeStyle = color;
+            context.beginPath();
+            context.moveTo(segment[0].x, segment[0].y);
+            context.lineTo(segment[1].x, segment[1].y);
+            context.closePath();
+            context.stroke();
+            segment.reverse();
+            segment.pop();
+        }
+    };
+    };
+
 </script>
 
 <div class="w-fit flex gap-4">
@@ -144,6 +170,7 @@
         <button class="redo" style={`--color: #00E589;`} on:click={handleRedo} />
         <button class="gomme" style={`--color: #00E589;`} on:click={handleGomme} />
         <button class="crayon" style={`--color: #00E589;`} on:click={handleCrayon} />
+        <button class="line" style={`--color: #00E589;`} on:click={handleLine} />
         <div class="slider">
             <Slider
             type="simple"
@@ -167,6 +194,7 @@
             on:touchstart={handleStart}
             on:touchend={handleEnd}
             on:touchmove={handleMove}
+            on:click={handleMouse}
             style="background: {background};" 
         />
     </div>
@@ -223,6 +251,11 @@
 
     button.crayon {
         background: var(--color) url("/img/components/crayon.svg") no-repeat center 5px;
+        grid-row: 4;
+    }
+
+    button.line {
+        background: var(--color) url("/img/components/segment.svg") no-repeat center 5px;
         grid-row: 4;
     }
     button:focus {
