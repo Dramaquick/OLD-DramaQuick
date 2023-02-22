@@ -26,6 +26,7 @@
 
     // export let errors;
     // /** @type {{date: Date, email: string, email_verified_at: null, id: int, name: string, updated_at: Date}}*/
+
     // export let auth;
     let form = {
         selected: 1,
@@ -40,6 +41,7 @@
         emoji: "👍",
         tag: "Tag",
         color: "#34FFAD",
+        canvasImage: ""
     };
     // Celles-ci sont définies automatiquement par Inertia
     // A savoir que la variable auth est un objet qui permet d'accéder aux attributs publics de l'utilisateur :
@@ -170,7 +172,7 @@
             bind:emoji={form.emoji}
         />
         <div class="draw">
-        <Paint />
+        <Paint setPaint={(img) => form.canvasImage = img } />
         </div>
         <div class="flex gap-8">
             <p>{form.selected}</p>
@@ -189,6 +191,7 @@
             <p>{form.tag}</p>
             <p>{form.color}</p>
             <p>{form.emoji}</p>
+            <img src={form.canvasImage} />
         </div>
     </div>
 </main>

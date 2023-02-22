@@ -1,8 +1,9 @@
 <script>
     import RangeSlider from "svelte-range-slider-pips";
     let sliderType = "simple";
+    let clazz;
 
-    export { sliderType as type };
+    export { sliderType as type, clazz as class };
     export let values;
     export let stiffness = 0;
     export let damping = 0;
@@ -14,11 +15,11 @@
 <div class="globalrange">
 {#if sliderType == "simple"}
 <div class="simplestyle">
-    <RangeSlider range="min" bind:values={values} {vertical} float="true" springValues={stiffness,damping} {max} {min}/>
+    <RangeSlider range="min" bind:values={values} class={clazz} {vertical} float="true" springValues={stiffness,damping} {max} {min}/>
 </div>
 {:else}
 <div class="doublestyle">
-    <RangeSlider bind:values={values} pushy range="true" float="true" springValues={stiffness,damping} {max} {min}/>
+    <RangeSlider bind:values={values} class={clazz} pushy range="true" float="true" springValues={stiffness,damping} {max} {min}/>
 </div>
 {/if}
 </div>
