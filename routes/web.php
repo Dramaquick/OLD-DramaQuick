@@ -76,6 +76,10 @@ Route::get('/session-slider', function () {
     return Inertia::render('Session/Session-slider');
 });
 
+Route::get('/session-finish', function () {
+    return Inertia::render('Session/Session-finish');
+});
+
 
 // Links
 Route::get('/links', [LinkController::class, 'index'])->middleware(['auth', 'verified'])->name('links.index');
