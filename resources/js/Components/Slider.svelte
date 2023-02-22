@@ -8,12 +8,13 @@
     export let damping = 0;
     export let max = 100;
     export let min = 0;
+    export let vertical = false;
 </script>
 
 <div class="globalrange">
 {#if sliderType == "simple"}
 <div class="simplestyle">
-    <RangeSlider range="min" bind:values={values} float="true" springValues={stiffness,damping} {max} {min}/>
+    <RangeSlider range="min" bind:values={values} {vertical} float="true" springValues={stiffness,damping} {max} {min}/>
 </div>
 {:else}
 <div class="doublestyle">
