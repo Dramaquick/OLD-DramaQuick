@@ -24,8 +24,8 @@
     let role = user.role;
 </script>
 
-<div class="container">
-    <div class="image-container" style={`--color: ${colors[role]}; --highlight: ${highlight[role]}`}>
+<div class="flex items-center justify-start gap-4">
+    <div class="relative" style={`--color: ${colors[role]}; --highlight: ${highlight[role]}`}>
         {#if hasCustomImage}
             <img class={`image ${role} custom-image`}
                  src={"https://cdn.discordapp.com/avatars/394156737558741004/70b75a1870c4a43fa348c7bde4f23d6c.png?size=1024"}
@@ -50,27 +50,13 @@
         {/if}
     </div>
 
-    <div class="container-pseudo">
-        <p>{pseudo}</p>
-    </div>
+    <p>{pseudo}</p>
 </div>
 
 <style>
-    .container {
-        display: flex;
-        align-items: center;
-        gap: 1rem;
-        justify-content: flex-start;
-    }
-
-    .image-container {
-        position: relative;
-    }
-
     .image {
         border-radius: 30%;
         background-color: var(--color);
-        width: 3rem;
         height: 3rem;
         padding: 0.65rem;
         display: flex;

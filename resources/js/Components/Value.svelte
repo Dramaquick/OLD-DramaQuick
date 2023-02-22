@@ -5,19 +5,6 @@
     export let value = "";
 </script>
 
-<h2 class="" {value}>
+<h2 class="flex text-[#34FFAD] text-[3rem] font-semibold text-center items-center justify-center h-12" {value}>
     {value}
 </h2>
-
-<style>
-    h2 {
-        display: flex;
-        color: #34FFAD;
-        font-size: 3rem;
-        font-weight: 600;
-        text-align: center;
-        align-items: center;
-        height: 3rem;
-        justify-content: center;
-    }
-</style>

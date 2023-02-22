@@ -6,20 +6,6 @@
     $: secondString = seconds.toString().padStart(2, '0');
 </script>
 
-<span class="timer">
+<span class="flex items-center justify-start font-semibold text-[2.25rem] text-center text-black w-20">
 {minutes}:{secondString}
 </span>
-
-<style>
-    .timer {
-        display: flex;
-        align-items: center;
-        justify-content: start;
-        font-style: normal;
-        font-weight: 600;
-        font-size: 2.25rem;
-        width: 5rem;
-        text-align: center;
-        color: #000000;
-    }
-</style>

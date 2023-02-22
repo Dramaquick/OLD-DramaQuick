@@ -276,39 +276,39 @@
     
 </script>
 
-<div class="paint-container">
-    <div class="tool-buttons">
+<div class="w-fit h-full inline-flex gap-4">
+    <div class="tool-buttons grid grid-rows-6 grid-columns-2 gap-x-2.5 h-80">
         <input
             type="radio"
-            class="trash"
+            class="trash w-9.6 h-9.6 rounded-lg cursor-pointer outline-none relative transition-[.2s] bg-center border-none vertical-align-bottom"
             name = "tool"
             style={`--color: #01FC96;`}
             on:click={handleReset}
         />
         <input
             type="radio"
-            class="undo"
+            class="undo w-9.6 h-9.6 rounded-lg cursor-pointer outline-none relative transition-[.2s] bg-center border-none vertical-align-bottom"
             name = "tool"
             style={`--color: #00E589;`}
             on:click={handleUndo}
         />
         <input
             type="radio"
-            class="redo"
+            class="redo w-9.6 h-9.6 rounded-lg cursor-pointer outline-none relative transition-[.2s] bg-center border-none vertical-align-bottom"
             name = "tool"
             style={`--color: #00E589;`}
             on:click={handleRedo}
         />
         <input
             type="radio"
-            class="eraser"
+            class="eraser w-9.6 h-9.6 rounded-lg cursor-pointer outline-none relative transition-[.2s] bg-center border-none vertical-align-bottom"
             name = "tool"
             style={`--color: #00E589;`}
             on:click={() => switchTool("eraser")}
         />
         <input
             type="radio"
-            class="pen"
+            class="pen w-9.6 h-9.6 rounded-lg cursor-pointer outline-none relative transition-[.2s] bg-center border-none vertical-align-bottom"
             name = "tool"
             id = "pen"
             checked = {true}
@@ -317,19 +317,19 @@
         />
         <input
             type="radio"
-            class="line"
+            class="line w-9.6 h-9.6 rounded-lg cursor-pointer outline-none relative transition-[.2s] bg-center border-none vertical-align-bottom"
             name = "tool"
             style={`--color: #00E589;`}
             on:click={() => switchTool("line")}
         />
         <input
             type="radio"
-            class="fill"
+            class="fill w-9.6 h-9.6 rounded-lg cursor-pointer outline-none relative transition-[.2s] bg-center border-none vertical-align-bottom"
             name = "tool"
             style={`--color: #00E589;`}
             on:click={() => switchTool("fill")}
         />
-        <div class="slider">
+        <div class="slider w-9.6 h-fit">
             <Slider
                 type="simple"
                 bind:values={lineWidth}
@@ -340,7 +340,6 @@
         </div>
     </div>
 
-    <div class="canvas">
         <canvas
             {width}
             {height}
@@ -352,9 +351,9 @@
             on:touchend={stopDrawing}
             on:touchmove={handleMouseMove}
             on:click={handleMouseClick}
+            class="h-80 w-140 border-6 border-[#00e589] border-solid rounded-md"
             style="background: {background};"
         />
-    </div>
 
     <div class="color-buttons">
         {#each colors as color}
@@ -373,42 +372,7 @@
 <!-- Déclaration du style -->
 <style>
 
-    .paint-container {
-        width: fit-content;
-        height: 100%;
-        display: inline-flex;
-        gap: 1rem;
-    }
-
-    canvas {
-        height: 20rem;
-        width: 35rem;
-        border: 6px solid #00e589;
-        border-radius: 6px;
-    }
-
     /* 🛠️ Boutons couleur */
-
-    .tool-buttons {
-        display: grid;
-        grid-template-rows: repeat(6, 1fr);
-        grid-template-columns: repeat(2, 1fr);
-        column-gap: 0.6rem;
-        height: 20rem;
-    }
-
-    .tool-buttons input {
-        width: 2.4rem;
-        height: 2.4rem;
-        border-radius: 10px;
-        cursor: pointer;
-        outline: none;
-        position: relative;
-        transition: 0.2s;
-        background-position: center;
-        vertical-align: bottom;
-        border: none;
-    }
 
     .tool-buttons input:checked {
         background-color: #5ceb4b;
@@ -491,8 +455,6 @@
     }
 
     .slider {
-        width: 2.4rem;
-        height: fit-content;
         grid-column: 2;
         grid-row: 3/span 3;
     }

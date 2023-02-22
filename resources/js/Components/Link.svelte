@@ -6,32 +6,12 @@
     export let style = "";
 </script>
 
-<a {href} class="{className} hover-underline-animation" {...$$restProps} {style}>
+<a {href} class="{className} inline-block relative font-normal text-[1.125rem] text-[#00E589] no-underline" {...$$restProps} {style}>
     <slot />
 </a>
 
 <style>
-
-    a {
-
-        font-family: 'Poppins';
-        font-style: normal;
-        font-weight: 400;
-        font-size: 18px;
-        line-height: 27px;
-        color: #00E589;
-        text-decoration: none;
-    
-    }
-
-    .hover-underline-animation {
-
-        display: inline-block;
-        position: relative;
-
-    }
-
-    .hover-underline-animation::after {
+    a::after {
 
         content: '';
         position: absolute;
@@ -46,11 +26,10 @@
 
     }
 
-    .hover-underline-animation:hover::after {
+    a:hover::after {
 
         transform: scaleX(1);
         transform-origin: bottom left;
 
     }
-
 </style>

@@ -5,25 +5,17 @@
     export let style = "";
     export let active;
     $: {
-        classes = "nav-link";
+        classes = "nav-link inline-block py-2 px-4 font-normal text-[#666666] relative z-0 w-fit";
         classes += $page.url === href ? ' active' : '';
         console.log($page);
     }
 </script>
 
-<a use:inertia {href} class="{classes} hover-underline-animation" {...$$restProps} {style}>
+<a use:inertia {href} class="{classes} hover-underline-animation py-2 px-4 inline-block relative" {...$$restProps} {style}>
     <slot />
 </a>
 
 <style>
-    .nav-link {
-        display: inline-block;
-        padding: 0.5rem 1rem;
-        color: #666666;
-        position: relative;
-        z-index: 0;
-        width: fit-content;
-    }
     .nav-link.active::before {
         z-index: -1;
         color: black;
@@ -34,12 +26,6 @@
         background-color: #34FFAD;
         height: 0.75rem;
         content: " ";
-    }
-
-    .hover-underline-animation {
-        padding: 0.5rem 1rem;
-        display: inline-block;
-        position: relative;
     }
 
     .hover-underline-animation::after {

@@ -7,21 +7,10 @@
     type="checkbox"
     {value}
     bind:checked={checked}
+    class="w-7.2 h-7.2 border-3 border-[#00E589] border-solid rounded-2.5l cursor-pointer outline-none transition-[.2s] bg-center ease-in"
 />
 
 <style>
-    input[type="checkbox"] {
-        width: 1.8rem;
-        height: 1.8rem;
-        border: 3px solid #00E689;
-        border-radius: 10px;
-        cursor: pointer;
-        outline: none;
-        position: relative;
-        transition: .2s ease-in;
-        background-position: center;
-    }
-
     input[type="checkbox"]:checked {
         background: #00E589 url("/img/components/check.svg") no-repeat center 5px;
         background-size: 70%;

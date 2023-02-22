@@ -7,7 +7,7 @@
 </script>
 
 <button
-    class="{className}"
+    class="{className} h-14.5 px-8 text-[1.25rem] rounded-2.5l bg-[#34ffad] border-none outline-none transition-[.2s] text-[#0D241B] font-medium box-border"
     {...$$restProps}
     on:click
     {disabled}
@@ -17,23 +17,6 @@
 </button>
 
 <style>
-    button {
-
-        height: 3.625rem;
-        padding: 0 2rem;
-        font-size: 1.25rem;
-        border-radius: 10px;
-        background: #34ffad;
-        border: none;
-        outline: none;
-        transition: .2s;
-        color: #0D241B;
-        font-family: 'Poppins', sans-serif;
-        font-weight: 500;
-        box-sizing: border-box;
-
-    }
-
     button:hover {
 
         transform: translateY(-5px);

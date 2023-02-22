@@ -10,7 +10,7 @@
 </script>
 
 <input type="radio"
-    class="{className}"
+    class="{className} bg-transparent h-6 w-6 border-3 border-[#dfdfdf] border-solid rounded-full text-white relative"
     {...$$restProps}
     {name}
     {value}
@@ -19,20 +19,6 @@
     >
 
 <style>
-
-    input[type="radio"] {
-
-        background: transparent;
-        height: 1.5rem;
-        width: 1.5rem;
-        box-sizing: border-box;
-        border: 3px solid #dfdfdf;
-        border-radius: 50px;
-        color: white;
-        position: relative;
-
-    }
-
     input[type="radio"]::after {
         content: "";
         position: absolute;
@@ -69,7 +55,6 @@
     input[type="radio"]:focus {
         box-shadow: none;
     }
-
 </style>
 
 
