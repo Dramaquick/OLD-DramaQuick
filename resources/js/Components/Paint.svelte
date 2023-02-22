@@ -263,46 +263,59 @@
 
     export function getImage() {
         return canvas.toDataURL('image/jpeg');
-    }
-
-    
+    }    
     
 </script>
 
 <div class="paint-container">
     <div class="tool-buttons">
-        <button
+        <input
+            type="radio"
             class="trash"
+            name = "tool"
             style={`--color: #01FC96;`}
             on:click={handleReset}
         />
-        <button
+        <input
+            type="radio"
             class="undo"
+            name = "tool"
             style={`--color: #00E589;`}
             on:click={handleUndo}
         />
-        <button
+        <input
+            type="radio"
             class="redo"
+            name = "tool"
             style={`--color: #00E589;`}
             on:click={handleRedo}
         />
-        <button
+        <input
+            type="radio"
             class="eraser"
+            name = "tool"
             style={`--color: #00E589;`}
             on:click={() => switchTool("eraser")}
         />
-        <button
+        <input
+            type="radio"
             class="pen"
+            name = "tool"
+            checked = {true}
             style={`--color: #00E589;`}
             on:click={() => switchTool("pen")}
         />
-        <button
+        <input
+            type="radio"
             class="line"
+            name = "tool"
             style={`--color: #00E589;`}
             on:click={() => switchTool("line")}
         />
-        <button
+        <input
+            type="radio"
             class="fill"
+            name = "tool"
             style={`--color: #00E589;`}
             on:click={() => switchTool("fill")}
         />
@@ -358,13 +371,7 @@
         display: inline-flex;
         gap: 1rem;
     }
-    
-    .slider {
-        width: 2.4rem;
-        height: fit-content;
-        grid-column: 2;
-        grid-row: 3/span 3;
-    }
+
     canvas {
         height: 20rem;
         width: 35rem;
@@ -372,73 +379,117 @@
         border-radius: 6px;
     }
 
-    button {
+    /* 🛠️ Boutons couleur */
+
+    .tool-buttons {
+        display: grid;
+        grid-template-rows: repeat(6, 1fr);
+        grid-template-columns: repeat(2, 1fr);
+        column-gap: 0.6rem;
+        height: 20rem;
+    }
+
+    .tool-buttons input {
         width: 2.4rem;
         height: 2.4rem;
         border-radius: 10px;
         cursor: pointer;
         outline: none;
         position: relative;
-        transition: 0.2s ease-in;
+        transition: 0.2s;
         background-position: center;
         vertical-align: bottom;
+        border: none;
     }
 
-    button.trash {
+    .tool-buttons input:checked {
+        background-color: #5ceb4b;
+        animation: bump 0.2s ease-in-out;
+    }
+
+    .tool-buttons input:hover {
+        background-color: #4de77b;
+        transform: scale(1.1);
+    }
+
+    @keyframes bump {
+        0% {
+            transform: scale(1);
+        }
+        50% {
+            transform: scale(1.1);
+        }
+        100% {
+            transform: scale(1);
+        }
+    }
+
+    input.trash {
         background: var(--color) url("/img/components/trash.svg") no-repeat
-            center 5px;
+            center;
         grid-column: 2;
         grid-row: 1;
+        background-size: 1.4rem;
     }
 
-    button:not(.trash) {
+    .tool-buttons input:not(.trash) {
         margin-top: auto;
+        background-size: 1.4rem;
     }
 
-    button.undo {
-        background: var(--color) url("/img/components/undo.svg") no-repeat center 5px;
+    input.undo {
+        background: var(--color) url("/img/components/undo.svg") no-repeat center;
         grid-column: 1;
         grid-row: 2;
     }
 
-    button.redo {
+    input.redo {
         background: var(--color) url("/img/components/redo.svg") no-repeat
-            center 5px;
+            center;
         grid-column: 2;
         grid-row: 2;
     }
 
-    button.eraser {
+    input.eraser {
         background: var(--color) url("/img/components/gomme.svg") no-repeat
-            center 5px;
+            center;
         grid-column: 1;
         grid-row: 5;
         
     }
 
-    button.pen {
+    input.pen {
         background: var(--color) url("/img/components/crayon.svg") no-repeat
-            center 5px;
+            center;
         grid-column: 1;
         grid-row: 6;
     }
 
-    button.line {
+    input.line {
         background: var(--color) url("/img/components/segment.svg") no-repeat
-            center 5px;
+            center;
         grid-column: 1;
         grid-row: 3;
     }
 
-    button.fill {
+    input.fill {
         background: var(--color) url("/img/components/fill.svg") no-repeat
-            center 5px;
+            center;
         grid-column: 1;
         grid-row: 4;
     }
-    button:focus {
+    input:focus {
         box-shadow: none;
     }
+
+    .slider {
+        width: 2.4rem;
+        height: fit-content;
+        grid-column: 2;
+        grid-row: 3/span 3;
+    }
+
+    /* 🎨 Boutons couleur */
     .color-buttons {
         display: grid;
         grid-template-rows: repeat(6, 1fr);
@@ -483,13 +534,5 @@
         transition: 0.2s ease-in;
         background-position: center;
         transition: .2s;
-    }
-
-    .tool-buttons {
-        display: grid;
-        grid-template-rows: repeat(6, 1fr);
-        grid-template-columns: repeat(2, 1fr);
-        column-gap: 0.6rem;
-        height: 20rem;
     }
 </style>
