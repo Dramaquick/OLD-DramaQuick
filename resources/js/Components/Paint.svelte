@@ -115,7 +115,9 @@
         } else {
             isDrawing = false;
         }
+        if (type !== "fill") {
         handleHistory();
+        }
     };
 
     // handleMove permet de dessiner
@@ -139,6 +141,8 @@
         redo = [];
         context.fillStyle = background;
         context.fillRect(0, 0, canvas.width, canvas.height);
+        document.getElementById("pen").checked = true;
+        type="pen";
     };
 
     // Fonction qui permet de changer la couleur du trait
@@ -152,7 +156,6 @@
     const handleHistory = () => {
         undo.push(context.getImageData(0, 0, width, height));
         console.log("save");
-        console.log(undo.length);
     };
 
     // Fonction qui permet de revenir en arrière
@@ -164,7 +167,8 @@
             context.clearRect(0, 0, width, height);
             redo.push(undo.pop());
         }
-        console.log(undo.length);
+        document.getElementById("pen").checked = true;
+        type="pen";
     };
 
     // Fonction qui permet de revenir en avant
@@ -173,13 +177,15 @@
             undo.push(redo.pop());
             context.putImageData(undo[undo.length - 1], 0, 0);
         }
-        console.log(undo.length);
+        document.getElementById("pen").checked = true;
+        type="pen";
     };
 
     // Sauvegarde des coordonnées de la souris pour un futur segment
     const handleMouseClick = (e) => {
         if (type === "fill") {
             handleFill(e);
+            handleHistory();
         }
     };
 
@@ -194,6 +200,9 @@
         let startA = imageData.data[(y * width + x) * 4 + 3];
         let targetColor = [startR, startG, startB, startA];
         let replacementColor = hexToRgb(color);
+        if (targetColor[0] === replacementColor.r && targetColor[1] === replacementColor.g && targetColor[2] === replacementColor.b && targetColor[3] === replacementColor.a) {
+            return;
+        }
         while (pixelStack.length) {
             let newPos = pixelStack.pop();
             let x = newPos[0];
@@ -301,6 +310,7 @@
             type="radio"
             class="pen"
             name = "tool"
+            id = "pen"
             checked = {true}
             style={`--color: #00E589;`}
             on:click={() => switchTool("pen")}
@@ -360,13 +370,11 @@
     </div>
 </div>
 
-<button on:click={setPaint(getImage())}>Exporter contenu</button>
-
 <!-- Déclaration du style -->
 <style>
 
     .paint-container {
-        width: 100%;
+        width: fit-content;
         height: 100%;
         display: inline-flex;
         gap: 1rem;
