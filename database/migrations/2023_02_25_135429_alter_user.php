@@ -13,11 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('d_sessions_tags_links', function (Blueprint $table) {
-            $table->id();
-            $table->string('Session_Id');
-            $table->string('Tag_Id');
-        });
+        Schema::rename('users', 'd_users');
+        // todo: put new columns and stuff here
     }
 
     /**
@@ -27,6 +24,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('d_sessions_tags_links');
+        //
     }
 };

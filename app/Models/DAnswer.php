@@ -9,6 +9,10 @@ class DAnswer extends Model
 {
     use HasFactory;
 
-    @var string
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
     protected $table = 'd_answers';
 }

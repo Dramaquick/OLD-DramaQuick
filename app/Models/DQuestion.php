@@ -9,6 +9,17 @@ class DQuestion extends Model
 {
     use HasFactory;
 
-    @var string
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
     protected $table = 'd_questions';
+
+    /**
+     * The primary key associated with the table.
+     *
+     * @var string
+     */
+    protected $primaryKey = 'Session_Id_Question_Id';
 }
