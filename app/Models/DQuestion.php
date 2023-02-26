@@ -22,4 +22,23 @@ class DQuestion extends Model
      * @var string
      */
     protected $primaryKey = 'Session_Id_Question_Id';
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
+    const $fillable = [
+        'Question_Name',
+        'Question_Description',
+        'Question_Type',
+        'Question_Duration'
+    ]
+
+    /**
+     * Get the answers that belong to this question.
+     */
+    public function answers() { 
+        return $this->hasMany(DAnswer::class, 'Session_Id_Question_Id');
+    }
 }

@@ -14,7 +14,10 @@ return new class extends Migration
     public function up()
     {
         Schema::rename('users', 'd_users');
-        // todo: put new columns and stuff here
+        Schema::table('d_users', function (Blueprint $table) {
+            $table->string('user_role');
+            $table->timestamps('user_email_verified_at');
+        });
     }
 
     /**

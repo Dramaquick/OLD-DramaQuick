@@ -15,4 +15,10 @@ class DAnswer extends Model
      * @var string
      */
     protected $table = 'd_answers';
+
+    const $fillable = [
+        'Answer_Values'
+    ]
+
+    protected $primaryKey = 'Session_Id_Question_Id_Answer_Id';
 }

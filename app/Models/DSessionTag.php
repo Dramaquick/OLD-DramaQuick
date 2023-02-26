@@ -17,6 +17,13 @@ class DSessionTag extends Model
     protected $table = 'd_session_tags';
 
     /**
+     * The primary key associated with the table.
+     *
+     * @var string
+     */
+    protected $primaryKey = 'Tag_Id';
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
