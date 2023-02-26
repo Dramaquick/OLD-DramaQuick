@@ -16,6 +16,7 @@
     import Timer from "../Components/Timer.svelte";
     import Tag from "../Components/Tag.svelte";
     import Paint from "../Components/Paint.svelte";
+    import QuestionCreator from "../Components/QuestionCreator.svelte";
 
     // export let canLogin;
     // export let canRegister;
@@ -78,6 +79,19 @@
             }
         }, 1000);
     });
+
+    let questions = [
+        {
+            title: "Titre de la question",
+            description: "Description de la question",
+            type: 1,
+            options: {
+                option1: "Option 1",
+                option2: "Option 2",
+                option3: "Option 3",
+            },
+        },
+    ];
 
 </script>
 
@@ -173,6 +187,9 @@
         <div class="draw">
         <Paint setPaint={(img) => form.canvasImage = img } />
         </div>
+        <QuestionCreator
+            bind:questions={questions}
+        />
         <div class="flex gap-8">
             <p>{form.selected}</p>
             <p>{form.slidersimple}</p>
@@ -190,6 +207,7 @@
             <p>{form.tag}</p>
             <p>{form.color}</p>
             <p>{form.emoji}</p>
+            <p>{questions}</p>
             <img src={form.canvasImage} />
         </div>
     </div>

@@ -34,8 +34,8 @@
 <style>
     .area {
         transition: all 0.2s ease;
-        height: 13rem;
-        width: 55rem;
+        height: 100%;
+        width: 100%;
         border-radius: 4px;
         background: white;
         border: 2px solid #DEEEE7;

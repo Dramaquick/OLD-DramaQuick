@@ -80,6 +80,10 @@ Route::get('/session-finish', function () {
     return Inertia::render('Session/Session-finish');
 });
 
+Route::get('/session-create', function () {
+    return Inertia::render('Session/Session-create');
+});
+
 
 // Links
 Route::get('/links', [LinkController::class, 'index'])->middleware(['auth', 'verified'])->name('links.index');

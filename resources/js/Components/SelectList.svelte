@@ -73,6 +73,7 @@
 
 <style>
     .select-list {
+        background-color: white;
         transition: all 0.2s ease;
         position: relative;
         width: clamp(13rem, 100%, 20rem);
