@@ -88,6 +88,7 @@
     .select-list.open {
         border-color: #00E589;
         box-shadow: 0 0 2px #00E589;
+        z-index: 1;
     }
 
     .select-list.open .selected-item__icon svg {

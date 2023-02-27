@@ -5,6 +5,7 @@
             title: null,
             description: null,
             type: 0,
+            opt_counter: 0,
             options: {},
         },
     };
@@ -26,6 +27,7 @@
             title: null,
             description: null,
             type: 0,
+            opt_counter: 0,
             options: {},
         };
         questions["question" + counter_ques] = question;
@@ -34,8 +36,10 @@
 
     // Function for add a new option
     function addOption(question) {
-        let option = null;
-        questions[question].options["option" + Object.keys(questions[question].options).length] = option;
+        if (Object.keys(questions[question].options).length >= 10) return;
+        questions[question].options["option" + questions[question].opt_counter] = null;
+        questions[question].opt_counter++;
+        console.log(questions[question].opt_counter);
     }
 
     // function to delete a question
