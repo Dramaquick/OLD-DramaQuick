@@ -168,7 +168,9 @@
     }
 
     .select-items.open {
-        height: 200px;
+        min-height: 0;
+        height: fit-content;
+        max-height: 200px;
         overflow: auto;
     }
 
