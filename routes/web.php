@@ -84,6 +84,14 @@ Route::get('/session-create', function () {
     return Inertia::render('Session/Session-create');
 });
 
+Route::get('/session-answer-text', function () {
+    return Inertia::render('Session/Session-answer-text');
+});
+
+Route::get('/session-answer-pie', function () {
+    return Inertia::render('Session/Session-answer-pie');
+});
+
 
 // Links
 Route::get('/links', [LinkController::class, 'index'])->middleware(['auth', 'verified'])->name('links.index');

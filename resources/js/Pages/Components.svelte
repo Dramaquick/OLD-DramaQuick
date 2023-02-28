@@ -17,6 +17,7 @@
     import Tag from "../Components/Tag.svelte";
     import Paint from "../Components/Paint.svelte";
     import QuestionCreator from "../Components/QuestionCreator.svelte";
+    import Pie from "../Components/Pie.svelte";
 
     // export let canLogin;
     // export let canRegister;
@@ -42,6 +43,8 @@
         tag: "Tag",
         color: "#34FFAD",
         canvasImage: "",
+        answers: ["1", "2", "1", "3", "1", "2", "1", "3", "1", "2", "1", "3", "4"],
+        colors: ["#34FFAD", "#FF0000", "#0000FF", "#FF00FF"],
     };
     // Celles-ci sont définies automatiquement par Inertia
     // A savoir que la variable auth est un objet qui permet d'accéder aux attributs publics de l'utilisateur :
@@ -189,6 +192,10 @@
         </div>
         <QuestionCreator
             bind:questions={questions}
+        />
+        <Pie 
+            bind:answers={form.answers}
+            bind:colors={form.colors}
         />
         <div class="flex gap-8">
             <p>{form.selected}</p>
