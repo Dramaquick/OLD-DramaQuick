@@ -65,6 +65,7 @@
         transition: .2s;
         position: relative;
         z-index: 2;
+        width: 3rem;
     }
 
     .image:hover {
