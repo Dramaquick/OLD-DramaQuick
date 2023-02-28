@@ -112,7 +112,7 @@
         fill: #ff8e8e;
     }
     .questions-container {
-        height: 35rem;
+        height: 41rem;
         overflow-y: auto;
     }
     .questions-container::-webkit-scrollbar {
