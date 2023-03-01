@@ -20,6 +20,8 @@ return new class extends Migration
             $table->string('Question_Type');
             $table->unsignedBigInteger('Question_Duration');
             $table->string('Session_Id');
+            $table->foreign('Session_Id')->references('Session_Id')->on('d_sessions');
+            $table->primary(['Question_Id', 'Session_Id'], 'Session_Id_Question_Id');
         });
     }
 

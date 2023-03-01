@@ -60,4 +60,12 @@ class DSession extends Model
     public function tags() { 
         return $this->belongsToMany(DSessionTag::class, 'd_session_tags_links', 'Session_Id', 'Tag_Id');
     }
+
+    public static function boot() {
+        parent::boot();
+  
+        static::deleting(function($question) {
+          $question->questions()->delete();
+        });
+    }
 }

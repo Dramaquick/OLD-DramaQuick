@@ -16,7 +16,6 @@ return new class extends Migration
         Schema::rename('users', 'd_users');
         Schema::table('d_users', function (Blueprint $table) {
             $table->string('user_role');
-            $table->timestamps('user_email_verified_at');
         });
     }
 
@@ -27,6 +26,6 @@ return new class extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('d_users');
     }
 };

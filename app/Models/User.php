@@ -22,8 +22,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'user_role',
-        'user_email_verified_at'
+        'user_role'
     ];
 
     /**
@@ -45,6 +44,10 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    protected $attributes = {
+        'user_role' => 'USER'
+    }
+
     /**
      * The links that belong to the user.
      *
@@ -53,5 +56,13 @@ class User extends Authenticatable
     public function links()
     {
         return $this->hasMany(Link::class);
+    }
+
+    public static function boot() {
+        parent::boot();
+  
+        static::deleting(function($link) {
+          $link->links()->delete();
+        });
     }
 }
