@@ -89,7 +89,11 @@ Route::get('/session-answer-text', function () {
 });
 
 Route::get('/session-answer-pie', function () {
-    return Inertia::render('Session/Session-answer-pie');
+    return Inertia::render('Session/Session-answer-PieChart');
+});
+
+Route::get('/session-answer-bar', function () {
+    return Inertia::render('Session/Session-answer-BarChart');
 });
 
 
