@@ -20,6 +20,7 @@ export default defineConfig({
         include: [
             '@inertiajs/inertia',
             '@inertiajs/inertia-svelte',
+            '@carbon/charts',
         ]
     },
     resolve: {
