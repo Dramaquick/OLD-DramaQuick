@@ -25,14 +25,9 @@
                 été créé avec une idée : l’éphémérité !
             </p>
             <div class="gap-8 flex flex-row w-fit">
-                <div class="space">
-                    <Button class="" on:click={() => (window.location.href = "/login")}
-                    >Rejoindre une session</Button
-                    >
-                </div>
+                <Button class="">Rejoindre une session</Button>
                 <Button
                     class="outline"
-                    on:click={() => (window.location.href = "/login")}
                 >Créer une session</Button
                 >
             </div>
