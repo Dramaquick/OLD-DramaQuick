@@ -1,6 +1,6 @@
 <script>
     import Button from "../../Components/Button.svelte";
-    import Pie from "../../Components/Pie.svelte";
+    import PieChart from "../../Components/PieChart.svelte";
 
     let text = {
         session: "#35878454",
@@ -8,11 +8,40 @@
         title: "Pourquoi le Japon ?",
     };
 
-    let answers = ["C'est génial", "C'est génial", "C'est génial", "C'est génial", "C'est génial", "salut c'est Arthur", "Test", "test", "test2", "test3", "test4", "Remi", "test122"];
-
     let user = {
         role: "owner",
     };
+
+    let data = [
+        {
+            group: "Dataset 1",
+            value: 300,
+        },
+        {
+            group: "Dataset 2",
+            value: 150,
+        },
+        {
+            group: "Dataset 3",
+            value: 100,
+        },
+        {
+            group: "Dataset 4",
+            value: 100,
+        },
+        {
+            group: "Dataset 5",
+            value: 100,
+        },
+        {
+            group: "Dataset 6",
+            value: 300,
+        },
+        {
+            group: "Dataset 7",
+            value: 300,
+        },
+    ];
 </script>
 
 <!-- Permet de modifier l'head de la page -->
@@ -28,10 +57,12 @@
         <div>
             <h1 class="title w-144 font-semibold text-[2.25rem] w-fit">Réponses</h1>
             <p class="session text-[1.5rem] color font-normal w-fit">Session {text.session}</p>
-            <h1 class="title py-2 w-144 font-semibold text-[1.75rem] w-fit">{text.title} <i class="not-italic font-semibold text-[1.25rem]">({answers.length} réponses)</i></h1>
+            <h1 class="title py-2 w-144 font-semibold text-[1.75rem] w-fit">{text.title} <i class="not-italic font-semibold text-[1.25rem]">({data.length} réponses)</i></h1>
         </div>
-        <div class="affichage px-60">
-            <Pie answers={answers} />
+        <div class="affichage">
+            <div class="flex justify-center">
+                <PieChart bind:data={data} />
+            </div>
         </div>
         <p class="page font-semibold text-[1.5rem] text-black text-right">{text.page}</p>
         {#if user.role == "owner"}
