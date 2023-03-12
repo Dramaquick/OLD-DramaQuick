@@ -135,4 +135,8 @@
     .image.member svg path {
         background-color: #E0E5EB;
     }
+
+    p {
+        max-width: 8rem;
+    }
 </style>
