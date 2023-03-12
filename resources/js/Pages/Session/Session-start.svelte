@@ -1,20 +1,30 @@
 <script>
     import Timer from "../../Components/Timer.svelte";
-    import { onMount } from "svelte";
     import Tag from "../../Components/Tag.svelte";
     import Member from "../../Components/Member.svelte";
     import Button from "../../Components/Button.svelte";
 
-    let tag = {
-        emo1: "⌛",
-        emo2: "🎃",
-        emo3: "🍨",
-        text1: "officiel",
-        text2: "halloween",
-        text3: "nourriture",
-        color1: "#34FFAD",
-        color2: "#FFC634",
-        color3: "#FFA6E6",
+    let tags = {
+        tag1 : {
+            text: "officiel",
+            emoji: "⌛",
+            color: "#34FFAD",
+        },
+        tag2 : {
+            text: "halloween",
+            emoji: "🎃",
+            color: "#FFC634",
+        },
+        tag3 : {
+            text: "nourriture",
+            emoji: "🍨",
+            color: "#FFA6E6",
+        },
+        tag4 : {
+            text: "nourriture",
+            emoji: "🍨",
+            color: "#FFA6E6",
+        },
     }
 
     // Décompteur en temps réel pour Timer
@@ -22,17 +32,6 @@
         minutes: 1,
         seconds: 10,
     };
-
-    onMount(() => {
-        setInterval(() => {
-            if (timer.seconds > 0) {
-                timer.seconds--;
-            } else if (timer.minutes > 0) {
-                timer.minutes--;
-                timer.seconds = 59;
-            }
-        }, 1000);
-    });
 
     let users = {
         user1: {
@@ -80,6 +79,16 @@
             role: "member",
             hasCustomIcon: false,
         },
+        user10: {
+            pseudo: "Jean-Bandonne.B",
+            role: "member",
+            hasCustomIcon: false,
+        },
+        user11: {
+            pseudo: "Jean-Bandonne.B",
+            role: "member",
+            hasCustomIcon: false,
+        },
     }
 
     let text = {
@@ -114,28 +123,40 @@
             <h1 class="w-144 font-semibold text-[2.25rem]">{text.title}</h1>
             <h2 class="bordered mt-11.25 pl-6 w-144 font-normal text-[1.5rem] h-fit">{text.description}</h2>
         </div>
+        {#if Object.keys(users).length > 0}
         <div class="members1 flex flex-col gap-3">
-            <Member bind:user={users.user1}/>
-            <Member bind:user={users.user2}/>
-            <Member bind:user={users.user3}/>
-            <Member bind:user={users.user4}/>
-            <Member bind:user={users.user5}/>
+            {#each Object.keys(users) as id, i}
+                {#if i < 5}
+                    <Member bind:user={users[id]}/>
+                {/if}
+            {/each}
         </div>
-        <div class="members2 flex flex-col gap-3">
-            <Member bind:user={users.user6}/>
-            <Member bind:user={users.user7}/>
-            <Member bind:user={users.user8}/>
-            <Member bind:user={users.user9}/>
+        {/if}
+        {#if Object.keys(users).length > 5}
+        <div class="members2 flex flex-col gap-3 justify-left w-[16rem]">
+            {#each Object.keys(users) as id, i}
+                {#if i === 9}
+                    {#if Object.keys(users).length-9 === 1}
+                    <p class="flex h-[3rem] items-center justify-left font-semibold">+{Object.keys(users).length-9} autre participant</p>
+                    {:else}
+                    <p class="flex h-[3rem] items-center justify-left font-semibold">+{Object.keys(users).length-9} autres participants</p>
+                    {/if}
+                {/if}
+                {#if i >= 5 && i < 9}
+                    <Member bind:user={users[id]}/>
+                {/if}
+            {/each}
         </div>
+        {/if}
         <div class="timer-tags flex flex-row items-center gap-10">
             <Timer
                 bind:minutes={timer.minutes}
                 bind:seconds={timer.seconds}
             />
             <div class="tags flex flex-row items-center gap-4">
-                <Tag bind:text={tag.text1} bind:emoji={tag.emo1} bind:color={tag.color1}/>
-                <Tag bind:text={tag.text2} bind:emoji={tag.emo2} bind:color={tag.color2}/>
-                <Tag bind:text={tag.text3} bind:emoji={tag.emo3} bind:color={tag.color3}/>
+                {#each Object.keys(tags) as tag}
+                    <Tag bind:tag={tags[tag]}/>
+                {/each}
             </div>
         </div>
         <div class="button flex flex-row items-center justify-end gap-4">
@@ -214,5 +235,25 @@
         background-color: #34FFAD;
         height: 0.75rem;
         content: " ";
+    }
+
+    .tags {
+        width: 30rem;
+        overflow-x: auto;
+        height: 100%;
+        padding-top: 4px;
+    }
+
+    .tags::-webkit-scrollbar {
+        height: 4px;
+    }
+
+    .tags::-webkit-scrollbar-track {
+        background: #deeee7;
+    }
+
+    .tags::-webkit-scrollbar-thumb {
+        background-color: #47524e;
+        border-radius: 10px;
     }
 </style>
