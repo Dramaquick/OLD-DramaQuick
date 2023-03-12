@@ -69,7 +69,7 @@
                 <div class="flex flex-col ml-2.5 items-center w-25%">
                     <p class="">Maximum</p>
                     <div class="scale-75">
-                        <Counter bind:value={session_parameters.Max_players} min={session_parameters.Min_players} max={20}/>
+                        <Counter bind:value={session_parameters.Max_players} min={session_parameters.Min_players} max={100}/>
                     </div>
                 </div>
             </div>
