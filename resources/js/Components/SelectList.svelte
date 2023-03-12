@@ -41,7 +41,7 @@
     $: if(!isOpen) {
         setTimeout(() => {
             closed = "closed";
-        }, 200);
+        }, 50);
     } else {
         // Permet de remettre le scroll en haut quand on ouvre la liste et rafficher le border & padding
         scrollDiv.scrollTop = 0;
