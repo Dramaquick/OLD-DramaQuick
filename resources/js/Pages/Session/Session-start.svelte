@@ -114,7 +114,7 @@
             <h1 class="w-144 font-semibold text-[2.25rem]">{text.title}</h1>
             <h2 class="bordered mt-11.25 pl-6 w-144 font-normal text-[1.5rem] h-fit">{text.description}</h2>
         </div>
-        <div class="members1 flex flex-col gap-3 pl-24">
+        <div class="members1 flex flex-col gap-3">
             <Member bind:user={users.user1}/>
             <Member bind:user={users.user2}/>
             <Member bind:user={users.user3}/>
