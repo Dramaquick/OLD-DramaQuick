@@ -79,7 +79,7 @@
         <div>
             <label for="password">Mot de passe</label>
             <BreezeInput
-                value={form.password}
+                bind:value={form.password}
                 required
                 autocomplete="current-password"
                 placeholder="Entrez votre mot de passe..."
@@ -92,7 +92,7 @@
         <div>
             <label for="password">Confirmez votre mot de passe</label>
             <BreezeInput
-                value={form.password}
+                bind:value={form.password_confirmation}
                 required
                 autocomplete="current-password"
                 placeholder="Confirmez votre mot de passe..."
