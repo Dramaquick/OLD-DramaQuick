@@ -89,6 +89,12 @@
         createur : "Ewen.G",
         size : "9/10",
     }
+
+    let user = {
+        pseudo: "Ewen.G",
+        role: "creator",
+        hasCustomIcon: false,
+    }
 </script>
 
 <!-- Permet de modifier l'head de la page -->
@@ -132,7 +138,10 @@
                 <Tag bind:text={tag.text3} bind:emoji={tag.emo3} bind:color={tag.color3}/>
             </div>
         </div>
-        <div class="button flex items-center justify-end">
+        <div class="button flex flex-row items-center justify-end gap-4">
+            {#if user.role == "creator"}
+                <Button>Démarrer</Button>
+            {/if}
             <Button class="outline">Quitter la session</Button>
         </div>
     </div>
@@ -187,12 +196,12 @@
 
     .timer-tags {
         grid-row: 4;
-        grid-column: 1/3;
+        grid-column: 1;
     }
 
     .button {
         grid-row: 4;
-        grid-column: 3;
+        grid-column: 2/4;
     }
 
     .creator-style::before {
