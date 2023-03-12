@@ -6,16 +6,19 @@
     import Button from "../../Components/Button.svelte";
     import QuestionCreator from "../../Components/QuestionCreator.svelte";
 
-    let form = {
-        selected: 0,
-        type: 0,
-    };
-
     let items = [
         {id: 1, name: 'Rapide'},
         {id: 2, name: 'Moyen'},
         {id: 3, name: 'Lent'}
     ];
+
+    let session_parameters = {
+        Title: null,
+        Description: null,
+        Min_players: 1,
+        Max_players: 10,
+        Speed: 0,
+    };
 
     let questions = [
         {
@@ -46,11 +49,11 @@
             </div>
             <p class="pb-2">Titre du quiz</p>
             <div class="pb-3 5">
-                <TextBox placeholder="Quiz super cool, 3ème B..." showIcon={false}/>
+                <TextBox bind:value={session_parameters.Title} placeholder="Quiz super cool, 3ème B..." showIcon={false}/>
             </div>
             <p class="pb-2">Description du quiz</p>
             <div class="pb-3.5 h-25%">
-                <TextArea placeholder="Un quiz trop génial réalisé par moi parce que les quiz c’est cool..."/>
+                <TextArea bind:value={session_parameters.Description} placeholder="Un quiz trop génial réalisé par moi parce que les quiz c’est cool..."/>
             </div>
             <div class="flex items-center text-[#00E589] text-[1rem] gap-2 pt-4 pb-2.5">
                 <img src="/img/landing/user.svg" alt="emoji" class="w-5 h-5">
@@ -60,13 +63,13 @@
                 <div class="flex flex-col w-25% items-center">
                     <p class="">Minimum</p>
                     <div class="scale-75">
-                     <Counter value={1} />
+                     <Counter bind:value={session_parameters.Min_players} min={1} max={session_parameters.Max_players}/>
                     </div>
                 </div>
                 <div class="flex flex-col ml-2.5 items-center w-25%">
                     <p class="">Maximum</p>
                     <div class="scale-75">
-                        <Counter value={10} />
+                        <Counter bind:value={session_parameters.Max_players} min={session_parameters.Min_players} max={20}/>
                     </div>
                 </div>
             </div>
@@ -76,7 +79,7 @@
             </div>
             <div class="pb-3 5">
                 <Select
-                    bind:value={form.selected}
+                    bind:value={session_parameters.Speed}
                     placeholder="Sélectionnez une valeur..."
                     items={items}
                 />
