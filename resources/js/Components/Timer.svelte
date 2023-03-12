@@ -1,9 +1,27 @@
 <script>
+    import { onMount } from 'svelte';
     export let minutes = 0;
     export let seconds = 0;
 
+    export let action = () => {};
+
     let secondString;
     $: secondString = seconds.toString().padStart(2, '0');
+
+    onMount(() => {
+        let interval = setInterval(() => {
+            if (seconds > 0) {
+                seconds--;
+            } else if (minutes > 0) {
+                minutes--;
+                seconds = 59;
+            } else {
+                clearInterval(interval);
+                action();
+            }
+        }, 1000);
+    });
+
 </script>
 
 <div class="flex gap-4 items-end">
