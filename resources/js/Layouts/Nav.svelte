@@ -7,7 +7,7 @@
 <main class="h-screen w-full overflow-hidden bg-cover bg-no-repeat">
     <nav class="flex justify-between fixed w-full py-12 px-56">
         <h1 class="font-semibold text-[2rem] text-black">DramaQuick</h1>
-        <div class="content">
+        <div class="content flex flex-row gap-2">
             <NavLink href="/">Accueil</NavLink>
             <NavLink href="">Rejoindre une session</NavLink>
             {#if $page.props.auth.user}
