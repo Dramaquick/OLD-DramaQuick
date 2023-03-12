@@ -111,6 +111,14 @@
     path {
         fill: #ff8e8e;
     }
+
+    input::placeholder{
+        color: #9e9e9e;
+    }
+
+    input{
+        color: black;
+    }
     .questions-container {
         height: 41rem;
         overflow-y: auto;
