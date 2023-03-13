@@ -1,6 +1,5 @@
 <script>
     import {inertia} from '@inertiajs/inertia-svelte';
-    import BreezeDropdownLink from "@/components/DropdownLink.svelte";
 
     export let user = {};
 
@@ -14,10 +13,9 @@
     {:else}
         <img class="user-image" src={src} alt="user_image"/>
     {/if}
+    <!-- svelte-ignore a11y-mouse-events-have-key-events -->
     <div class="user-menu">
         <a class="user-menu-item" href="/profile">Profile</a>
-        <div class="separator"></div>
-        <a class="user-menu-item" href="#">Paramètres</a>
         <div class="separator"></div>
         <button use:inertia={{ href: "/logout", method: "post" }} class="user-menu-item">Se déconnecter</button>
     </div>
@@ -49,6 +47,7 @@
         opacity: 0;
         transform: translateY(90%) scale(0.9);
         transition: .2s;
+        pointer-events: none;
     }
 
     .user-menu-item {
@@ -59,6 +58,7 @@
         /* permet d'afficher le menu en dessous */
         transform: translateY(100%);
         opacity: 1;
+        pointer-events: all;
     }
 
     .user-image {
@@ -79,6 +79,16 @@
         top: 0;
         left: 50%;
         transform: translate(-50%, -50%) scale(1.5);
+    }
+
+    .user-menu::after {
+        content: "";
+        position: absolute;
+        top: -1rem;
+        left: 50%;
+        width: 12rem;
+        height: 1rem;
+        transform: translate(-50%);
     }
 
     .separator {
