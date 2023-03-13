@@ -17,7 +17,6 @@
     import Tag from "../Components/Tag.svelte";
     import Paint from "../Components/Paint.svelte";
     import QuestionCreator from "../Components/QuestionCreator.svelte";
-    import Pie from "../Components/Pie.svelte";
 
     // export let canLogin;
     // export let canRegister;
@@ -72,16 +71,6 @@
         minutes: 0,
         seconds: 10,
     };
-    onMount(() => {
-        setInterval(() => {
-            if (timer.seconds > 0) {
-                timer.seconds--;
-            } else if (timer.minutes > 0) {
-                timer.minutes--;
-                timer.seconds = 59;
-            }
-        }, 1000);
-    });
 
     let questions = [
         {
@@ -192,10 +181,6 @@
         </div>
         <QuestionCreator
             bind:questions={questions}
-        />
-        <Pie 
-            bind:answers={form.answers}
-            bind:colors={form.colors}
         />
         <div class="flex gap-8">
             <p>{form.selected}</p>
