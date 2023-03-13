@@ -1,5 +1,4 @@
 <script>
-    import { onMount } from "svelte";
     import Timer from "../../Components/Timer.svelte";
     import SelectList from "../../Components/SelectList.svelte";
     import Button from "../../Components/Button.svelte";
@@ -22,17 +21,6 @@
         {id: 9, name: 'Choix 9'},
         {id: 10, name: 'Choix 10'}
     ];
-
-    onMount(() => {
-        setInterval(() => {
-            if (timer.seconds > 0) {
-                timer.seconds--;
-            } else if (timer.minutes > 0) {
-                timer.minutes--;
-                timer.seconds = 59;
-            }
-        }, 1000);
-    });
 
     let text = {
         session: "#35878454",

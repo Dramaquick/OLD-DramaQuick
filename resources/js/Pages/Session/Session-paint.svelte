@@ -1,5 +1,4 @@
 <script>
-    import { onMount } from "svelte";
     import Timer from "../../Components/Timer.svelte";
     import Paint from "../../Components/Paint.svelte";
     import Button from "../../Components/Button.svelte";
@@ -9,17 +8,6 @@
         minutes: 1,
         seconds: 10,
     };
-
-    onMount(() => {
-        setInterval(() => {
-            if (timer.seconds > 0) {
-                timer.seconds--;
-            } else if (timer.minutes > 0) {
-                timer.minutes--;
-                timer.seconds = 59;
-            }
-        }, 1000);
-    });
 
     let text = {
         session: "#35878454",
@@ -56,6 +44,7 @@
             <Timer
                 bind:minutes={timer.minutes}
                 bind:seconds={timer.seconds}
+                action={() => window.location.href = "/"}
             />
         </div>
         <div class="button flex justify-end items-end">

@@ -23,17 +23,6 @@
         {id: 10, name: 'Choix 10'}
     ];
 
-    onMount(() => {
-        setInterval(() => {
-            if (timer.seconds > 0) {
-                timer.seconds--;
-            } else if (timer.minutes > 0) {
-                timer.minutes--;
-                timer.seconds = 59;
-            }
-        }, 1000);
-    });
-
     let text = {
         session: "#35878454",
         page: "4/10",
