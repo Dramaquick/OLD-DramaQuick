@@ -96,6 +96,10 @@ Route::get('/session-answer-bar', function () {
     return Inertia::render('Session/Session-answer-BarChart');
 });
 
+Route::get('/profile', function () {
+    return Inertia::render('Profile');
+})->middleware(['auth', 'verified'])->name('profile');
+
 
 // Links
 Route::get('/links', [LinkController::class, 'index'])->middleware(['auth', 'verified'])->name('links.index');
