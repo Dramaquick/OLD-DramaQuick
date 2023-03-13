@@ -1,10 +1,13 @@
 <script>
     import NavLink from "@/Components/NavLink.svelte";
     import TextBox from "../Components/TextBox.svelte";
+    import { page } from "@inertiajs/inertia-svelte";
+
+    let profile = $page.props.auth.user;
 
     let user = {
-        pseudo: "John Doe",
-        email: "test@gmail.com",
+        pseudo: profile.name,
+        email: profile.email,
         avatar: "https://cdn.discordapp.com/avatars/394156737558741004/70b75a1870c4a43fa348c7bde4f23d6c.png?size=1024",
     }
 
@@ -14,6 +17,7 @@
 
     let files = [];
 
+    
 </script>
 
 <!-- Permet de modifier l'head de la page -->
