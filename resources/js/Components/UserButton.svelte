@@ -15,7 +15,7 @@
         <img class="user-image" src={src} alt="user_image"/>
     {/if}
     <div class="user-menu">
-        <a class="user-menu-item" href="#">Profile</a>
+        <a class="user-menu-item" href="/profile">Profile</a>
         <div class="separator"></div>
         <a class="user-menu-item" href="#">Paramètres</a>
         <div class="separator"></div>
