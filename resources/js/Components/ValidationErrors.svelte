@@ -3,7 +3,6 @@
     let className;
     let hasErrors = false;
 
-    export { className as class };
     export let errors = {};
 
     function createText() {
