@@ -1,9 +1,6 @@
 <script>
     import Button from '../Components/Button.svelte';
-    import NavLink from "@/Components/NavLink.svelte";
     import Value from "@/Components/Value.svelte";
-    import UserButton from "@/Components/UserButton.svelte";
-    import { page } from '@inertiajs/inertia-svelte';
     import Nav from '@/Layouts/Nav.svelte';
 </script>
 
