@@ -77,7 +77,7 @@
                 </svg>
             </button>
             <p>{title}</p>
-            <p class="text-black font-normal">{text}</p>
+            <p class="text-black font-normal px-4">{text}</p>
         </div>
     {:else}
         <div class={classes}>
