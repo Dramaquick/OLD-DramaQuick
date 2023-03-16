@@ -8,7 +8,6 @@
     let err = {};
     export let errors = {};
     export let canResetPassword;
-    export let status;
 
     const form = useForm({
         email: null,
@@ -37,7 +36,7 @@
             <h1>Se connecter</h1>
             <h2>Entrez vos informations ci-dessous.</h2>
 
-            <BreezeValidationErrors class="mb-4" errors={err} />
+            <BreezeValidationErrors errors={err} />
 
             <form
                 on:submit|preventDefault={onSubmit}
