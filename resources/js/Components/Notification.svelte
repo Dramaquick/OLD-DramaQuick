@@ -15,6 +15,7 @@
     export let showIcon = true;
     export let input = false;
     export let placeholder = "Placeholder";
+    export let action = () => {};
 
     let destroy = false;
 
@@ -25,6 +26,8 @@
     if (input) {
         duration = 0;
     }
+
+    let id = String(Math.random());
 
     onMount(() => {
         if (duration > 0) {
@@ -39,15 +42,13 @@
         clearTimeout(timeout);
     });
 
-    function Destroy() {
-        destroy = true;
-        clearInterval(timeout);
-    }
-
     function Disparition() {
-        document.getElementsByClassName(position)[0].classList.add("disparition");
+        let div = document.getElementById(id);
+        div.classList.add("disparition");
         setTimeout(() => {
-            Destroy();
+            action();
+            destroy = true;
+            clearTimeout(timeout);
         }, 250);
     }
 
@@ -67,10 +68,11 @@
 
 {#if !destroy}
 <Portal>
+<div id={id} class={classes}>
 {#if format === "box"}
     
     {#if input === false}
-        <div class={classes}>
+        <div>
             <button class="close" on:click={Disparition}>
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
@@ -80,7 +82,7 @@
             <p class="text-black font-normal px-4">{text}</p>
         </div>
     {:else}
-        <div class={classes}>
+        <div>
             <button class="close" on:click={Disparition}>
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
@@ -91,11 +93,11 @@
             <div class="flex pt-4 px-4 gap-4 items-center">
                 <TextBox placeholder={placeholder} bind:value={inputText} showIcon={false}/>
                 {#if inputText.length != 8}
-                    <Button on:click={() => {Disparition(); console.log(inputText)}} disabled><svg width="12" height="19" viewBox="0 0 12 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <Button action={() => {Disparition()}} disabled><svg width="12" height="19" viewBox="0 0 12 19" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M1.32834 0.104168C1.20359 0.10359 1.07994 0.122799 0.964454 0.1607C0.848972 0.198599 0.743936 0.254442 0.65537 0.325027C0.56653 0.395824 0.496016 0.480055 0.447896 0.572861C0.399775 0.665667 0.375 0.765209 0.375 0.865746C0.375 0.966284 0.399775 1.06582 0.447896 1.15863C0.496016 1.25143 0.56653 1.33566 0.65537 1.40646L8.39923 7.62855C8.93173 8.05694 9.23082 8.63764 9.23082 9.24309C9.23082 9.84855 8.93173 10.4292 8.39923 10.8576L0.65537 17.0797C0.476888 17.2231 0.376618 17.4176 0.376618 17.6204C0.376618 17.8232 0.476888 18.0178 0.65537 18.1612C0.833852 18.3046 1.07592 18.3851 1.32834 18.3851C1.58075 18.3851 1.82282 18.3046 2.0013 18.1612L9.74516 11.9391C10.1865 11.5854 10.5367 11.1652 10.7756 10.7025C11.0145 10.2399 11.1375 9.74396 11.1375 9.24309C11.1375 8.74222 11.0145 8.24628 10.7756 7.78365C10.5367 7.32103 10.1865 6.90083 9.74516 6.54711L2.0013 0.325027C1.91274 0.254442 1.8077 0.198599 1.69222 0.1607C1.57674 0.122799 1.45308 0.10359 1.32834 0.104168Z" fill="#0D241B"/>
                         </svg></Button>
                 {:else}
-                    <Button on:click={() => {Disparition(); console.log(inputText)}}><svg width="12" height="19" viewBox="0 0 12 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <Button action={() => {Disparition()}}><svg width="12" height="19" viewBox="0 0 12 19" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M1.32834 0.104168C1.20359 0.10359 1.07994 0.122799 0.964454 0.1607C0.848972 0.198599 0.743936 0.254442 0.65537 0.325027C0.56653 0.395824 0.496016 0.480055 0.447896 0.572861C0.399775 0.665667 0.375 0.765209 0.375 0.865746C0.375 0.966284 0.399775 1.06582 0.447896 1.15863C0.496016 1.25143 0.56653 1.33566 0.65537 1.40646L8.39923 7.62855C8.93173 8.05694 9.23082 8.63764 9.23082 9.24309C9.23082 9.84855 8.93173 10.4292 8.39923 10.8576L0.65537 17.0797C0.476888 17.2231 0.376618 17.4176 0.376618 17.6204C0.376618 17.8232 0.476888 18.0178 0.65537 18.1612C0.833852 18.3046 1.07592 18.3851 1.32834 18.3851C1.58075 18.3851 1.82282 18.3046 2.0013 18.1612L9.74516 11.9391C10.1865 11.5854 10.5367 11.1652 10.7756 10.7025C11.0145 10.2399 11.1375 9.74396 11.1375 9.24309C11.1375 8.74222 11.0145 8.24628 10.7756 7.78365C10.5367 7.32103 10.1865 6.90083 9.74516 6.54711L2.0013 0.325027C1.91274 0.254442 1.8077 0.198599 1.69222 0.1607C1.57674 0.122799 1.45308 0.10359 1.32834 0.104168Z" fill="#0D241B"/>
                         </svg></Button>
                 {/if}
@@ -105,7 +107,7 @@
 
 {:else if format === "bar"}
 
-        <div class={classes}>
+        <div>
             <div class="flex flex-rox px-32 justify-left gap-8 items-center">
             {#if showIcon}
                 {#if type === "success"}
@@ -146,6 +148,7 @@
         </div>
 
 {/if}
+</div>
 </Portal>
 {/if}
 
