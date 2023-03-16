@@ -21,7 +21,7 @@
                 questionnaires temporaires, des sessions de quiz... Tout cela a
                 été créé avec une idée : l’éphémérité !
             </p>
-            <div class="gap-8 flex flex-row w-fit">
+            <div class="gap-8 flex flex-row w-[35.5rem]">
                 <Button class="">Rejoindre une session</Button>
                 <Button
                     class="outline"
@@ -52,11 +52,6 @@
                     </p>
                 </div>
             </div>
-        </div>
-        <div class="flex flex-row w-full items-center">
-            <img class="pl-50 pt-40" src="/img/landing/arrow.svg" alt="" />
-            <img class="pt-40" src="/img/landing/logo.svg" alt="" />
-            <img class="pb-110" src="/img/landing/louping.svg" alt="" />
         </div>
     </div>
 </Nav>

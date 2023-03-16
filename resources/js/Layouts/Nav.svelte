@@ -45,6 +45,8 @@
 
 <style>
     main {
-        background-image: url("/img/landing/bg.png");
+        background-image: url("/img/landing/BG_welcome.png");
+        background-size: 58%;
+        background-position: bottom right;
     }
 </style>
