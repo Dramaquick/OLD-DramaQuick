@@ -6,11 +6,17 @@
     import Button from "../../Components/Button.svelte";
     import QuestionCreator from "../../Components/QuestionCreator.svelte";
 
-    let items = [
+    let items_speed = [
         {id: 1, name: 'Rapide'},
         {id: 2, name: 'Moyen'},
         {id: 3, name: 'Lent'}
     ];
+
+    let items_tags = [
+        {id: 1, name: 'Officiel'},
+        {id: 2, name: 'Nourriture'},
+        {id: 3, name: 'Halloween'}
+    ]
 
     let session_parameters = {
         Title: null,
@@ -18,6 +24,9 @@
         Min_players: 1,
         Max_players: 10,
         Speed: 0,
+        Tag1: 0,
+        Tag2: 0,
+        Tag3: 0,
     };
 
     let questions = [
@@ -55,45 +64,91 @@
             <div class="pb-3.5 h-25%">
                 <TextArea bind:value={session_parameters.Description} placeholder="Un quiz trop génial réalisé par moi parce que les quiz c’est cool..."/>
             </div>
+            <div class="flex flex-col">
+                <div class="flex flex-row gap-8">
+                    <div class="flex items-center text-[#00E589] text-[1rem] gap-2 pt-4 pb-2.5">
+                        <img src="/img/landing/user.svg" alt="emoji" class="w-5 h-5">
+                        <p>NOMBRE DE PARTICIPANTS</p>
+                    </div>
+                    <div class="flex items-center text-[#00E589] text-[1rem] gap-2 pt-4 pb-2.5">
+                        <img src="/img/landing/sablier.svg" alt="emoji" class="w-5 h-5">
+                        <p>RAPIDITE</p>
+                    </div>
+                </div>
+                <div class="flex flex-row items-end">
+                    <div class="flex gap-4 ml-[-1rem]">
+                        <div class="flex flex-col items-center">
+                            <p class="">Minimum</p>
+                            <div class="scale-75">
+                            <Counter bind:value={session_parameters.Min_players} min={1} max={session_parameters.Max_players}/>
+                            </div>
+                        </div>
+                        <div class="flex flex-col ml-2.5 items-center w-25%">
+                            <p class="">Maximum</p>
+                            <div class="scale-75">
+                                <Counter bind:value={session_parameters.Max_players} min={session_parameters.Min_players} max={100}/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="pb-[0.5rem]">
+                        <Select
+                            bind:value={session_parameters.Speed}
+                            placeholder="Sélectionnez une valeur..."
+                            items={items_speed}
+                            width={true}
+                        />
+                    </div>
+                </div>
+            </div>
             <div class="flex items-center text-[#00E589] text-[1rem] gap-2 pt-4 pb-2.5">
                 <img src="/img/landing/user.svg" alt="emoji" class="w-5 h-5">
-                <p>NOMBRE DE PARTICIPANTS</p>
+                <p>TAGS</p>
             </div>
-            <div class="flex">
-                <div class="flex flex-col w-25% items-center">
-                    <p class="">Minimum</p>
-                    <div class="scale-75">
-                     <Counter bind:value={session_parameters.Min_players} min={1} max={session_parameters.Max_players}/>
+            <!-- L'utilisateur doit pouvoir choisir 3 tags maximum -->
+            <div class="flex flex-row gap-4">
+                <div class="flex flex-col items-center w-fit">
+                    <p class="">Tag 1</p>
+                    <div class="scale-75 ml-[-1.25rem]">
+                        <Select
+                            bind:value={session_parameters.Tag1}
+                            placeholder="Sélectionnez une valeur..."
+                            items={items_tags}
+                            width={true}
+                        />
                     </div>
                 </div>
-                <div class="flex flex-col ml-2.5 items-center w-25%">
-                    <p class="">Maximum</p>
-                    <div class="scale-75">
-                        <Counter bind:value={session_parameters.Max_players} min={session_parameters.Min_players} max={100}/>
+                <div class="flex flex-col items-center w-fit">
+                    <p class="">Tag 2</p>
+                    <div class="scale-75 ml-[-1.25rem]">
+                        <Select
+                            bind:value={session_parameters.Tag2}
+                            placeholder="Sélectionnez une valeur..."
+                            items={items_tags}
+                            width={true}
+                        />
                     </div>
                 </div>
-            </div>
-            <div class="flex items-center text-[#00E589] text-[1rem] gap-2 pt-6 pb-2.5">
-                <img src="/img/landing/sablier.svg" alt="emoji" class="w-5 h-5">
-                <p>RAPIDITE</p>
-            </div>
-            <div class="pb-3 5">
-                <Select
-                    bind:value={session_parameters.Speed}
-                    placeholder="Sélectionnez une valeur..."
-                    items={items}
-                />
+                <div class="flex flex-col items-center w-fit">
+                    <p class="">Tag 3</p>
+                    <div class="scale-75 ml-[-1.25rem]">
+                        <Select
+                            bind:value={session_parameters.Tag3}
+                            placeholder="Sélectionnez une valeur..."
+                            items={items_tags}
+                            width={true}
+                        />
+                    </div>
+                </div>
             </div>
             <div class="flex items-center justify-end pt-2">
                 <Button>Créer la session</Button>
             </div>
         </div>
     </div>
-        <div class="bg-white shadow rounded-2.5xl py-6 w-142 h-200">
-                <div class="questioncreator">
-                    <QuestionCreator bind:questions={questions} />
-                </div>
-        </div>
+    <div class="bg-white shadow rounded-2.5xl py-6 w-142 h-200">
+            <div class="questioncreator">
+                <QuestionCreator bind:questions={questions} />
+            </div>
     </div>
 </main>
 
