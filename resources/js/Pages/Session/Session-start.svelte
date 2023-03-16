@@ -3,6 +3,7 @@
     import Tag from "../../Components/Tag.svelte";
     import Member from "../../Components/Member.svelte";
     import Button from "../../Components/Button.svelte";
+    import Notification from "../../Components/Notification.svelte";
 
     let tags = {
         tag1 : {
@@ -20,17 +21,12 @@
             emoji: "🍨",
             color: "#FFA6E6",
         },
-        tag4 : {
-            text: "nourriture",
-            emoji: "🍨",
-            color: "#FFA6E6",
-        },
     }
 
     // Décompteur en temps réel pour Timer
     let timer = {
-        minutes: 1,
-        seconds: 10,
+        minutes: 0,
+        seconds: 31,
     };
 
     let users = {
@@ -104,6 +100,24 @@
         role: "creator",
         hasCustomIcon: false,
     }
+
+    // fonction qui fait apparaitre une notification
+    function notify(title, text, type, duration, format, position) {
+        const notification = document.createElement('div');
+        document.body.appendChild(notification);
+
+        new Notification({
+            target: notification,
+            props: {
+                title,
+                text,
+                type,
+                duration,
+                format,
+                position
+            }
+        });
+    }
 </script>
 
 <!-- Permet de modifier l'head de la page -->
@@ -152,6 +166,7 @@
             <Timer
                 bind:minutes={timer.minutes}
                 bind:seconds={timer.seconds}
+                action={[{time: [0, 30], action: () => {notify("Début de la session","La session va commencer dans 30 secondes", "info", 5000, "bar", "bottom")}}, {time: [0, 15], action: () => {notify("Début de la session","La session va commencer dans 15 secondes", "info", 0, "bar", "bottom")}}]}
             />
             <div class="tags flex flex-row items-center gap-4">
                 {#each Object.keys(tags) as tag}
@@ -238,22 +253,7 @@
     }
 
     .tags {
-        width: 30rem;
-        overflow-x: auto;
         height: 100%;
-        padding-top: 4px;
-    }
-
-    .tags::-webkit-scrollbar {
-        height: 4px;
-    }
-
-    .tags::-webkit-scrollbar-track {
-        background: #deeee7;
-    }
-
-    .tags::-webkit-scrollbar-thumb {
-        background-color: #47524e;
-        border-radius: 10px;
+        padding-top: 8px;
     }
 </style>
