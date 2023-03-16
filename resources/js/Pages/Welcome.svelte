@@ -2,6 +2,27 @@
     import Button from '../Components/Button.svelte';
     import Value from "@/Components/Value.svelte";
     import Nav from '@/Layouts/Nav.svelte';
+    import Notification from "@/Components/Notification.svelte";
+
+    function notify(title, text, type, duration, format, position, input, placeholder, action) {
+        const notification = document.createElement('div');
+        document.body.appendChild(notification);
+
+        new Notification({
+            target: notification,
+            props: {
+                title,
+                text,
+                type,
+                duration,
+                format,
+                position,
+                input,
+                placeholder,
+                action
+            }
+        });
+    }
 </script>
 
 <!-- Permet de modifier l'head de la page -->
@@ -22,9 +43,10 @@
                 été créé avec une idée : l’éphémérité !
             </p>
             <div class="gap-8 flex flex-row w-[35.5rem]">
-                <Button class="">Rejoindre une session</Button>
+                <Button class="" action={() => {notify("Rejoindre une session","","normal",0,"box","middle",true,"Entrer le code de session",() => {window.location.href ="/session-start"})}}>Rejoindre une session</Button>
                 <Button
                     class="outline"
+                    action={() => {window.location.href ="/session-create"}}
                 >Créer une session</Button
                 >
             </div>
