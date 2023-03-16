@@ -1,23 +1,53 @@
 <script>
     import { onMount } from 'svelte';
+    import Notification from './Notification.svelte';
     export let minutes = 0;
     export let seconds = 0;
 
-    export let action = () => {};
+    export let action = [{time: [minutes, seconds], action: ()=>{}}];
 
     let secondString;
     $: secondString = seconds.toString().padStart(2, '0');
 
+    let mainAction = {};
+
+    let index = 0;
+
+    function nextAction() {
+        if (index < action.length) {
+            mainAction = action[index];
+            index++;
+        }
+        else {
+            mainAction = {time: [minutes, seconds], action: ()=>{}};
+        }
+    } 
+
+    nextAction();
+
     onMount(() => {
         let interval = setInterval(() => {
-            if (seconds > 0) {
-                seconds--;
-            } else if (minutes > 0) {
-                minutes--;
-                seconds = 59;
-            } else {
-                clearInterval(interval);
-                action();
+            if (mainAction.time[0] == minutes && mainAction.time[1] == seconds) {
+                mainAction.action();
+                nextAction();
+                if (seconds > 0) {
+                    seconds--;
+                } else if (minutes > 0) {
+                    minutes--;
+                    seconds = 59;
+                } else {
+                    clearInterval(interval);
+                }
+            } 
+            else {
+                if (seconds > 0) {
+                    seconds--;
+                } else if (minutes > 0) {
+                    minutes--;
+                    seconds = 59;
+                } else {
+                    clearInterval(interval);
+                }
             }
         }, 1000);
     });
