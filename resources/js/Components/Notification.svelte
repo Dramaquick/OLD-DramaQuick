@@ -21,6 +21,8 @@
 
     let timeout;
 
+    let close = false;
+
     let inputText ="";
 
     if (input) {
@@ -46,8 +48,11 @@
         let div = document.getElementById(id);
         div.classList.add("disparition");
         setTimeout(() => {
-            action();
+            if (!close) {
+                action();
+            }
             destroy = true;
+            close = false;
             clearTimeout(timeout);
         }, 250);
     }
@@ -73,7 +78,7 @@
     
     {#if input === false}
         <div>
-            <button class="close" on:click={Disparition}>
+            <button class="close" on:click={() => {close=true; Disparition()}}>
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                 </svg>
@@ -83,7 +88,7 @@
         </div>
     {:else}
         <div>
-            <button class="close" on:click={Disparition}>
+            <button class="close" on:click={() => {close=true; Disparition()}}>
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                 </svg>
