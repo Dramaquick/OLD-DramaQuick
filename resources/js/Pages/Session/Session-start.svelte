@@ -166,7 +166,7 @@
             <Timer
                 bind:minutes={timer.minutes}
                 bind:seconds={timer.seconds}
-                action={[{time: [0, 30], action: () => {notify("Début de la session","La session va commencer dans 30 secondes", "info", 5000, "bar", "bottom")}}, {time: [0, 15], action: () => {notify("Début de la session","La session va commencer dans 15 secondes", "info", 0, "bar", "bottom")}}]}
+                action={[{time: [0, 30], action: () => {notify("Début de la session","La session va commencer dans 30 secondes", "info", 5000, "bar", "bottom")}}, {time: [0, 15], action: () => {notify("Début de la session","La session va commencer dans 15 secondes", "info", 0, "bar", "bottom")}}, {time: [0, 0], action: () => {window.location.href = "/session-paint"}}]}
             />
             <div class="tags flex flex-row items-center gap-4">
                 {#each Object.keys(tags) as tag}
