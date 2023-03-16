@@ -75,6 +75,7 @@ module.exports = {
                 '14': '3.5rem',
                 '20': '5rem',
                 '25%': '25%',
+                'fill-available': '-webkit-fill-available',
             },
             colors: {
                 'whitegray': '#666666',

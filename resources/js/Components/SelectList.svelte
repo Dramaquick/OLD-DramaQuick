@@ -23,7 +23,6 @@
     export let placeholder = 'Select';
     // Valeur sélectionnée par défaut
     export let value = -1;
-
     /*
     📍 Variables du composant
      */
@@ -76,9 +75,9 @@
         background-color: white;
         transition: all 0.2s ease;
         position: relative;
-        width: clamp(13rem, 100%, 20rem);
         height: 3.5rem;
         border: 2px solid #DEEEE7;
+        width: clamp(11.875rem, 100%, 20rem);
         border-radius: 8px;
         padding: 0 .75rem;
         font-weight: 500;
