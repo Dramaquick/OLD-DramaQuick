@@ -61,7 +61,7 @@
         email: user.email,
     }
 
-    function notify(title, text, type, duration, format, position, input, placeholder) {
+    function notify(title, text, type, duration, format, position, input, placeholder, action) {
         const notification = document.createElement('div');
         document.body.appendChild(notification);
 
@@ -75,7 +75,8 @@
                 format,
                 position,
                 input,
-                placeholder
+                placeholder,
+                action
             }
         });
     }
@@ -137,7 +138,7 @@
         <h1 class="font-semibold text-[2rem] text-black">DramaQuick</h1>
         <div class="content flex flex-row gap-2">
             <NavLink href="/" activate={true}>Accueil</NavLink>
-            <NavLink href="" action={() => {notify("Rejoindre une session","","normal",0,"box","middle",true,"Entrer le code de session")}}>Rejoindre une session</NavLink>
+            <NavLink href="" action={() => {notify("Rejoindre une session","","normal",0,"box","middle",true,"Entrer le code de session",() => {window.location.href ="/session-start"})}}>Rejoindre une session</NavLink>
             <NavLink type={"button"} inertiaction={{ href: "/logout", method: "post" }}>Se déconnecter</NavLink>
         </div>
     </nav>
