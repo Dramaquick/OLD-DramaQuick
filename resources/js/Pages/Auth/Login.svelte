@@ -36,13 +36,8 @@
         <div class="right_content">
             <h1>Se connecter</h1>
             <h2>Entrez vos informations ci-dessous.</h2>
-            <BreezeValidationErrors class="mb-4" errors={err} />
 
-            {#if status}
-                <div class="mb-4 font-medium text-sm text-green-600">
-                    {status}
-                </div>
-            {/if}
+            <BreezeValidationErrors class="mb-4" errors={err} />
 
             <form
                 on:submit|preventDefault={onSubmit}
