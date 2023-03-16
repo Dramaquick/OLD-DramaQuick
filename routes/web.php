@@ -46,7 +46,7 @@ Route::get('/components', function () {
 
 Route::get('/session-start', function () {
     return Inertia::render('Session/Session-start');
-});
+})->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::get('/session-text', function () {
     return Inertia::render('Session/Session-text');
@@ -82,7 +82,7 @@ Route::get('/session-finish', function () {
 
 Route::get('/session-create', function () {
     return Inertia::render('Session/Session-create');
-});
+})->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::get('/session-answer-text', function () {
     return Inertia::render('Session/Session-answer-text');
