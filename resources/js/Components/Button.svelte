@@ -4,12 +4,13 @@
     export { className as class };
     export let disabled = false;
     export let style = "";
+    export let action = () => {};
 </script>
 
 <button
     class="{className} h-14.5 px-8 text-[1.25rem] rounded-2.5l bg-[#34ffad] border-none outline-none transition-[.2s] text-[#0D241B] font-medium box-border"
     {...$$restProps}
-    on:click
+    on:click={action}
     {disabled}
     {style}
 >
