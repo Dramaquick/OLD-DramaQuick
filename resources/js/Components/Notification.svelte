@@ -26,6 +26,10 @@
 
     let inputText ="";
 
+    if (!action) {
+        action = () => {};
+    };
+
     if (input) {
         duration = 0;
     };
