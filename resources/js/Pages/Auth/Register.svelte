@@ -21,7 +21,14 @@
         err = errors;
     }
 
+    if (document.getElementById("session") != null) {
+        document.getElementById("session").remove();
+    }
+
     const submit = () => {
+        if (document.getElementById("login") != null) {
+        document.getElementById("login").remove();
+        }
         if (form.terms == true) {
         $form.post("/register", {
             onSuccess: () => $form.reset("password", "password_confirmation"),});
@@ -43,7 +50,7 @@
     <div class="left">
         <h1>S'inscrire</h1>
         <h2>Entrez vos informations ci-dessous.</h2>
-            <BreezeValidationErrors class="mb-4" errors={err} />
+            <BreezeValidationErrors errors={err} />
 
     <form on:submit|preventDefault={submit} class="flex flex-col gap-4">
         <div class="w-full">

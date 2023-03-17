@@ -24,6 +24,9 @@
     }
 
     const onSubmit = () => {
+        if (document.getElementById("login") != null) {
+        document.getElementById("login").remove();
+        }
         $form.post("/login", {
             onSuccess: () => $form.reset(),
         });
