@@ -102,7 +102,12 @@
     }
 
     // fonction qui fait apparaitre une notification
-    function notify(title, text, type, duration, format, position) {
+    function notify(title, text, type, duration, format, position, input, placeholder, action, id) {
+        if (id != undefined) {
+            if (document.getElementById(id) != null) {
+                return;
+            }
+        }
         const notification = document.createElement('div');
         document.body.appendChild(notification);
 
@@ -114,7 +119,11 @@
                 type,
                 duration,
                 format,
-                position
+                position,
+                input,
+                placeholder,
+                action,
+                id
             }
         });
     }
@@ -178,7 +187,7 @@
             {#if user.role == "creator"}
                 <Button>Démarrer</Button>
             {/if}
-            <Button class="outline">Quitter la session</Button>
+            <Button class="outline" action={() => {notify("Quitter la session","Souhaitez-vous vraiment quitter la session ?","normal",0,"box","middle",false,"",() => {window.location.href ="/"},"leave")}}>Quitter la session</Button>
         </div>
     </div>
 </main>

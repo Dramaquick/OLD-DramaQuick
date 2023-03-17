@@ -3,6 +3,7 @@
     import Timer from "../../Components/Timer.svelte";
     import TextBox from "../../Components/TextBox.svelte";
     import Button from "../../Components/Button.svelte";
+    import Notification from "../../Components/Notification.svelte";
 
     // Décompteur en temps réel pour Timer
     let timer = {
@@ -20,6 +21,32 @@
 
     let form = {
         text: "",
+    }
+
+    function notify(title, text, type, duration, format, position, input, placeholder, action, id) {
+        if (id != undefined) {
+            if (document.getElementById(id) != null) {
+                return;
+            }
+        }
+        const notification = document.createElement('div');
+        document.body.appendChild(notification);
+
+        new Notification({
+            target: notification,
+            props: {
+                title,
+                text,
+                type,
+                duration,
+                format,
+                position,
+                input,
+                placeholder,
+                action,
+                id
+            }
+        });
     }
 </script>
 
@@ -51,7 +78,7 @@
             />
         </div>
         <div class="button flex justify-end items-end">
-            <Button class="outline">Quitter la session</Button>
+            <Button class="outline" action={() => {notify("Quitter la session","Souhaitez-vous vraiment quitter la session ?","normal",0,"box","middle",false,"",() => {window.location.href ="/"},"leave")}}>Quitter la session</Button>
         </div>
     </div>
     </div>

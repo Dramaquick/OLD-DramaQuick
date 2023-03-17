@@ -1,6 +1,7 @@
 <script>
     import Button from "../../Components/Button.svelte";
     import BarChartSimple from "../../Components/BarChartSimple.svelte";
+    import Notification from "../../Components/Notification.svelte";
 
     let text = {
         session: "#35878454",
@@ -65,6 +66,31 @@
 
     let moyenne = moyenneSur10();
 
+    function notify(title, text, type, duration, format, position, input, placeholder, action, id) {
+        if (id != undefined) {
+            if (document.getElementById(id) != null) {
+                return;
+            }
+        }
+        const notification = document.createElement('div');
+        document.body.appendChild(notification);
+
+        new Notification({
+            target: notification,
+            props: {
+                title,
+                text,
+                type,
+                duration,
+                format,
+                position,
+                input,
+                placeholder,
+                action,
+                id
+            }
+        });
+    }
 </script>
 
 <!-- Permet de modifier l'head de la page -->
@@ -96,7 +122,7 @@
             <div class="flex flex-row items-center gap-12">
                 <p class="text-[#00E589] text-[1.5rem]">Moyenne : <i class="not-italic font-semibold">{moyenne}</i></p>
                 <div class="flex justify-end items-end">
-                    <Button class="outline">Quitter la session</Button>
+                    <Button class="outline" action={() => {notify("Quitter la session","Souhaitez-vous vraiment quitter la session ?","normal",0,"box","middle",false,"",() => {window.location.href ="/"},"leave")}}>Quitter la session</Button>
                 </div>
             </div>
         </div>
@@ -107,7 +133,7 @@
             
             <p>Moyenne : {moyenne}</p>
             <div class="flex justify-end items-end">
-                <Button class="outline">Quitter la session</Button>
+                <Button class="outline" action={() => {notify("Quitter la session","Souhaitez-vous vraiment quitter la session ?","normal",0,"box","middle",false,"",() => {window.location.href ="/"},"leave")}}>Quitter la session</Button>
             </div>
         {/if}
     </div>
