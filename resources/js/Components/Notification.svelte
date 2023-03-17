@@ -164,7 +164,7 @@
     .notification {
         position: fixed;
         z-index: 1000;
-        padding: 2rem 0;
+        padding: 1rem 0;
         border-radius: 0.5rem;
         background-color: #fff;
         box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
@@ -201,6 +201,7 @@
 
     .notification.bar {
         border: 1px solid #e4e4e4;
+        padding: 2rem 0;
     }
 
     .notification.success {
