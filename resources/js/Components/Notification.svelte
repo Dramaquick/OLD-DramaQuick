@@ -82,10 +82,23 @@
 <Portal>
 <div id={id} class={classes}>
 {#if format === "box"}
-    
-    {#if input === false}
+    {#if id === "leave"}    
+        <div class="p-12">
+            <button class="close-box" on:click={() => {close=true; Disparition()}}>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+            <p class="text-left pl-4 text-black text-[1.5rem]">{title}</p>
+            <p class="text-[#878D8B] text-left text-[1.125rem] font-normal px-4">{text}</p>
+            <div class="flex flex-row w-full px-4 gap-12 pt-4">
+                <Button class="outline" width={"14.875"} action={() => {action=() => {};Disparition()}}>Annuler</Button>
+                <Button action={() => {Disparition()}}>Quitter la session</Button>
+            </div>
+        </div>
+    {:else if input === false}
         <div>
-            <button class="close" on:click={() => {close=true; Disparition()}}>
+            <button class="close-box" on:click={() => {close=true; Disparition()}}>
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                 </svg>
@@ -95,7 +108,7 @@
         </div>
     {:else}
         <div>
-            <button class="close" on:click={() => {close=true; Disparition()}}>
+            <button class="close-box" on:click={() => {close=true; Disparition()}}>
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                 </svg>
@@ -191,6 +204,20 @@
         color: #666666;
     }
 
+    .close-box {
+        position: absolute;
+        top: -1rem;
+        right: -1rem;
+        cursor: pointer;
+        font-size: 1.5rem;
+        color: #666666;
+        background-color: white;
+        border: 1px solid white;
+        border-radius: 50%;
+        padding: 0.5rem;
+        box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+    }
+
     .close-bar {
         position: absolute;
         right: 2rem;
@@ -253,7 +280,7 @@
     }
 
     .notification.top.box {
-        top: 1rem;
+        top: 1.5rem;
         left: 50%;
         transform: translateX(-50%);
     }
@@ -268,12 +295,12 @@
 
     .notification.left {
         top: 50%;
-        left: 1rem;
+        left: 1.5rem;
         transform: translateY(-50%);
     }
     .notification.right {
         top: 50%;
-        right: 1rem;
+        right: 1.5rem;
         transform: translateY(-50%);
     }
 
@@ -284,23 +311,23 @@
     }
 
     .notification.corner-top-left {
-        top: 1rem;
-        left: 1rem;
+        top: 1.5rem;
+        left: 1.5rem;
     }
 
     .notification.corner-top-right {
-        top: 1rem;
-        right: 1rem;
+        top: 1.5rem;
+        right: 1.5rem;
     }
 
     .notification.corner-bottom-left {
         bottom: 1rem;
-        left: 1rem;
+        left: 1.5rem;
     }
 
     .notification.corner-bottom-right {
         bottom: 1rem;
-        right: 1rem;
+        right: 1.5rem;
     }
 
 
