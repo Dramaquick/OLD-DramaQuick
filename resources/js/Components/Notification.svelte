@@ -16,6 +16,7 @@
     export let input = false;
     export let placeholder = "Placeholder";
     export let action = () => {};
+    export let id = "";
 
     let destroy = false;
 
@@ -27,9 +28,11 @@
 
     if (input) {
         duration = 0;
-    }
+    };
 
-    let id = String(Math.random());
+    if (id === "") {
+        id = String(Math.random());
+    };
 
     onMount(() => {
         if (duration > 0) {

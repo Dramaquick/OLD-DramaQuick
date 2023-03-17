@@ -4,7 +4,12 @@
     import { page } from '@inertiajs/inertia-svelte';
     import Notification from "@/Components/Notification.svelte";
 
-    function notify(title, text, type, duration, format, position, input, placeholder, action) {
+    function notify(title, text, type, duration, format, position, input, placeholder, action, id) {
+        if (id != undefined) {
+            if (document.getElementById(id) != null) {
+                return;
+            }
+        }
         const notification = document.createElement('div');
         document.body.appendChild(notification);
 
@@ -19,7 +24,8 @@
                 position,
                 input,
                 placeholder,
-                action
+                action,
+                id
             }
         });
     }
@@ -30,7 +36,7 @@
         <h1 class="font-semibold text-[2rem] text-black">DramaQuick</h1>
         <div class="content flex flex-row gap-2">
             <NavLink href="/">Accueil</NavLink>
-            <NavLink href="" action={() => {notify("Rejoindre une session","","normal",0,"box","middle",true,"Entrer le code de session",() => {window.location.href ="/session-start"})}}>Rejoindre une session</NavLink>
+            <NavLink href="" action={() => {notify("Rejoindre une session","","normal",0,"box","middle",true,"Entrer le code de session",() => {window.location.href ="/session-start"},"session")}}>Rejoindre une session</NavLink>
             {#if $page.props.auth.user}
             <div class="pl-8">
                 <UserButton user={$page.props.auth.user} />
