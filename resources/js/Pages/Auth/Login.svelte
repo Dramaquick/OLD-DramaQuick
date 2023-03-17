@@ -19,6 +19,10 @@
         err = errors;
     }
 
+    if (document.getElementById("session") != null) {
+        document.getElementById("session").remove();
+    }
+
     const onSubmit = () => {
         $form.post("/login", {
             onSuccess: () => $form.reset(),
