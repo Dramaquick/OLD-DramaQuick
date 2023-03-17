@@ -41,7 +41,30 @@
             group: "Dataset 7",
             value: 300,
         },
+        {
+            group: "Dataset 8",
+            value: 300,
+        },
+        {
+            group: "Dataset 9",
+            value: 300,
+        },
+        {
+            group: "Dataset 10",
+            value: 300,
+        },
     ];
+
+    function moyenneSur10() {
+        let total = 0;
+        data.forEach((item, index) => {
+            total += item.value;
+        });
+        return ((total / data.length) / 10).toFixed(2);
+    }
+
+    let moyenne = moyenneSur10();
+
 </script>
 
 <!-- Permet de modifier l'head de la page -->
@@ -66,17 +89,24 @@
         </div>
         <p class="page font-semibold text-[1.5rem] text-black text-right">{text.page}</p>
         {#if user.role == "owner"}
-            <div class="button1 flex justify-start items-end">
+        <div class="bottom flex flex-row items-center justify-between w-full">
+            <div class="flex justify-start items-end">
                 <Button class="">Passer à la page suivante</Button>
             </div>
-            <div class="button flex justify-end items-end">
-                <Button class="outline">Quitter la session</Button>
+            <div class="flex flex-row items-center gap-12">
+                <p class="text-[#00E589] text-[1.5rem]">Moyenne : <i class="not-italic font-semibold">{moyenne}</i></p>
+                <div class="flex justify-end items-end">
+                    <Button class="outline">Quitter la session</Button>
+                </div>
             </div>
+        </div>
         {:else}
-            <div class="button1 flex justify-start items-end">
+            <div class="flex justify-start items-end">
                 <i class="text-lightgray">En attente de l'hôte...</i>
             </div>
-            <div class="button flex justify-end items-end">
+            
+            <p>Moyenne : {moyenne}</p>
+            <div class="flex justify-end items-end">
                 <Button class="outline">Quitter la session</Button>
             </div>
         {/if}
@@ -116,8 +146,8 @@
         grid-column: 1;
     }
 
-    .button {
-        grid-column: 2;
+    .bottom {
+        grid-column: 1/3;
     }
 
     .affichage {
