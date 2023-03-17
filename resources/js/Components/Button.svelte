@@ -5,8 +5,10 @@
     export let disabled = false;
     export let style = "";
     export let action = () => {};
+    export let width = false;
 </script>
 
+{#if !width}
 <button
     class="{className} h-14.5 px-8 text-[1.25rem] rounded-2.5l bg-[#34ffad] border-none outline-none transition-[.2s] text-[#0D241B] font-medium box-border"
     {...$$restProps}
@@ -16,8 +18,22 @@
 >
     <slot />
 </button>
+{:else}
+<button
+    class="{className} button h-14.5 px-8 text-[1.25rem] rounded-2.5l bg-[#34ffad] border-none outline-none transition-[.2s] text-[#0D241B] font-medium box-border"
+    {...$$restProps}
+    on:click={action}
+    {disabled}
+    style="min-width: {width}rem;"
+>
+    <slot />
+</button>
+{/if}
 
 <style>
+    .button {
+        min-width: var(--var-width);
+    }
     button:hover {
 
         transform: translateY(-5px);
