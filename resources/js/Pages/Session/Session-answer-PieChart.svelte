@@ -41,6 +41,18 @@
             group: "Dataset 7",
             value: 300,
         },
+        {
+            group: "Dataset 8",
+            value: 300,
+        },
+        {
+            group: "Dataset 9",
+            value: 300,
+        },
+        {
+            group: "Dataset 10",
+            value: 300,
+        },
     ];
 </script>
 

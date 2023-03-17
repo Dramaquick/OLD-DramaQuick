@@ -14,7 +14,7 @@
       "#5ef9a4",
       "#49fca8",
       "#34ffad",
-    ]
+    ];
 
     export let data = [
       {
@@ -78,12 +78,24 @@
         return b - a;
     });
 
-    let colorIndex = 0;
+    let colorIndex = 1;
+    let countIndex = 1;
     let CountColor = {};
 
     amoutOfCountDifferently.forEach((item, index) => {
-        CountColor[item] = colors[Math.round(colorIndex/amoutOfCountDifferently.length*10)];
+        if (colorIndex === 1) {
+            CountColor[item] = colors[0];
+            colorIndex++;
+            countIndex++;
+        }
+        else if (countIndex === amoutOfCountDifferently.length) {
+            CountColor[item] = colors[colors.length-1];
+        }
+        else {
+        CountColor[item] = colors[Math.round(colorIndex/amoutOfCountDifferently.length*10)-1];
         colorIndex++;
+        countIndex++;
+        }
     });
 
     data.forEach((item, index) => {
@@ -96,9 +108,9 @@
     });
 </script>
 
-<div class="flex flex-row items-center justify-center">
+<div class="flex flex-row items-center justify-center h-[300px]">
 <PieChart {data} {options} />
-<div class="flex flex-col gap-6">
+<div class="flex flex-col gap-4">
 {#each data as item}
     <div class="flex flex-row items-center">
         <div class="w-4 h-4 rounded-full" style="background-color: {options.color.scale[item.group]}"></div>
