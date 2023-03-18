@@ -12,7 +12,19 @@
         {id: 3, name: 'Lent'}
     ];
 
-    let items_tags = [
+    let items_tags1 = [
+        {id: 1, name: 'Officiel'},
+        {id: 2, name: 'Nourriture'},
+        {id: 3, name: 'Halloween'}
+    ]
+
+    let items_tags2 = [
+        {id: 1, name: 'Officiel'},
+        {id: 2, name: 'Nourriture'},
+        {id: 3, name: 'Halloween'}
+    ]
+
+    let items_tags3 = [
         {id: 1, name: 'Officiel'},
         {id: 2, name: 'Nourriture'},
         {id: 3, name: 'Halloween'}
@@ -38,6 +50,21 @@
             options: {},
         },
     ];
+
+    //Si un tag est déjà sélectionné, on ne peut pas le sélectionner une deuxième fois, il est donc retiré des autres listes
+    if (session_parameters.Tag1 != 0) {
+        items_tags2 = items_tags2.filter(item => item.id != session_parameters.Tag1);
+        items_tags3 = items_tags3.filter(item => item.id != session_parameters.Tag1);
+    }
+    else if (session_parameters.Tag2 != 0) {
+        items_tags1 = items_tags1.filter(item => item.id != session_parameters.Tag2);
+        items_tags3 = items_tags3.filter(item => item.id != session_parameters.Tag2);
+    }
+    else if (session_parameters.Tag3 != 0) {
+        items_tags1 = items_tags1.filter(item => item.id != session_parameters.Tag3);
+        items_tags2 = items_tags2.filter(item => item.id != session_parameters.Tag3);
+    }
+
 </script>
 
 <!-- Permet de modifier l'head de la page -->
@@ -105,37 +132,37 @@
                 <p>TAGS</p>
             </div>
             <!-- L'utilisateur doit pouvoir choisir 3 tags maximum -->
-            <div class="flex flex-row gap-4">
-                <div class="flex flex-col items-center w-fit">
+            <div class="flex flex-row justify-between w-full">
+                <div class="flex flex-col items-center w-[8.75rem]">
                     <p class="">Tag 1</p>
-                    <div class="scale-75 ml-[-1.25rem]">
+                    <div class="scale-75">
                         <Select
                             bind:value={session_parameters.Tag1}
                             placeholder="Sélectionnez une valeur..."
-                            items={items_tags}
-                            width={true}
+                            items={items_tags1}
+                            width={"11.5rem"}
                         />
                     </div>
                 </div>
-                <div class="flex flex-col items-center w-fit">
+                <div class="flex flex-col items-center w-[8.75rem]">
                     <p class="">Tag 2</p>
-                    <div class="scale-75 ml-[-1.25rem]">
+                    <div class="scale-75">
                         <Select
                             bind:value={session_parameters.Tag2}
                             placeholder="Sélectionnez une valeur..."
-                            items={items_tags}
-                            width={true}
+                            items={items_tags2}
+                            width={"11.5rem"}
                         />
                     </div>
                 </div>
-                <div class="flex flex-col items-center w-fit">
+                <div class="flex flex-col items-center w-[8.75rem]">
                     <p class="">Tag 3</p>
-                    <div class="scale-75 ml-[-1.25rem]">
+                    <div class="scale-75">
                         <Select
                             bind:value={session_parameters.Tag3}
                             placeholder="Sélectionnez une valeur..."
-                            items={items_tags}
-                            width={true}
+                            items={items_tags3}
+                            width={"11.5rem"}
                         />
                     </div>
                 </div>
