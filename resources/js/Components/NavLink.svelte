@@ -1,15 +1,66 @@
 <script>
-    import { inertia } from "@inertiajs/inertia-svelte";
+    import { inertia, page } from "@inertiajs/inertia-svelte";
     let classes;
     export let href;
-    export let active;
+    export let style = "";
+    export let action = () => {};
+    export let type = "link";
+    export let inertiaction = {};
+    export let activate = false;
+
     $: {
-        classes = active
-            ? "inline-flex items-center px-1 pt-1 border-b-2 border-indigo-400 text-sm font-medium leading-5 text-gray-900 focus:outline-none focus:border-indigo-700 transition  duration-150 ease-in-out"
-            : "inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium leading-5 text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out";
+        classes = "nav-link inline-block py-2 px-4 font-normal text-[#666666] relative z-0 w-fit hover-underline-animation py-2 px-4 inline-block relative";
+        classes += $page.url === href ? ' active' : '';
+        classes += activate ? ' active' : '';
+        classes += type === "button" ? ' flex' : '';
+        console.log($page);
     }
 </script>
 
-<a use:inertia {href} class={classes}>
-    <slot />
-</a>
+{#if type === "link"}
+    <a use:inertia {href} class={classes} {...$$restProps} {style} on:click={action}>
+        <slot />
+    </a>
+{:else if type === "button"}
+    <button use:inertia={inertiaction} {href} class={classes} {...$$restProps} {style} on:click={action}>
+        <slot />
+    </button>
+{/if}
+
+<style>
+    .nav-link.active::before {
+        z-index: -1;
+        color: black;
+        width: 85%;
+        position: absolute;
+        bottom: 1rem;
+        left: 7.5%;
+        background-color: #34FFAD;
+        height: 0.75rem;
+        content: " ";
+    }
+
+    .hover-underline-animation::after {
+        content: '';
+        position: absolute;
+        width: -webkit-fill-available;
+        transform: scaleX(0);
+        height: 2px;
+        bottom: 12px;
+        left: 0;
+        background-color: #666666;
+        transform-origin: bottom right;
+        transition: transform 0.25s ease-out;
+        margin: 0 1rem;
+    }
+
+    .hover-underline-animation:hover::after {
+        transform: scaleX(1);
+        transform-origin: bottom left;
+        margin: 0 1rem;
+    }
+
+    .active.hover-underline-animation::after {
+        background-color: transparent;
+    }
+</style>

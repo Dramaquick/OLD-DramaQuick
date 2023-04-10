@@ -20,14 +20,16 @@ export default defineConfig({
         include: [
             '@inertiajs/inertia',
             '@inertiajs/inertia-svelte',
+            '@carbon/charts',
         ]
     },
     resolve: {
         alias: {
             '@': resolve(projectRootDir, 'resources/js'),
             '~': resolve(projectRootDir, 'resources'),
+            '@public': resolve(projectRootDir, 'public')
         },
-        extensions: ['.js', '.svelte', '.json'],
+        extensions: ['.js', '.svelte', '.json', '.svg'],
     },
     server: detectServerConfig(host),
 });
