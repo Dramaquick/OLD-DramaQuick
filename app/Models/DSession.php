@@ -17,6 +17,13 @@ class DSession extends Model
     protected $table = 'd_sessions';
 
     /**
+     * The primary key associated with the table.
+     *
+     * @var string
+     */
+    protected $primaryKey = 'Session_Id';
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
@@ -27,7 +34,7 @@ class DSession extends Model
         'Session_MinUser',
         'Session_MaxUser',
         'Session_Speed',
-        'Session_OwnerId'
+        'Owner_Id'
     ];
 
     /**
@@ -45,7 +52,7 @@ class DSession extends Model
      * Get the owner of this session.
      */
     public function owner() {
-        return $this->belongsTo(DUser::class, 'Session_Owner_Id');
+        return $this->belongsTo(DUser::class, 'Owner_Id');
     }
 
     /**

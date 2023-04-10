@@ -1,7 +1,7 @@
 <script>
     import NavLink from "@/Components/NavLink.svelte";
     import TextBox from "../Components/TextBox.svelte";
-    import { page } from "@inertiajs/inertia-svelte";
+    import { page } from "@inertiajs/svelte";
     import Notification from "../Components/Notification.svelte";
 
     let profile = $page.props.auth.user;

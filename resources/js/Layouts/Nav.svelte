@@ -1,7 +1,7 @@
 <script>
     import NavLink from "@/Components/NavLink.svelte";
     import UserButton from "@/Components/UserButton.svelte";
-    import { page } from '@inertiajs/inertia-svelte';
+    import { page } from '@inertiajs/svelte';
     import Notification from "@/Components/Notification.svelte";
 
     function notify(title, text, type, duration, format, position, input, placeholder, action, id) {

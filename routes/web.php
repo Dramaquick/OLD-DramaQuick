@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\LinkController;
+use App\Http\Controllers\SessionController;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -49,24 +50,26 @@ Route::get('/session-start', function () {
 });
 
 Route::get('/login', function () {
-    return true;
-});
+    return Inertia::render('Auth/Login');
+})->name('login');
 
 Route::get('/register', function () {
-    return true;
-});
-
-Route::get('/create-quiz', function () {
-    return true;
-});
+    return Inertia::render('Auth/Register');
+})->name('register');
 
 // Quiz
 
+// Access quiz
 Route::get('/quiz/{session}', [SessionController::class, 'show'])
 ->middleware(['auth', 'verified'])->where('session', '[0-9]+')->name('session.show');
 
+// Create quiz
 Route::post('/quiz', [SessionController::class, 'store'])
 ->middleware(['auth', 'verified'])->name('session.store');
+
+Route::get('/quiz/create', function () {
+    return Inertia::render('Session/Session-create');
+})->middleware(['auth', 'verified'])->name('session.create');
 
 Route::get('/session-text', function () {
     return Inertia::render('Session/Session-text');
@@ -99,10 +102,6 @@ Route::get('/session-slider', function () {
 Route::get('/session-finish', function () {
     return Inertia::render('Session/Session-finish');
 });
-
-Route::get('/session-create', function () {
-    return Inertia::render('Session/Session-create');
-})->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::get('/session-answer-text', function () {
     return Inertia::render('Session/Session-answer-text');

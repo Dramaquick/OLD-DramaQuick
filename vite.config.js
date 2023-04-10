@@ -19,7 +19,7 @@ export default defineConfig({
     optimizeDeps: {
         include: [
             '@inertiajs/inertia',
-            '@inertiajs/inertia-svelte',
+            '@inertiajs/svelte',
             '@carbon/charts',
         ]
     },

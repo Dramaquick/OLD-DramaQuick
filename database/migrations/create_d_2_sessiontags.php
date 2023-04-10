@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('Tag_Name');
             $table->string('Tag_Emoji');
             $table->string('Tag_Color');
+            $table->timestamps();
         });
     }
 

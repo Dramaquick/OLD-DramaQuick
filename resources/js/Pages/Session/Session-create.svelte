@@ -5,6 +5,7 @@
     import Select from "../../Components/SelectList.svelte";
     import Button from "../../Components/Button.svelte";
     import QuestionCreator from "../../Components/QuestionCreator.svelte";
+    import { router } from  "@inertiajs/svelte";
 
     let items_speed = [
         {id: 1, name: 'Rapide'},
@@ -12,34 +13,28 @@
         {id: 3, name: 'Lent'}
     ];
 
-    let items_tags1 = [
-        {id: 1, name: 'Officiel'},
-        {id: 2, name: 'Nourriture'},
-        {id: 3, name: 'Halloween'}
-    ]
-
-    let items_tags2 = [
-        {id: 1, name: 'Officiel'},
-        {id: 2, name: 'Nourriture'},
-        {id: 3, name: 'Halloween'}
-    ]
-
-    let items_tags3 = [
+    let items_tags = [
         {id: 1, name: 'Officiel'},
         {id: 2, name: 'Nourriture'},
         {id: 3, name: 'Halloween'}
     ]
 
     let session_parameters = {
-        Title: null,
-        Description: null,
-        Min_players: 1,
-        Max_players: 10,
-        Speed: 0,
-        Tag1: 0,
-        Tag2: 0,
-        Tag3: 0,
+        Session_Title: null,
+        Session_Description: null,
+        Session_MinUser: 1,
+        Session_MaxUser: 10,
+        Session_Speed: 0,
+        //Session_Tags: [0, 0, 0],
     };
+
+    function create_session() {
+        router.post('/quiz', session_parameters);
+    }
+
+    let Tag1 = 0;
+    let Tag2 = 0;
+    let Tag3 = 0;
 
     let questions = [
         {
@@ -50,20 +45,6 @@
             options: {},
         },
     ];
-
-    //Si un tag est déjà sélectionné, on ne peut pas le sélectionner une deuxième fois, il est donc retiré des autres listes
-    if (session_parameters.Tag1 != 0) {
-        items_tags2 = items_tags2.filter(item => item.id != session_parameters.Tag1);
-        items_tags3 = items_tags3.filter(item => item.id != session_parameters.Tag1);
-    }
-    else if (session_parameters.Tag2 != 0) {
-        items_tags1 = items_tags1.filter(item => item.id != session_parameters.Tag2);
-        items_tags3 = items_tags3.filter(item => item.id != session_parameters.Tag2);
-    }
-    else if (session_parameters.Tag3 != 0) {
-        items_tags1 = items_tags1.filter(item => item.id != session_parameters.Tag3);
-        items_tags2 = items_tags2.filter(item => item.id != session_parameters.Tag3);
-    }
 
 </script>
 
@@ -85,11 +66,11 @@
             </div>
             <p class="pb-2">Titre du quiz</p>
             <div class="pb-3 5">
-                <TextBox bind:value={session_parameters.Title} placeholder="Quiz super cool, 3ème B..." showIcon={false}/>
+                <TextBox bind:value={session_parameters.Session_Title} placeholder="Quiz super cool, 3ème B..." showIcon={false}/>
             </div>
             <p class="pb-2">Description du quiz</p>
             <div class="pb-3.5 h-25%">
-                <TextArea bind:value={session_parameters.Description} placeholder="Un quiz trop génial réalisé par moi parce que les quiz c’est cool..."/>
+                <TextArea bind:value={session_parameters.Session_Description} placeholder="Un quiz trop génial réalisé par moi parce que les quiz c’est cool..."/>
             </div>
             <div class="flex flex-col">
                 <div class="flex flex-row gap-8">
@@ -107,19 +88,19 @@
                         <div class="flex flex-col items-center">
                             <p class="">Minimum</p>
                             <div class="scale-75">
-                            <Counter bind:value={session_parameters.Min_players} min={1} max={session_parameters.Max_players}/>
+                            <Counter bind:value={session_parameters.Session_MinUser} min={1} max={session_parameters.Session_MaxUser}/>
                             </div>
                         </div>
                         <div class="flex flex-col ml-2.5 items-center w-25%">
                             <p class="">Maximum</p>
                             <div class="scale-75">
-                                <Counter bind:value={session_parameters.Max_players} min={session_parameters.Min_players} max={100}/>
+                                <Counter bind:value={session_parameters.Session_MaxUser} min={session_parameters.Session_MinUser} max={100}/>
                             </div>
                         </div>
                     </div>
                     <div class="pb-[0.5rem]">
                         <Select
-                            bind:value={session_parameters.Speed}
+                            bind:value={session_parameters.Session_Speed}
                             placeholder="Sélectionnez une valeur..."
                             items={items_speed}
                             width={true}
@@ -137,9 +118,9 @@
                     <p class="">Tag 1</p>
                     <div class="scale-75">
                         <Select
-                            bind:value={session_parameters.Tag1}
+                            bind:value={Tag1}
                             placeholder="Sélectionnez une valeur..."
-                            items={items_tags1}
+                            items={items_tags}
                             width={"11.5rem"}
                         />
                     </div>
@@ -148,9 +129,9 @@
                     <p class="">Tag 2</p>
                     <div class="scale-75">
                         <Select
-                            bind:value={session_parameters.Tag2}
+                            bind:value={Tag2}
                             placeholder="Sélectionnez une valeur..."
-                            items={items_tags2}
+                            items={items_tags}
                             width={"11.5rem"}
                         />
                     </div>
@@ -159,16 +140,16 @@
                     <p class="">Tag 3</p>
                     <div class="scale-75">
                         <Select
-                            bind:value={session_parameters.Tag3}
+                            bind:value={Tag3}
                             placeholder="Sélectionnez une valeur..."
-                            items={items_tags3}
+                            items={items_tags}
                             width={"11.5rem"}
                         />
                     </div>
                 </div>
             </div>
             <div class="flex items-center justify-end pt-2">
-                <Button>Créer la session</Button>
+                <Button action={create_session}>Créer la session</Button>
             </div>
         </div>
     </div>

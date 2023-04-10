@@ -3,7 +3,7 @@
     import BreezeCheckbox from "@/Components/Checkbox.svelte";
     import BreezeInput from "@/Components/TextBox.svelte";
     import BreezeValidationErrors from "@/Components/ValidationErrors.svelte";
-    import { inertia, useForm } from "@inertiajs/inertia-svelte";
+    import { inertia, useForm } from "@inertiajs/svelte";
     import Link from "@/Components/Link.svelte";
     export let errors = {};
 
