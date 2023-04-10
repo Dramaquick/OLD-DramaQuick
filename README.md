@@ -175,6 +175,7 @@ Pour garder un maximum d'organisation, vous êtes priés de respecter une certai
 - 🚨 Commits compréhensibles, vrais noms de commit
 - ❗❗ **Aucun push** sur la branche principale. Pour une nouvelle fonctionnalité, créez une nouvelle branche et nommez la de la façon suivante : `features/authentication` ou `features/dessin_quiz`, par exemple. Si la fonctionnalité existe déjà, libre à vous de push sur cette branche-ci. Une fois les features finies, un **dev senior** s'occupera de merge sur la branche principale.
 - 🛠️ Vrais noms de migrations compréhensibles
+- ✨ Utiliser https://gitmoji.dev/ pour les emojis des commits
 
 <br/>
 
