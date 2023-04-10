@@ -44,9 +44,9 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    protected $attributes = {
+    protected $attributes = [
         'user_role' => 'USER'
-    }
+    ];
 
     /**
      * The links that belong to the user.
@@ -60,7 +60,7 @@ class User extends Authenticatable
 
     public static function boot() {
         parent::boot();
-  
+
         static::deleting(function($link) {
           $link->links()->delete();
         });

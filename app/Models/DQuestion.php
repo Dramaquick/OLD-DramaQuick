@@ -28,27 +28,27 @@ class DQuestion extends Model
      *
      * @var array<int, string>
      */
-    const $fillable = [
+    protected $fillable = [
         'Question_Name',
         'Question_Description',
         'Question_Type',
         'Question_Duration'
-    ]
+    ];
 
-    const $casts = [
+    protected $casts = [
         'Question_Duration' => 'integer'
-    ]
+    ];
 
     /**
      * Get the answers that belong to this question.
      */
-    public function answers() { 
+    public function answers() {
         return $this->hasMany(DAnswer::class, 'Session_Id_Question_Id');
     }
 
     public static function boot() {
         parent::boot();
-  
+
         static::deleting(function($answer) {
           $answer->answers()->delete();
         });
