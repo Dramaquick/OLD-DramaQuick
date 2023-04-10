@@ -67,10 +67,28 @@ class ChangeEmailController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        User::where('id', $id)->update(['email' => $request->email]);
-        echo "Email changed successfully!";
+        $validation = validator($request->all(), [
+            'email' => 'required|email|unique:d_users,email',
+        ]);
+        
+        if($validation->fails()) {
+            $failed = $validation->failed();
+
+            if(isset($failed['email']['Required'])) session()->flash('status', 1104);
+            else if(isset($failed['email']['Unique'])) session()->flash('status', 1103);
+            else if(isset($failed['email']['Email'])) session()->flash('status', 1105);
+        
+        } else {
+            User::where('id', auth()->id())->update(['email' => $request->email]);
+
+            session()->flash('status', 1002);
+        }
+
+        return redirect()->back();
+
+        
     }
 
     /**

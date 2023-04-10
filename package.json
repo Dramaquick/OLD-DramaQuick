@@ -21,9 +21,10 @@
     },
     "dependencies": {
         "@inertiajs/inertia": "^0.11.1",
-        "@inertiajs/svelte": "^0.8.0",
-        "@inertiajs/svelte": "^1.0.2",
         "@inertiajs/progress": "^0.2.7",
-        "@sveltejs/vite-plugin-svelte": "^1.2.0"
+        "@inertiajs/svelte": "^1.0.2",
+        "@sveltejs/vite-plugin-svelte": "^1.2.0",
+        "laravel-echo": "^1.15.0",
+        "socket.io-client": "^4.6.1"
     }
 }

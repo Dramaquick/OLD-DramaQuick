@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Support\Facades\Validator;
+use Inertia\Inertia;
 
 class ChangeUsernameController extends Controller
 {
@@ -67,10 +69,26 @@ class ChangeUsernameController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        User::where('id', $id)->update(['name' => $request->username]);
-        echo "Username changed successfully!";
+
+        $validation = Validator::make($request->all(), [
+            'username' => 'required|string|max:20',
+        ]);
+        
+        if($validation->fails()) {
+            $failed = $validation->failed();
+
+            if(isset($failed['username']['Required'])) session()->flash('status', 1101);
+            else if(isset($failed['username']['Max'])) session()->flash('status', 1102);
+        
+        } else {
+            User::where('id', auth()->id())->update(['name' => $request->username]);
+
+            session()->flash('status', 1001);
+        }
+
+        return redirect()->back();
     }
 
     /**

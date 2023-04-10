@@ -29,7 +29,7 @@
     };
 
     function create_session() {
-        router.post('/quiz', session_parameters);
+        router.post('/quiz/store', session_parameters);
     }
 
     let Tag1 = 0;

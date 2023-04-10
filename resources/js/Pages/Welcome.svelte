@@ -4,6 +4,11 @@
     import Nav from '@/Layouts/Nav.svelte';
     import Notification from "@/Components/Notification.svelte";
 
+    window.Echo.channel('test-channel')
+                .listen('TestEvent', (e) => {
+                    alert(e);
+                });
+
     function notify(title, text, type, duration, format, position, input, placeholder, action, id) {
         if (id != undefined) {
             if (document.getElementById(id) != null) {
@@ -52,7 +57,7 @@
                 <Button class="" action={() => {notify("Rejoindre une session","","normal",0,"box","middle",true,"Entrer le code de session",() => {window.location.href ="/session-start"},"session")}}>Rejoindre une session</Button>
                 <Button
                     class="outline"
-                    action={() => {window.location.href ="/session-create"}}
+                    action={() => {window.location.href ="/quiz/create"}}
                 >Créer une session</Button
                 >
             </div>

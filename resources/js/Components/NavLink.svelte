@@ -13,7 +13,6 @@
         classes += $page.url === href ? ' active' : '';
         classes += activate ? ' active' : '';
         classes += type === "button" ? ' flex' : '';
-        console.log($page);
     }
 </script>
 

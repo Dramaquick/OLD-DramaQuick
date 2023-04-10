@@ -4,6 +4,7 @@
     import Member from "../../Components/Member.svelte";
     import Button from "../../Components/Button.svelte";
     import Notification from "../../Components/Notification.svelte";
+    import { page } from '@inertiajs/svelte';
 
     let tags = {
         tag1 : {
@@ -31,74 +32,59 @@
 
     let users = {
         user1: {
-            pseudo: "Ewen.G",
+            id: 6,
+            pseudo: "Hugo.M",
             role: "creator",
-            hasCustomIcon: false,
         },
         user2: {
+            id: 2,
             pseudo: "Pierre-Louis.L",
             role: "admin",
-            hasCustomIcon: false,
         },
         user3: {
+            id: 3,
             pseudo: "Dorian.P",
             role: "admin",
-            hasCustomIcon: false,
         },
         user4: {
-            pseudo: "Hugo.M",
+            id: 1,
+            pseudo: "Ewen.G",
             role: "admin",
-            hasCustomIcon: true,
         },
         user5: {
+            id: 5,
             pseudo: "Nathan.R",
             role: "admin",
-            hasCustomIcon: false,
         },
         user6: {
+            id: 4,
             pseudo: "Arthur.P",
             role: "admin",
-            hasCustomIcon: false,
         },
         user7: {
+            id: 7,
             pseudo: "Emilio.M",
             role: "admin",
-            hasCustomIcon: false,
         },
         user8: {
+            id: 8,
             pseudo: "Forfait.F",
             role: "member",
-            hasCustomIcon: false,
-        },
-        user9: {
-            pseudo: "Jean-Bandonne.B",
-            role: "member",
-            hasCustomIcon: false,
-        },
-        user10: {
-            pseudo: "Jean-Bandonne.B",
-            role: "member",
-            hasCustomIcon: false,
-        },
-        user11: {
-            pseudo: "Jean-Bandonne.B",
-            role: "member",
-            hasCustomIcon: false,
-        },
+        }
     }
 
     let text = {
-        title : "Quiz ultime de la mort qui fait pas trop vivre !",
-        description : "Voici une petit quiz plutôt pipou pour relancer un peu la mode parce qu’en vrai c’était vachement cool ✨",
-        session : "#35878454",
-        createur : "Ewen.G",
+        title : $page.props.session.Session_Title,
+        description : $page.props.session.Session_Description,
+        session : '#' + $page.props.session.Session_Id,
+        createur : $page.props.owner.name,
         size : "9/10",
     }
 
     let user = {
         pseudo: "Ewen.G",
         role: "creator",
-        hasCustomIcon: false,
+        icon: false,
     }
 
     // fonction qui fait apparaitre une notification
@@ -144,7 +130,7 @@
         <p class="size font-semibold text-[1.5rem] text-black text-right">{text.size}</p>
         <div class="text">
             <h1 class="w-144 font-semibold text-[2.25rem]">{text.title}</h1>
-            <h2 class="bordered mt-11.25 pl-6 w-144 font-normal text-[1.5rem] h-fit">{text.description}</h2>
+            <h2 class="bordered mt-11.25 pl-6 w-144 font-normal text-[1.5rem] h-fit whitespace-normal break-words">{text.description}</h2>
         </div>
         {#if Object.keys(users).length > 0}
         <div class="members1 flex flex-col gap-3">
@@ -175,7 +161,7 @@
             <Timer
                 bind:minutes={timer.minutes}
                 bind:seconds={timer.seconds}
-                action={[{time: [0, 30], action: () => {notify("Début de la session","La session va commencer dans 30 secondes", "info", 5000, "bar", "bottom")}}, {time: [0, 15], action: () => {notify("Début de la session","La session va commencer dans 15 secondes", "info", 0, "bar", "bottom")}}, {time: [0, 0], action: () => {window.location.href = "/session-paint"}}]}
+                action={[{time: [0, 30], action: () => {notify("Début de la session","La session va commencer dans 30 secondes", "info", 5000, "bar", "bottom")}}, {time: [0, 15], action: () => {notify("Début de la session","La session va commencer dans 15 secondes", "info", 0, "bar", "bottom")}}, {time: [-1000, 0], action: () => {window.location.href = "/session-paint"}}]}
             />
             <div class="tags flex flex-row items-center gap-4">
                 {#each Object.keys(tags) as tag}

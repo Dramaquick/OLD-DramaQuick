@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\DSession;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -45,8 +46,11 @@ class SessionController extends Controller
 
         //$session->load('tags');
 
+        $owner = User::find($session->Owner_Id, [ 'name' ]);
+
         return Inertia::render('Session/Session-start', [
             'session' => $session,
+            'owner' => $owner
         ]);
 
     }

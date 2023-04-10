@@ -4,7 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ChangeUsernameController;
 use App\Http\Controllers\ChangeEmailController;
-use App\Http\Controllers\ChangeAvatarController;
+use App\Http\Controllers\AvatarController;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,7 +33,7 @@ Route::resource('/user/change-email', ChangeEmailController::class)
         return Redirect::route('/user/change-email.index');
     });;
 
-Route::resource('/user/change-avatar', ChangeAvatarController::class)
+Route::resource('/user/change-avatar', AvatarController::class)
     ->middleware('auth')
     ->missing(function (Request $request) {
         return Redirect::route('/user/change-avatar.index');
