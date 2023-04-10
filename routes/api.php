@@ -6,11 +6,6 @@ use App\Http\Controllers\ChangeUsernameController;
 use App\Http\Controllers\ChangeEmailController;
 use App\Http\Controllers\ChangeAvatarController;
 
-'links' => [
-    public_path('storage') => storage_path('app/public'),
-    public_path('avatars') => storage_path('app/avatars'),
-]
-
 /*
 |--------------------------------------------------------------------------
 | API Routes
