@@ -32,7 +32,8 @@ class DQuestion extends Model
         'Question_Name',
         'Question_Description',
         'Question_Type',
-        'Question_Duration'
+        'Question_Duration',
+        'Question_Parameters'
     ];
 
     protected $casts = [

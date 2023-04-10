@@ -68,3 +68,6 @@ Route::get('/quiz/{session}', function ($session) {
 Route::get('/links', [LinkController::class, 'index'])->middleware(['auth', 'verified'])->name('links.index');
 Route::post('/links', [LinkController::class, 'store'])->name('links.store');
 Route::delete('/links/{link}', [LinkController::class, 'destroy'])->name('links.destroy');
+
+// Session
+Route::get('/session/{session}', [SessionController::class, 'show'])->middleware('isconnected')->where('session', '[0-9]+')->name('session.show');

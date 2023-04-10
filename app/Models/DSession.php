@@ -26,7 +26,8 @@ class DSession extends Model
         'Session_Description',
         'Session_MinUser',
         'Session_MaxUser',
-        'Session_Speed'
+        'Session_Speed',
+        'Session_OwnerId'
     ];
 
     /**
@@ -43,27 +44,27 @@ class DSession extends Model
     /**
      * Get the owner of this session.
      */
-    public function owner() { 
+    public function owner() {
         return $this->belongsTo(DUser::class, 'Session_Owner_Id');
     }
 
     /**
      * Get the questions that belong to this session.
      */
-    public function questions() { 
+    public function questions() {
         return $this->hasMany(DQuestion::class, 'Session_Id');
     }
 
     /**
      * Get the tags that belong to this session.
      */
-    public function tags() { 
+    public function tags() {
         return $this->belongsToMany(DSessionTag::class, 'd_session_tags_links', 'Session_Id', 'Tag_Id');
     }
 
     public static function boot() {
         parent::boot();
-  
+
         static::deleting(function($question) {
           $question->questions()->delete();
         });
