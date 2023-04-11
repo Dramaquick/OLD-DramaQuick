@@ -79,7 +79,7 @@ class AvatarController extends Controller
         if(File::exists(public_path('avatars/' . $user->id . '.webp')))
             return response()->file(public_path('avatars/' . $user->id . '.webp'));
         else
-            return response()->file(public_path('avatars/default.webp'));
+            return response()->file(public_path('avatars/default.svg'));
 
     }
 

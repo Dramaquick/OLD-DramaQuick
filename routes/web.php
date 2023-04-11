@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\LinkController;
 use App\Http\Controllers\SessionController;
-use App\Http\Controllers\ChangeUsernameController;
+use App\Http\Controllers\UsernameController;
 use App\Http\Controllers\ChangeEmailController;
 use App\Http\Controllers\AvatarController;
 use Illuminate\Foundation\Application;
@@ -75,7 +75,7 @@ Route::get('/quiz/create', function () {
 // ----------------- User -----------------
 
 // Change username
-Route::put('/user/username', [ChangeUsernameController::class, 'update'])
+Route::put('/user/username', [UsernameController::class, 'update'])
 ->middleware(['auth', 'verified'])->name('user.username.update');
 
 // Change email
@@ -89,6 +89,10 @@ Route::post('/user/avatar', [AvatarController::class, 'store'])
 // Get avatar
 Route::get('/user/avatar/{user}', [AvatarController::class, 'show'])
 ->name('user.avatar.show');
+
+// Get username
+Route::get('/user/username/{user}', [UsernameController::class, 'show'])
+->name('user.username.show');
 
 // Profile
 Route::get('/profile', function () {

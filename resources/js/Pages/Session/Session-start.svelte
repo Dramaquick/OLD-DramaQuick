@@ -4,7 +4,7 @@
     import Member from "../../Components/Member.svelte";
     import Button from "../../Components/Button.svelte";
     import Notification from "../../Components/Notification.svelte";
-    import { page } from '@inertiajs/svelte';
+    import { page,router } from '@inertiajs/svelte';
 
     let tags = {
         tag1 : {
@@ -32,44 +32,28 @@
 
     let users = {
         user1: {
-            id: 6,
-            pseudo: "Hugo.M",
-            role: "creator",
+            id: $page.props.session.Owner_Id,
         },
         user2: {
             id: 2,
-            pseudo: "Pierre-Louis.L",
-            role: "admin",
         },
         user3: {
             id: 3,
-            pseudo: "Dorian.P",
-            role: "admin",
         },
         user4: {
             id: 1,
-            pseudo: "Ewen.G",
-            role: "admin",
         },
         user5: {
             id: 5,
-            pseudo: "Nathan.R",
-            role: "admin",
         },
         user6: {
             id: 4,
-            pseudo: "Arthur.P",
-            role: "admin",
         },
         user7: {
             id: 7,
-            pseudo: "Emilio.M",
-            role: "admin",
         },
         user8: {
             id: 8,
-            pseudo: "Forfait.F",
-            role: "member",
         }
     }
 
@@ -78,7 +62,7 @@
         description : $page.props.session.Session_Description,
         session : '#' + $page.props.session.Session_Id,
         createur : $page.props.owner.name,
-        size : "9/10",
+        size : Object.keys(users).length + "/" + $page.props.session.Session_MaxUser,
     }
 
     let user = {
@@ -161,7 +145,7 @@
             <Timer
                 bind:minutes={timer.minutes}
                 bind:seconds={timer.seconds}
-                action={[{time: [0, 30], action: () => {notify("Début de la session","La session va commencer dans 30 secondes", "info", 5000, "bar", "bottom")}}, {time: [0, 15], action: () => {notify("Début de la session","La session va commencer dans 15 secondes", "info", 0, "bar", "bottom")}}, {time: [-1000, 0], action: () => {window.location.href = "/session-paint"}}]}
+                action={[{time: [0, 30], action: () => {notify("Début de la session","La session va commencer dans 30 secondes", "info", 5000, "bar", "bottom")}}, {time: [0, 15], action: () => {notify("Début de la session","La session va commencer dans 15 secondes", "info", 0, "bar", "bottom")}}, {time: [-10, 0], action: () => {window.location.href = "/session-paint"}}]}
             />
             <div class="tags flex flex-row items-center gap-4">
                 {#each Object.keys(tags) as tag}

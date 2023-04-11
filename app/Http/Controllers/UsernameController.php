@@ -7,7 +7,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Validator;
 use Inertia\Inertia;
 
-class ChangeUsernameController extends Controller
+class UsernameController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -48,7 +48,8 @@ class ChangeUsernameController extends Controller
      */
     public function show($id)
     {
-        //
+        $username = User::where('id', $id)->value('name');
+        return response()->json(['username' => $username]);
     }
 
     /**
