@@ -68,9 +68,20 @@ Route::get('/quiz/{session}', [SessionController::class, 'show'])
 Route::post('/quiz/store', [SessionController::class, 'store'])
 ->middleware(['auth', 'verified'])->name('session.store');
 
+// Create quiz page
 Route::get('/quiz/create', function () {
     return Inertia::render('Session/Session-create');
 })->middleware(['auth', 'verified'])->name('session.create');
+
+// ----------------- Question -----------------
+
+// Create question
+Route::post('/question/store', [QuestionController::class, 'store'])
+->middleware(['auth', 'verified'])->name('question.store');
+
+// Access question
+Route::get('/question/{question}', [QuestionController::class, 'show'])
+->middleware(['auth', 'verified'])->where('question', '[0-9]+')->name('question.show');
 
 // ----------------- User -----------------
 

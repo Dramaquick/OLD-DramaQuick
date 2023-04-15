@@ -17,7 +17,19 @@
         member: "#8598AE"
     }
 
-    let pseudo = fetch("/user/username/" + user.id)
+    let def = null;
+
+    fetch("/user/avatar/" + user.id + "?" + Date.now()).then(response => {
+        let contentType = response.headers.get("content-type");
+        console.log(contentType)
+        if (contentType != "image/svg+xml") {
+            def = true;
+        }
+    });
+
+    let pseudo = "User";
+
+    fetch("/user/username/" + user.id)
         .then(response => response.json())
         .then(data => {
             pseudo = data.username;
@@ -31,18 +43,6 @@
     } else {
         role = "member";
     }
-    let def = null;
-    async function loadimage() {
-        let src = fetch("/user/avatar/" + user.id + "?" + Date.now()).then(response => {
-            let contentType = response.headers.get("content-type");
-            console.log(contentType)
-            if (contentType != "image/svg+xml") {
-                def = true;
-            }
-        });
-    }
-
-    loadimage();
 </script>
 
 <div class="flex items-center justify-start gap-4">
@@ -56,7 +56,7 @@
                 </svg>
             </div>
         {/if}
-        {#if def === true}
+        {#if def}
             <img class={`image ${role} custom-image`}
             src={"/user/avatar/" + user.id + "?" + Date.now()}
             alt="user_image"/>

@@ -9,6 +9,7 @@
                     alert(e);
                 });
 
+    // function for notifications
     function notify(title, text, type, duration, format, position, input, placeholder, action, id) {
         if (id != undefined) {
             if (document.getElementById(id) != null) {
