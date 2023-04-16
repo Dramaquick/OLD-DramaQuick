@@ -1,20 +1,24 @@
-<script>
+<script lang="ts">
     import Button from "../../Components/Button.svelte";
     import AffichageTexte from "../../Components/AffichageTexte.svelte";
     import Notification from "../../Components/Notification.svelte";
 
+    // Mise en place des données de la session pour le texte
     let text = {
         session: "#35878454",
         page: "4/10",
         title: "Pourquoi le Japon ?",
     };
 
+    // Mise en place de la liste des réponses
     let answers = ["C'est génial", "salut c'est Arthur"];
 
+    // Mise en place du role de l'utilisateur
     let user = {
         role: "owner",
     };
 
+    // Fonction qui permet de notifier l'utilisateur
     function notify(title, text, type, duration, format, position, input, placeholder, action, id) {
         if (id != undefined) {
             if (document.getElementById(id) != null) {

@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
     export let checked = false;
     export let value = null;
 </script>

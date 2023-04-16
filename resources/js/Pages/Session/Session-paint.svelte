@@ -1,15 +1,16 @@
-<script>
+<script lang="ts">
     import Timer from "../../Components/Timer.svelte";
     import Paint from "../../Components/Paint.svelte";
     import Button from "../../Components/Button.svelte";
     import Notification from "../../Components/Notification.svelte";
 
-    // Décompteur en temps réel pour Timer
+    // Mise en place du temps pour le timer
     let timer = {
         minutes: 1,
         seconds: 10,
     };
 
+    // Mise en place des données de la session pour le texte
     let text = {
         session: "#35878454",
         page: "4/10",
@@ -17,10 +18,12 @@
         description: "Bah oui c'est vrai mdr"
     }
 
+    // Mise en place du formulaire pour l'image créée avec le paint
     let form = {
         canvasImage: "",
     }
 
+    // Fonction qui permet de notifier l'utilisateur
     function notify(title, text, type, duration, format, position, input, placeholder, action, id) {
         if (id != undefined) {
             if (document.getElementById(id) != null) {
@@ -71,7 +74,6 @@
             <Timer
                 bind:minutes={timer.minutes}
                 bind:seconds={timer.seconds}
-                action={() => window.location.href = "/"}
             />
         </div>
         <div class="button flex justify-end items-end">

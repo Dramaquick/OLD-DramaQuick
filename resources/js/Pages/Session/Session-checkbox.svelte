@@ -1,16 +1,16 @@
-<script>
-    import { onMount } from "svelte";
+<script lang="ts">
     import Timer from "../../Components/Timer.svelte";
     import CheckBox from "../../Components/Checkbox.svelte";
     import Button from "../../Components/Button.svelte";
     import Notification from "../../Components/Notification.svelte";
 
-    // Décompteur en temps réel pour Timer
+    // Mise en place du temps pour le timer
     let timer = {
         minutes: 1,
         seconds: 10,
     };
 
+    // Mise en place des données pour les checkbox
     let items = [
         {id: 1, name: 'Choix 1'},
         {id: 2, name: 'Choix 2'},
@@ -24,6 +24,7 @@
         {id: 10, name: 'Choix 10'}
     ];
 
+    // Mise en place des données de la session pour le texte
     let text = {
         session: "#35878454",
         page: "4/10",
@@ -32,19 +33,21 @@
         placeholder: "Blablabla"
     }
 
+    // Mise en place du formulaire pour les checkbox
     let form = {
-        checked1: 0,
-        checked2: 0,
-        checked3: 0,
-        checked4: 0,
-        checked5: 0,
-        checked6: 0,
-        checked7: 0,
-        checked8: 0,
-        checked9: 0,
-        checked10: 0,
+        checked1: false,
+        checked2: false,
+        checked3: false,
+        checked4: false,
+        checked5: false,
+        checked6: false,
+        checked7: false,
+        checked8: false,
+        checked9: false,
+        checked10: false,
     }
 
+    // Fonction qui permet de notifier l'utilisateur
     function notify(title, text, type, duration, format, position, input, placeholder, action, id) {
         if (id != undefined) {
             if (document.getElementById(id) != null) {

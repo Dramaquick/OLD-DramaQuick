@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
     import clickOutside from './util/clickOutside.js';
 
     /*
@@ -24,7 +24,7 @@
     // Valeur sélectionnée par défaut
     export let value = -1;
 
-    export let width = false;
+    export let width : number | boolean = true;
     /*
     📍 Variables du composant
      */
@@ -51,7 +51,7 @@
 </script>
 
 {#if width}
-    <div class={`select-list ${isOpen ? "open" : ""}`} use:clickOutside on:outclick={() => isOpen = false} style="width: {width}">
+    <div class={`select-list ${isOpen ? "open" : ""}`} use:clickOutside on:outclick={() => { isOpen = false; }} style="width: {width}">
         <div class="selected-item" on:click={() => isOpen = !isOpen }>
             {#if value}
                 <div class="selected-item__text">{items.find(item => item.id === value).name}</div>

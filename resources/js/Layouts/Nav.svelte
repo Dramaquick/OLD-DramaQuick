@@ -34,11 +34,11 @@
 <main class="h-screen w-full overflow-hidden bg-cover bg-no-repeat">
     <nav class="flex justify-between fixed w-full py-12 px-56">
         <h1 class="font-semibold text-[2rem] text-black">DramaQuick</h1>
-        <div class="content flex flex-row gap-2">
+        <div class="content flex flex-row items-center gap-2">
             <NavLink href="/">Accueil</NavLink>
             <NavLink href="" action={() => {notify("Rejoindre une session","","normal",0,"box","middle",true,"Entrer le code de session",() => {window.location.href ="/session-start"},"session")}}>Rejoindre une session</NavLink>
             {#if $page.props.auth.user}
-            <div class="pl-8">
+            <div class="pl-2">
                 <UserButton user={$page.props.auth.user} />
             </div>
             {:else}

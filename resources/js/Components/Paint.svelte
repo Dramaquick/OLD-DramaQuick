@@ -155,7 +155,6 @@
     //Fonction qui enregistre le canvas après chaque action
     const handleHistory = () => {
         undo.push(context.getImageData(0, 0, width, height));
-        console.log("save");
     };
 
     // Fonction qui permet de revenir en arrière

@@ -7,3 +7,8 @@ body {
     min-height: 100vh;
     font-family: 'Poppins', sans-serif;
 }
+
+::selection {
+    background-color: #2ef6a6;
+    color: #fff;
+}

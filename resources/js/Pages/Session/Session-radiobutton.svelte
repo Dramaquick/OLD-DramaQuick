@@ -1,15 +1,16 @@
-<script>
+<script lang="ts">
     import Timer from "../../Components/Timer.svelte";
     import RadioButton from "../../Components/RadioButton.svelte";
     import Button from "../../Components/Button.svelte";
     import Notification from "../../Components/Notification.svelte";
 
-    // Décompteur en temps réel pour Timer
+    // Mise en place du temps pour le timer
     let timer = {
         minutes: 1,
         seconds: 10,
     };
 
+    // Mise en place des données pour les boutons radio
     let items = [
         {id: 1, name: 'Choix 1'},
         {id: 2, name: 'Choix 2'},
@@ -23,6 +24,7 @@
         {id: 10, name: 'Choix 10'}
     ];
 
+    // Mise en place des données de la session pour le texte
     let text = {
         session: "#35878454",
         page: "4/10",
@@ -31,10 +33,12 @@
         placeholder: "Blablabla"
     }
 
+    // Mise en place du formulaire pour les boutons radio
     let form = {
         selected: 0,
     }
 
+    // Fonction qui permet de notifier l'utilisateur
     function notify(title, text, type, duration, format, position, input, placeholder, action, id) {
         if (id != undefined) {
             if (document.getElementById(id) != null) {

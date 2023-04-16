@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\DQuestion;
+use App\Models\User;
 
-class QuestionController extends Controller
+class RoleController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -35,16 +35,7 @@ class QuestionController extends Controller
      */
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'Question_Name' => 'required|max:255',
-            'Question_Description' => 'required|max:255',
-            'Question_Type' => 'required|in:1,2,3,4,5,6',
-            'Session_Id' => 'required',
-        ]);
-
-        $question = DQuestion::create($validated);
-
-        return to_route('session.show', [$question]);
+        //
     }
 
     /**
@@ -55,7 +46,8 @@ class QuestionController extends Controller
      */
     public function show($id)
     {
-        //
+        $role = User::where('id', $id)->value('email');
+        return response()->json(['email' => $role]);
     }
 
     /**

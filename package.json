@@ -8,7 +8,9 @@
     "devDependencies": {
         "@carbon/charts-svelte": "^1.6.14",
         "@tailwindcss/forms": "^0.5.3",
+        "@tsconfig/svelte": "^4.0.1",
         "alpinejs": "^3.4.2",
+        "animate.css": "^4.1.1",
         "autoprefixer": "^10.4.2",
         "axios": "^0.25",
         "d3": "^7.8.4",
@@ -19,6 +21,7 @@
         "svelte": "^3.48.0",
         "svelte-loader": "^3.1.2",
         "tailwindcss": "^3.2.4",
+        "typescript": "^5.0.4",
         "vite": "^3.1.0"
     },
     "dependencies": {
@@ -29,8 +32,10 @@
         "@rollup/plugin-json": "^6.0.0",
         "@sveltejs/vite-plugin-svelte": "^1.2.0",
         "laravel-echo": "^1.15.0",
-        "socket.io-client": "^4.6.1",
+        "socket.io-client": "^2.4.0",
         "svelte-inline-svg": "^1.2.0",
-        "svelte-range-slider-pips": "^2.1.1"
+        "svelte-preprocess": "^5.0.3",
+        "svelte-range-slider-pips": "^2.1.1",
+        "vite-tsconfig-paths": "^4.2.0"
     }
 }

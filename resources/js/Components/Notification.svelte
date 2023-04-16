@@ -1,56 +1,62 @@
-<script>
+<script lang="ts">
     // Create a notification component using the Portal component
     
     import { onMount, onDestroy } from "svelte";
     import Portal from "./Portal.svelte";
     import Button from "./Button.svelte";
     import TextBox from "./TextBox.svelte";
+    import 'animate.css'; // Animation library
+
+    /* ---------------------------- */
+    /*         PARAMETERS           */
+    /* ---------------------------- */
+
+    type NotificationType = "success" | "warning" | "info" | "error" | "normal";
+    type FormatType = "box" | "bar";
+    type PositionType = "top" | "bottom" | "middle" | "left" | "right" | "corner-top-left" | "corner-top-right" | "corner-bottom-left" | "corner-bottom-right";
 
     export let title = "Notification";
     export let text = "This is a notification";
-    export let type = "success";
+    export let type: NotificationType = "success";
     export let duration = 3000;
-    export let format = "box";
-    export let position = "bottom";
+    export let format: FormatType = "box";
+    export let position: PositionType = "bottom";
     export let showIcon = true;
     export let input = false;
     export let placeholder = "Placeholder";
     export let action = () => {};
-    export let id = "";
+    export let id = Math.random().toString();
+
+    /* ---------------------------- */
+    /*           METHODS            */
+    /* ---------------------------- */
 
     let destroy = false;
-
     let timeout;
-
     let close = false;
-
-    let inputText ="";
-
-    if (!action) {
-        action = () => {};
-    };
+    let inputText = "";
+    let modal;
 
     if (input) {
         duration = 0;
     };
 
-    if (id === "") {
-        id = String(Math.random());
-    };
-
+    // When the component is mounted, set a timeout to destroy it
     onMount(() => {
+        console.log(duration);
         if (duration > 0) {
             timeout = setTimeout(() => {
                 Disparition()
-                console.log("Notification removed");
             }, duration);
         }
     });
 
+    // When the component is destroyed, clear the timeout
     onDestroy(() => {
         clearTimeout(timeout);
     });
 
+    // Make the component disappear
     function Disparition() {
         let div = document.getElementById(id);
         div.classList.add("disparition");
@@ -73,7 +79,7 @@
 
     $: classes = "notification " + type;
     $: if (position === "middle" || position === "left" || position === "right" || position === "corner-top-left" || position === "corner-top-right" || position === "corner-bottom-left" || position === "corner-bottom-right") {
-        classes += " " + "box";
+        classes += " box";
         classes += " " + position;
         format = "box";
     } else {
@@ -85,6 +91,9 @@
 
 {#if !destroy}
 <Portal>
+{#if format === "box"}
+<div class="animate__animated {close ? "animate__fadeOut" : "animate__fadeIn"} bg-[#00000060] z-10 w-screen h-screen absolute absolute top-0 left-0 backdrop-blur-sm animate__faster"></div>
+{/if}
 <div id={id} class={classes}>
 {#if format === "box"}
     {#if id === "leave"}    
@@ -97,7 +106,7 @@
             <p class="text-left pl-4 text-black text-[1.5rem]">{title}</p>
             <p class="text-[#878D8B] text-left text-[1.125rem] font-normal px-4">{text}</p>
             <div class="flex flex-row w-full px-4 gap-12 pt-4">
-                <Button class="outline" width={"14.875"} action={() => {action=() => {};Disparition()}}>Annuler</Button>
+                <Button class="outline" width={14.875} action={() => {action=() => {};Disparition()}}>Annuler</Button>
                 <Button action={() => {Disparition()}}>Quitter la session</Button>
             </div>
         </div>
@@ -385,99 +394,121 @@
 
     @keyframes slide-in-bottom-box {
         0% {
+            opacity: 0;
             transform: translateX(-50%) translateY(100%);
         }
         100% {
+            opacity: 1;
             transform: translateX(-50%) translateY(0);
         }
     }
 
     @keyframes slide-in-bottom-bar {
         0% {
+            opacity: 0;
             transform: translateY(100%);
         }
         100% {
+            opacity: 1;
             transform: translateY(0);
         }
     }
 
     @keyframes slide-in-top-box {
         0% {
+            opacity: 0;
             transform: translateX(-50%) translateY(-100%);
         }
         100% {
+            opacity: 1;
             transform: translateX(-50%) translateY(0);
         }
     }
 
     @keyframes slide-in-top-bar {
         0% {
+            opacity: 0;
             transform: translateY(-100%);
         }
         100% {
+            opacity: 1;
             transform: translateY(0);
         }
     }
 
     @keyframes slide-in-left {
         0% {
+            opacity: 0;
             transform: translateX(-100%) translateY(-50%);
         }
         100% {
+            opacity: 1;
             transform: translateX(0) translateY(-50%);
         }
     }
 
     @keyframes slide-in-right {
         0% {
+            opacity: 0;
             transform: translateX(100%) translateY(-50%);
         }
         100% {
+            opacity: 1;
             transform: translateX(0) translateY(-50%);
         }
     }
 
     @keyframes scale-in-center {
         0% {
+            opacity: 0;
             transform: translateY(-50%) translateX(-50%) scale(0.5);
         }
         100% {
+            opacity: 1;
             transform: scale(1) translateY(-50%) translateX(-50%);
         }
     }
 
     @keyframes slide-in-top-left {
         0% {
+            opacity: 0;
             transform: translateX(-100%);
         }
         100% {
+            opacity: 1;
             transform: translateX(0);
         }
     }
 
     @keyframes slide-in-top-right {
         0% {
+            opacity: 0;
             transform: translateX(100%);
         }
         100% {
+            opacity: 1;
             transform: translateX(0);
         }
     }
 
     @keyframes slide-in-bottom-left {
         0% {
+            opacity: 0;
             transform: translateX(-100%);
         }
         100% {
+            opacity: 1;
             transform: translateX(0);
         }
     }
 
     @keyframes slide-in-bottom-right {
         0% {
+            opacity: 0;
             transform: translateX(100%);
         }
         100% {
+            opacity: 1;
             transform: translateX(0);
         }
     }
@@ -530,99 +561,121 @@
 
     @keyframes slide-out-bottom-box {
         0% {
+            opacity: 1;
             transform: translateX(-50%) translateY(0);
         }
         100% {
+            opacity: 0;
             transform: translateX(-50%) translateY(125%);
         }
     }
 
     @keyframes slide-out-bottom-bar {
         0% {
+            opacity: 1;
             transform: translateY(0);
         }
         100% {
+            opacity: 0;
             transform: translateY(100%);
         }
     }
 
     @keyframes slide-out-top-box {
         0% {
+            opacity: 1;
             transform: translateX(-50%) translateY(0);
         }
         100% {
+            opacity: 0;
             transform: translateX(-50%) translateY(-125%);
         }
     }
 
     @keyframes slide-out-top-bar {
         0% {
+            opacity: 1;
             transform: translateY(0);
         }
         100% {
+            opacity: 0;
             transform: translateY(-100%);
         }
     }
 
     @keyframes slide-out-left {
         0% {
+            opacity: 1;
             transform: translateX(0) translateY(-50%);
         }
         100% {
+            opacity: 0;
             transform: translateX(-125%) translateY(-50%);
         }
     }
 
     @keyframes slide-out-right {
         0% {
+            opacity: 1;
             transform: translateX(0) translateY(-50%);
         }
         100% {
+            opacity: 0;
             transform: translateX(125%) translateY(-50%);
         }
     }
 
     @keyframes scale-out-center {
         0% {
+            opacity: 1;
             transform: scale(1) translateY(-50%) translateX(-50%);
         }
         100% {
+            opacity: 0;
             transform: translateY(-50%) translateX(-50%) scale(0.5);
         }
     }
 
     @keyframes slide-out-top-left {
         0% {
+            opacity: 1;
             transform: translateX(0);
         }
         100% {
+            opacity: 0;
             transform: translateX(-125%);
         }
     }
 
     @keyframes slide-out-top-right {
         0% {
+            opacity: 1;
             transform: translateX(0);
         }
         100% {
+            opacity: 0;
             transform: translateX(125%);
         }
     }
 
     @keyframes slide-out-bottom-left {
         0% {
+            opacity: 1;
             transform: translateX(0);
         }
         100% {
+            opacity: 0;
             transform: translateX(-125%);
         }
     }
 
     @keyframes slide-out-bottom-right {
         0% {
+            opacity: 1;
             transform: translateX(0);
         }
         100% {
+            opacity: 0;
             transform: translateX(125%);
         }
     }

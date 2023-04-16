@@ -32,8 +32,9 @@
         color: black;
         width: 85%;
         position: absolute;
-        bottom: 1rem;
-        left: 7.5%;
+        bottom: 0rem;
+        transform: translate(-50%, -60%);
+        left: 50%;
         background-color: #34FFAD;
         height: 0.75rem;
         content: " ";
@@ -43,9 +44,9 @@
         content: '';
         position: absolute;
         width: -webkit-fill-available;
-        transform: scaleX(0);
+        transform: scaleX(0) ;
         height: 2px;
-        bottom: 12px;
+        bottom: calc(.75rem / 2 + 2px);
         left: 0;
         background-color: #666666;
         transform-origin: bottom right;

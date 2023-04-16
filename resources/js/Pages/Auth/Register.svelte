@@ -5,6 +5,7 @@
     import BreezeValidationErrors from "@/Components/ValidationErrors.svelte";
     import { inertia, useForm } from "@inertiajs/svelte";
     import Link from "@/Components/Link.svelte";
+    import PageSwitchLayout from "@/Layouts/PageSwitchLayout.svelte";
     export let errors = {};
 
     let form = useForm({
@@ -44,6 +45,7 @@
     <title>DramaQuick</title>
 </svelte:head>
 
+<PageSwitchLayout>
 <main>
     <div class="right">
     </div>
@@ -157,6 +159,7 @@
     </form>
 </div>
 </main>
+</PageSwitchLayout>
 
 
 <style>

@@ -1,16 +1,17 @@
-<script>
-    import { onMount } from "svelte";
+<script lang="ts">
     import Timer from "../../Components/Timer.svelte";
     import TextArea from "../../Components/TextArea.svelte";
     import Button from "../../Components/Button.svelte";
     import Notification from "../../Components/Notification.svelte";
+    import PageSwitchLayout from "@/Layouts/PageSwitchLayout.svelte";
 
-    // Décompteur en temps réel pour Timer
+    // Mise en place du temps pour le timer
     let timer = {
         minutes: 1,
         seconds: 10,
     };
 
+    // Mise en place des données de la session pour le texte
     let text = {
         session: "#35878454",
         page: "4/10",
@@ -18,10 +19,12 @@
         description: "Bah oui c'est vrai mdr"
     }
 
+    // Mise en place du formulaire pour le textarea
     let form = {
         textArea: "",
     }
 
+    // Fonction qui permet de notifier l'utilisateur
     function notify(title, text, type, duration, format, position, input, placeholder, action, id) {
         if (id != undefined) {
             if (document.getElementById(id) != null) {
@@ -55,6 +58,8 @@
 </svelte:head>
 
 <!-- Contenu de la page -->
+
+<PageSwitchLayout>
 <main class="h-screen w-full overflow-hidden bg-cover bg-no-repeat">
     <h1 class="font-semibold text-[2rem] text-black py-12 pl-56 w-full">DramaQuick</h1>
     <div class="pl-56 pr-56">
@@ -80,6 +85,7 @@
     </div>
     </div>
 </main>
+</PageSwitchLayout>
 
 <style>
     main {

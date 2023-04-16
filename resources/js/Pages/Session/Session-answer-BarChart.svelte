@@ -1,18 +1,21 @@
-<script>
+<script lang="ts">
     import Button from "../../Components/Button.svelte";
     import BarChartSimple from "../../Components/BarChartSimple.svelte";
     import Notification from "../../Components/Notification.svelte";
 
+    // Mise en place des données de la session pour le texte
     let text = {
         session: "#35878454",
         page: "4/10",
         title: "Pourquoi le Japon ?",
     };
 
+    // Mise en place du role de l'utilisateur
     let user = {
         role: "owner",
     };
 
+    // Mise en place des données du graphique
     let data = [
         {
             group: "Dataset 1",
@@ -56,6 +59,7 @@
         },
     ];
 
+    // Fonction pour calculer la moyenne sur 10
     function moyenneSur10() {
         let total = 0;
         data.forEach((item, index) => {
@@ -64,8 +68,10 @@
         return ((total / data.length) / 10).toFixed(2);
     }
 
+    // Mise en place de la moyenne sur 10
     let moyenne = moyenneSur10();
 
+    // Fonction qui permet de notifier l'utilisateur
     function notify(title, text, type, duration, format, position, input, placeholder, action, id) {
         if (id != undefined) {
             if (document.getElementById(id) != null) {

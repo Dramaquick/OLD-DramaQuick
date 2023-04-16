@@ -15,25 +15,20 @@ window.axios = axios;
 
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
-window.Echo = new Echo({
-    broadcaster: 'socket.io',
-    host: "http://154.49.216.217:6003"
-})
-
-
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
  * for events that are broadcast by Laravel. Echo and event broadcasting
  * allows your team to easily build robust real-time web applications.
  */
 
-// import Echo from 'laravel-echo';
+window.Echo = new Echo({
+    broadcaster: 'socket.io',
+    host: "http://154.49.216.217:6003"
+});
 
-// window.Pusher = require('pusher-js');
+/**
+ * Funny little cactus :)
+ */
 
-// window.Echo = new Echo({
-//     broadcaster: 'pusher',
-//     key: import.meta.env.VITE_PUSHER_APP_KEY,
-//     cluster: import.meta.env.VITE_PUSHER_APP_CLUSTER,
-//     forceTLS: true
-// });
+console.log("%c🌵", "font-size: 100px;");
+console.log("%cWhat are you doing here? 🤔", "color: #bada55; font-size: 20px; padding: 10px; font-weight: bold;");

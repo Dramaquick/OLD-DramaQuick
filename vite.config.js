@@ -5,6 +5,8 @@ import { svelte } from "@sveltejs/vite-plugin-svelte";
 import { resolve } from 'path';
 const projectRootDir = resolve(__dirname);
 import {homedir} from 'os';
+import { sveltePreprocess } from 'svelte-preprocess/dist/autoProcess';
+import tsconfigPaths from 'vite-tsconfig-paths'
 
 let host = 'laravel-breeze-svelte.test'
 
@@ -14,7 +16,13 @@ export default defineConfig({
             input: ['resources/css/app.css', 'resources/js/app.js'],
             refresh: true,
         }),
-        svelte({})
+        svelte({
+            preprocess: sveltePreprocess(),
+            onwarn: (warning, handler) => { // WARNING: THIS IS A HACK TO SUPPRESS CONSOLE WARNINGS
+                return;
+            }
+        }),
+        tsconfigPaths(),
     ],
     optimizeDeps: {
         include: [
@@ -27,7 +35,8 @@ export default defineConfig({
         alias: {
             '@': resolve(projectRootDir, 'resources/js'),
             '~': resolve(projectRootDir, 'resources'),
-            '@public': resolve(projectRootDir, 'public')
+            '@public': resolve(projectRootDir, 'public'),
+            '@root': projectRootDir,
         },
         extensions: ['.js', '.svelte', '.json', '.svg'],
     },

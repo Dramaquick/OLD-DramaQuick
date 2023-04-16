@@ -1,16 +1,16 @@
-<script>
-    import { onMount } from "svelte";
+<script lang="ts">
     import Timer from "../../Components/Timer.svelte";
     import TextBox from "../../Components/TextBox.svelte";
     import Button from "../../Components/Button.svelte";
     import Notification from "../../Components/Notification.svelte";
 
-    // Décompteur en temps réel pour Timer
+    // Mise en place du temps pour le timer
     let timer = {
         minutes: 1,
         seconds: 10,
     };
 
+    // Mise en place des données de la session pour le texte
     let text = {
         session: "#35878454",
         page: "4/10",
@@ -19,10 +19,12 @@
         placeholder: "Blablabla"
     }
 
+    // Mise en place du formulaire pour la textbox
     let form = {
         text: "",
     }
 
+    // Fonction qui permet de notifier l'utilisateur
     function notify(title, text, type, duration, format, position, input, placeholder, action, id) {
         if (id != undefined) {
             if (document.getElementById(id) != null) {

@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
     import SelectList from "./SelectList.svelte";
     export let questions = {
         question1: {
@@ -39,7 +39,6 @@
         if (Object.keys(questions[question].options).length >= 10) return;
         questions[question].options["option" + questions[question].opt_counter] = null;
         questions[question].opt_counter++;
-        console.log(questions[question].opt_counter);
     }
 
     // function to delete a question

@@ -1,22 +1,21 @@
-<script>
+<script lang="ts">
     import { onMount } from "svelte";
-    import Timer from "../../Components/Timer.svelte";
-    import TextArea from "../../Components/TextArea.svelte";
+    import type { Router } from '@inertiajs/core/types/router';
+    import { router } from '@inertiajs/svelte'
     import Button from "../../Components/Button.svelte";
 
-    // Décompteur en temps réel pour Timer
-    let timer = {
-        minutes: 1,
-        seconds: 10,
-    };
-
+    // Mise en place des données de la session pour le texte
     let text = {
         session: "#35878454",
     }
 
-    let form = {
-        textArea: "",
-    }
+    // On redirige l'utilisateur vers la page d'accueil après 10 secondes
+    onMount(() => {
+        setTimeout(() => {
+            router.push('/')
+        }, 10_000)
+    })
+    
 </script>
 
 <!-- Permet de modifier l'head de la page -->

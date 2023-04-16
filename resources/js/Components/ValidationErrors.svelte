@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
     import Notification from "./Notification.svelte";
     let hasErrors = false;
 

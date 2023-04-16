@@ -36,18 +36,6 @@ Route::get('/', function () {
 
 require __DIR__ . '/auth.php';
 
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
-
-Route::get('/about', function () {
-    return Inertia::render('About');
-})->middleware(['auth', 'verified'])->name('about');
-
-Route::get('/components', function () {
-    return Inertia::render('Components');
-});
-
 // ----------------- Auth -----------------
 
 Route::get('/login', function () {
@@ -104,6 +92,10 @@ Route::get('/user/avatar/{user}', [AvatarController::class, 'show'])
 // Get username
 Route::get('/user/username/{user}', [UsernameController::class, 'show'])
 ->name('user.username.show');
+
+// Get role
+Route::get('/user/role/{user}', [RoleController::class, 'show'])
+->name('user.role.show');
 
 // Profile
 Route::get('/profile', function () {

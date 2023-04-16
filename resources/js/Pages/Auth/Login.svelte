@@ -5,6 +5,7 @@
     import BreezeValidationErrors from "@/Components/ValidationErrors.svelte";
     import { useForm } from "@inertiajs/svelte";
     import Link from "@/Components/Link.svelte";
+    import PageSwitchLayout from "@/Layouts/PageSwitchLayout.svelte";
     let err = {};
     export let errors = {};
     export let canResetPassword;
@@ -37,6 +38,7 @@
     <title>DramaQuick</title>
 </svelte:head>
 
+<PageSwitchLayout>
 <main>
     <div class="right">
         <div class="right_content">
@@ -160,6 +162,7 @@
         </div>
     </div>
 </main>
+</PageSwitchLayout>
 
 <style>
     main {

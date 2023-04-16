@@ -1,27 +1,27 @@
-<script>
+<script lang="ts">
     import { page, router } from '@inertiajs/svelte';
 
     export let user = {
-        id: 1
+        id: 1,
+        role: "MEMBER"
     };
 
     const colors = {
-        creator: "#FFFACC",
-        admin: "#CCFFEA",
-        member: "#E0E5EB"
+        OWNER: "#FFFACC",
+        ADMIN: "#CCFFEA",
+        USER: "#E0E5EB"
     }
 
     const highlight = {
-        creator: "#ffe916",
-        admin: "#34FFAD",
-        member: "#8598AE"
+        OWNER: "#ffe916",
+        ADMIN: "#34FFAD",
+        USER: "#8598AE"
     }
 
     let def = null;
 
     fetch("/user/avatar/" + user.id + "?" + Date.now()).then(response => {
         let contentType = response.headers.get("content-type");
-        console.log(contentType)
         if (contentType != "image/svg+xml") {
             def = true;
         }
@@ -29,20 +29,24 @@
 
     let pseudo = "User";
 
-    fetch("/user/username/" + user.id)
+    fetch("/user/username/" + user.id + "?" + Date.now())
         .then(response => response.json())
         .then(data => {
             pseudo = data.username;
         });
-    console.log(pseudo);
-    let role = null;
+    let role: import('@/Types/Types').UserRole = 'USER';
+    let test;
+
+
+    test = fetch("/user/role/" + user.id + "?" + Date.now())
+        .then(response => response.json())
+        .then(data => {
+            role = data.email;
+        });
     if (user.id === $page.props.session.Owner_Id) {
-        role = "creator";
-    } else if (user.role === "admin") {
-        role = "admin";
-    } else {
-        role = "member";
-    }
+        role = "OWNER";
+    };
+    console.log(test,'test');
 </script>
 
 <div class="flex items-center justify-start gap-4">
@@ -63,11 +67,11 @@
         {/if}
         <div class="highlight"></div>
 
-        {#if role === 'admin'}
+        {#if role === 'ADMIN'}
             <div class="special-tag">🌵</div>
         {/if}
 
-        {#if role === 'creator'}
+        {#if role === 'OWNER'}
             <div class="special-tag">👑</div>
         {/if}
     </div>
