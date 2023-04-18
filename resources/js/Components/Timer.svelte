@@ -2,6 +2,7 @@
     import { onMount } from "svelte";
     export let minutes = 0;
     export let seconds = 0;
+    export let stop = true;
 
     export let action = [{ time: [minutes, seconds], action: () => {} }];
 
@@ -12,6 +13,9 @@
 
     let index = 0;
 
+    let minutesStart = minutes;
+    let secondsStart = seconds;
+
     function nextAction() {
         if (index < action.length) {
             mainAction = action[index];
@@ -21,28 +25,35 @@
         }
     }
 
-    nextAction();
+    if (stop) {
 
-    onMount(() => {
-        let interval = setInterval(() => {
-            if (seconds > 0) {
-                seconds--;
-            } else if (minutes > 0) {
-                minutes--;
-                seconds = 59;
-            } else {
-                clearInterval(interval);
-            }
+        nextAction();
 
-            if (
-                mainAction.time[0] == minutes &&
-                mainAction.time[1] == seconds
-            ) {
-                mainAction.action();
-                nextAction();
-            }
-        }, 1000);
-    });
+        onMount(() => {
+            let interval = setInterval(() => {
+                if (seconds > 0) {
+                    seconds--;
+                } else if (minutes > 0) {
+                    minutes--;
+                    seconds = 59;
+                } else {
+                    clearInterval(interval);
+                }
+
+                if (
+                    mainAction.time[0] == minutes &&
+                    mainAction.time[1] == seconds
+                ) {
+                    mainAction.action();
+                    nextAction();
+                }
+            }, 1000);
+        });
+    } else {
+        minutes = minutesStart;
+        seconds = secondsStart;
+        index = 0;
+    };
 </script>
 
 <div class="flex gap-4 items-end">

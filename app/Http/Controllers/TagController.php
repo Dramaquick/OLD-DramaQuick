@@ -3,9 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\User;
+use App\Models\DSessionTag;
+use Inertia\Inertia;
 
-class RoleController extends Controller
+class TagController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -46,8 +47,32 @@ class RoleController extends Controller
      */
     public function show($id)
     {
-        $role = User::where('id', $id)->value('email');
-        return response()->json(['email' => $role]);
+        $tag = DSessionTag::where('Tag_Id', $id)->get();
+        return Inertia::render('Tags/Show', ['tag' => $tag]);
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function showAll()
+    {
+        $tags = DSessionTag::all();
+        return response()->json(['tags' => $tags]);
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function showForSession($id)
+    {
+        $tags = DSessionTag::where('Session_Id', $id)->get();
+        return Inertia::render('Tags/Show', ['tags' => $tags]);
     }
 
     /**

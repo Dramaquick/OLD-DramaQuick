@@ -5,6 +5,8 @@ use App\Http\Controllers\SessionController;
 use App\Http\Controllers\UsernameController;
 use App\Http\Controllers\ChangeEmailController;
 use App\Http\Controllers\AvatarController;
+use App\Http\Controllers\QuestionController;
+use App\Http\Controllers\TagController;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -84,18 +86,6 @@ Route::put('/user/email', [ChangeEmailController::class, 'update'])
 // Change avatar
 Route::post('/user/avatar', [AvatarController::class, 'store'])
 ->middleware(['auth', 'verified'])->name('user.avatar.update');
-
-// Get avatar
-Route::get('/user/avatar/{user}', [AvatarController::class, 'show'])
-->name('user.avatar.show');
-
-// Get username
-Route::get('/user/username/{user}', [UsernameController::class, 'show'])
-->name('user.username.show');
-
-// Get role
-Route::get('/user/role/{user}', [RoleController::class, 'show'])
-->name('user.role.show');
 
 // Profile
 Route::get('/profile', function () {

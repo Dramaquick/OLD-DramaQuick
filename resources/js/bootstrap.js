@@ -21,9 +21,17 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
  * allows your team to easily build robust real-time web applications.
  */
 
+// CSRF TOKEN HACK
+const name = 'XSRF-TOKEN';
+const cookies = '; ' + document.cookie;
+const parts = cookies.split('; ' + name + '=');
+let value = parts.length == 2 ? parts.pop().split(';').shift() : null;
+value = decodeURIComponent(value);
+
 window.Echo = new Echo({
     broadcaster: 'socket.io',
-    host: "http://154.49.216.217:6003"
+    host: "http://154.49.216.217:6003",
+    csrfToken: value,
 });
 
 /**

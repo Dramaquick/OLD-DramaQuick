@@ -5,10 +5,11 @@ namespace App\Events;
 use App\Models\User;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PrivateChannel;
+use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class JoinSessionEvent
+class JoinSessionEvent implements ShouldBroadcastNow
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -32,13 +33,15 @@ class JoinSessionEvent
 
     public function broadcastAs()
     {
-        return 'user-join';
+        return 'user-join-session';
     }
 
     public function broadcastWith()
     {
         return [
-            'user' => $this->user,
+            'user' => $this->user->id,
+            'name' => $this->user->name,
+            'role' => $this->user->user_role,
         ];
     }
 }

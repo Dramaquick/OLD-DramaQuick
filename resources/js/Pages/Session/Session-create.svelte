@@ -3,6 +3,7 @@
     import TextArea from "../../Components/TextArea.svelte";
     import Counter from "../../Components/Counter.svelte";
     import Select from "../../Components/SelectList.svelte";
+    import SelectMultiple from "@/Components/SelectMultiple.svelte";
     import Button from "../../Components/Button.svelte";
     import QuestionCreator from "../../Components/QuestionCreator.svelte";
     import { router } from  "@inertiajs/svelte";
@@ -15,12 +16,24 @@
         {id: 3, name: 'Lent'}
     ];
 
-    // Mise en place des différents tags
-    let items_tags = [
-        {id: 1, name: 'Officiel'},
-        {id: 2, name: 'Nourriture'},
-        {id: 3, name: 'Halloween'}
-    ]
+    function Majuscule(mot : string) {
+        return mot.charAt(0).toUpperCase() + mot.slice(1);
+    }
+
+    // Récupération de tous les tags de la base de données et mise en place dans un dict
+    let items_tags = [{id: -1, name: 'Loading...'}];
+    window.axios.get('/api/tags')
+    .then(function (response) {
+        // Pour chaque tag, on ajoute un objet dans le tableau
+        items_tags = [];
+        response.data['tags'].forEach((tag: { Tag_Id: number; Tag_Name: string; }) => {
+            items_tags.push({id: tag.Tag_Id, name: Majuscule(tag.Tag_Name)});
+        });
+        console.log(items_tags)
+    })
+    .catch(function (error) {
+        console.log(error.response.data);
+    });
 
     // Mise en place des paramètres de la session (modifiables par l'utilisateur)
     let session_parameters = {
@@ -29,18 +42,13 @@
         Session_MinUser: 1,
         Session_MaxUser: 10,
         Session_Speed: 0,
-        //Session_Tags: [0, 0, 0],
+        Session_Tags: [],
     };
 
     // Fonction permettant de créer une session
     function create_session() {
         router.post('/quiz/store', session_parameters);
     }
-
-    // On initialise les tags à 0
-    let Tag1 = 0;
-    let Tag2 = 0;
-    let Tag3 = 0;
 
     // Mise en place de la liste des questions
     let questions = {
@@ -52,6 +60,8 @@
             options: {},
         },
     };
+
+
 
 </script>
 
@@ -73,7 +83,7 @@
                     <p>PARAMETRES GENERAUX</p>
                 </div>
                 <p class="pb-2">Titre du quiz</p>
-                <div class="pb-3 5">
+                <div class="pb-3.5">
                     <TextBox bind:value={session_parameters.Session_Title} placeholder="Quiz super cool, 3ème B..." showIcon={false}/>
                 </div>
                 <p class="pb-2">Description du quiz</p>
@@ -81,17 +91,17 @@
                     <TextArea bind:value={session_parameters.Session_Description} placeholder="Un quiz trop génial réalisé par moi parce que les quiz c’est cool..."/>
                 </div>
                 <div class="flex flex-col">
-                    <div class="flex flex-row gap-8">
+                    <div class="flex flex-row gap-10">
                         <div class="flex items-center text-[#00E589] text-[1rem] gap-2 pt-4 pb-2.5">
                             <img src="/img/landing/user.svg" alt="emoji" class="w-5 h-5">
                             <p>NOMBRE DE PARTICIPANTS</p>
                         </div>
                         <div class="flex items-center text-[#00E589] text-[1rem] gap-2 pt-4 pb-2.5">
-                            <img src="/img/landing/sablier.svg" alt="emoji" class="w-5 h-5">
-                            <p>RAPIDITE</p>
+                            <img src="/img/landing/user.svg" alt="emoji" class="w-5 h-5">
+                            <p>TAGS</p>
                         </div>
                     </div>
-                    <div class="flex flex-row items-end">
+                    <div class="flex flex-row items-start">
                         <div class="flex gap-4 ml-[-1rem]">
                             <div class="flex flex-col items-center">
                                 <p class="">Minimum</p>
@@ -107,32 +117,28 @@
                             </div>
                         </div>
                         <div class="pb-[0.5rem]">
-                            <Select
-                                bind:value={session_parameters.Session_Speed}
-                                placeholder="Sélectionnez une valeur..."
-                                items={items_speed}
-                                width={true}
+                            <SelectMultiple
+                                bind:values={session_parameters.Session_Tags}
+                                items={items_tags}
                             />
                         </div>
                     </div>
                 </div>
-                <div class="flex items-center text-[#00E589] text-[1rem] gap-2 pt-4 pb-2.5">
-                    <img src="/img/landing/user.svg" alt="emoji" class="w-5 h-5">
-                    <p>TAGS</p>
+                <div class="flex items-center text-[#00E589] text-[1rem] gap-2 pt-4 pb-2.5 mt-[-3rem]">
+                    <img src="/img/landing/sablier.svg" alt="emoji" class="w-5 h-5">
+                    <p>RAPIDITE</p>
                 </div>
                 <!-- L'utilisateur doit pouvoir choisir 3 tags maximum -->
                 <div class="flex flex-row justify-between w-full">
-                    <div class="flex flex-col items-center w-[8.75rem]">
-                        <p class="">Tag 1</p>
-                        <div class="scale-75">
-                            <Select
-                                bind:value={Tag1}
-                                placeholder="Sélectionnez une valeur..."
-                                items={items_tags}
-                                width={11.5}
-                            />
-                        </div>
+                    <div class="flex flex-col items-center w-[8.75rem] ml-[1.25rem]">
+                        <Select
+                        bind:value={session_parameters.Session_Speed}
+                        placeholder="Sélectionnez une valeur..."
+                        items={items_speed}
+                        width={180}
+                    />
                     </div>
+                    
                 </div>
                 <div class="flex items-center justify-end pt-2">
                     <Button action={create_session}>Créer la session</Button>

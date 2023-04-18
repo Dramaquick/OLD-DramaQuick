@@ -28,10 +28,10 @@ class SessionController extends Controller
             'Owner_Id' => 'required',
         ]);
 
-        //$tags = $request->input('Session_Tags');
+        $tags = $request->input('Session_Tags');
 
         $session = DSession::create($validated);
-        //$session->tags()->attach($tags);
+        $session->tags()->attach($tags);
 
         return to_route('session.show', [$session]);
 
@@ -48,9 +48,12 @@ class SessionController extends Controller
 
         $owner = User::find($session->Owner_Id, [ 'name' ]);
 
+        User::where('id', auth()->id())->update(['Session_Id' => $session->Session_Id]);
+        event(new \App\Events\JoinSessionEvent($session->Session_Id, auth()->user()));
+
         return Inertia::render('Session/Session-start', [
             'session' => $session,
-            'owner' => $owner
+            'owner' => $owner,
         ]);
 
     }

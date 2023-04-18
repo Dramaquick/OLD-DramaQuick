@@ -6,11 +6,19 @@
     import Notification from "../../Components/Notification.svelte";
     import { page,router } from '@inertiajs/svelte';
     import PageSwitchLayout from '@/Layouts/PageSwitchLayout.svelte';
+    import { onMount } from 'svelte';
+
+    export let session;
+
+    onMount(() => {
+        window.Echo.join('dramaquick_database_session.' + session.Session_Id)
+            .joining((user) => {
+                console.log(e);
+            });
+    });
 
     // On récupère les données de l'utilisateur
     let profile: User = $page.props.auth.user;
-
-    console.log(profile);
 
     // Mise en place des données de l'utilisateur
     let user = {
@@ -50,42 +58,44 @@
         minutes: 0,
         seconds: 31,
     };
+    let stop = true;
 
     // Mise en place des membres de la session
-    let users = {
-        user1: {
-            id: $page.props.session.Owner_Id,
-        },
-        user2: {
-            id: 10,
-        },
-        user3: {
+    let users: User[] = [
+        {
             id: 1,
+            name: "Stive",
+            user_role: "OWNER",
         },
-        user4: {
-            id: 2,
+        {
+            id: 1,
+            name: "Stive",
+            user_role: "ADMIN",
         },
-        user5: {
-            id: 3,
+        {
+            id: 1,
+            name: "Stive",
+            user_role: "ADMIN",
         },
-        user6: {
-            id: 4,
+        {
+            id: 1,
+            name: "Stive",
+            user_role: "USER",
         },
-        user7: {
-            id: 7,
+        {
+            id: 1,
+            name: "Stive",
+            user_role: "USER",
         },
-        user8: {
-            id: 8,
-        }
-    }
+    ]
 
     // Mise en place des données de la session pour le texte
     let text = {
-        title : $page.props.session.Session_Title,
-        description : $page.props.session.Session_Description,
-        session : '#' + $page.props.session.Session_Id,
+        title : session.Session_Title,
+        description : session.Session_Description,
+        session : '#' + session.Session_Id,
         createur : $page.props.owner.name,
-        size : Object.keys(users).length + "/" + $page.props.session.Session_MaxUser,
+        size : Object.keys(users).length + "/" + session.Session_MaxUser,
     }
 
     // fonction qui fait apparaitre une notification
@@ -115,6 +125,12 @@
                 id
             }
         });
+    };
+
+    if (Object.keys(users).length >= session.Session_MinUser) {
+        stop = true;
+    } else {
+        stop = false;
     }
 </script>
 
@@ -128,7 +144,7 @@
     <main class="h-screen w-full overflow-hidden bg-cover bg-no-repeat">
         <h1 class="font-semibold text-[2rem] text-black py-12 pl-56 w-full">DramaQuick</h1>
         <div class="pl-56 pr-56">
-        <div class="grid bg-white w-full h-156 shadow rounded-2.5xl px-20 py-16">
+        <div class="grid bg-white w-full h-156 shadow rounded-2.5xl px-20 py-16 min-w-[92rem] min-h-[39rem]">
             <p class="session text-[1.5rem] color font-normal">Session {text.session}</p>
             <p class="creator text-[1.25rem] font-normal text-right pr-12">Créé par : &nbsp;&nbsp;<i class="not-italic z-0 relative inline-block font-medium creator-style">{text.createur}</i></p>
             <p class="size font-semibold text-[1.5rem] text-black text-right">{text.size}</p>
@@ -169,6 +185,7 @@
                         time: [0, 30], action: () => {notify("Début de la session","La session va commencer dans 30 secondes", "info", 5000, "bar", "bottom", false, "", () => {}, "")}}, 
                         {time: [0, 15], action: () => {notify("Début de la session","La session va commencer dans 15 secondes", "info", 5000, "bar", "bottom", false, "", () => {}, "")}}, 
                         {time: [-10, 0], action: () => {window.location.href = "/session-paint"}}]}
+                    bind:stop={stop}
                 />
                 <div class="tags flex flex-row items-center gap-4">
                     {#each Object.keys(tags) as tag}
@@ -178,7 +195,11 @@
             </div>
             <div class="button flex flex-row items-center justify-end gap-4">
                 {#if user.role == "OWNER"}
-                    <Button>Démarrer</Button>
+                    {#if Object.keys(users).length >= session.Session_MinUser}
+                        <Button>Démarrer</Button>
+                    {:else}
+                        <Button disabled>Démarrer</Button>
+                    {/if}
                 {/if}
                 <Button class="outline" action={() => {notify("Quitter la session","Souhaitez-vous vraiment quitter la session ?","normal", 0,"box","middle",false,"",() => {window.location.href ="/"},"leave")}}>Quitter la session</Button>
             </div>

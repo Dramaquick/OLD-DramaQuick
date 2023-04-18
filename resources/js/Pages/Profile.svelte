@@ -39,7 +39,7 @@
         user = {
             pseudo: profile.name,
             email: profile.email,
-            avatar: "/user/avatar/" + profile.id + "?" + Date.now(),
+            avatar: "/api/user/avatar/" + profile.id + "?" + Date.now(),
         }
 
         // On remet modify à false

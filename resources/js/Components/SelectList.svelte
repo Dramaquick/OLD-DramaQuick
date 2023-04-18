@@ -24,7 +24,7 @@
     // Valeur sélectionnée par défaut
     export let value = -1;
 
-    export let width : number | boolean = true;
+    export let width : number | boolean = false;
     /*
     📍 Variables du composant
      */
@@ -50,8 +50,8 @@
     }
 </script>
 
-{#if width}
-    <div class={`select-list ${isOpen ? "open" : ""}`} use:clickOutside on:outclick={() => { isOpen = false; }} style="width: {width}">
+{#if !width}
+    <div class={`select-list ${isOpen ? "open" : ""}`} use:clickOutside on:outclick={() => { isOpen = false; }}>
         <div class="selected-item" on:click={() => isOpen = !isOpen }>
             {#if value}
                 <div class="selected-item__text">{items.find(item => item.id === value).name}</div>
@@ -73,7 +73,7 @@
         </div>
     </div>
 {:else}
-<div class={`select-list ${isOpen ? "open" : ""}`} use:clickOutside on:outclick={() => isOpen = false}>
+<div class={`select-list ${isOpen ? "open" : ""}`} use:clickOutside on:outclick={() => isOpen = false} style="width: {width}px">
     <div class="selected-item" on:click={() => isOpen = !isOpen }>
         {#if value}
             <div class="selected-item__text">{items.find(item => item.id === value).name}</div>
