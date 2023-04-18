@@ -74,8 +74,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'user_role',
-        'status'
+        'user_role'
     ];
 
     /**
@@ -98,8 +97,7 @@ class User extends Authenticatable
     ];
 
     protected $attributes = [
-        'user_role' => 'USER',
-        'status' => 'OFFLINE'
+        'user_role' => 'USER'
     ];
 
     /**

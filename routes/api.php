@@ -45,14 +45,17 @@ Route::resource('/user/change-avatar', AvatarController::class)
 
 // Get a tag
 Route::get('/tag/{tag}', [TagController::class, 'show'])
+->middleware('throttle:6,1')
 ->name('tag.show');
 
 // Get all tags
 Route::get('/tags', [TagController::class, 'showAll'])
+->middleware('throttle:6,1')
 ->name('tag.showAll');
 
 // Get tags of a session
 Route::get('/session/tags/{session}', [TagController::class, 'showForSession'])
+->middleware('throttle:6,1')
 ->name('tag.showForSession');
 
 // ----------------- User --------------------
@@ -60,8 +63,10 @@ Route::get('/session/tags/{session}', [TagController::class, 'showForSession'])
 
 // Get username
 Route::get('/user/username/{user}', [UsernameController::class, 'show'])
+->middleware('throttle:6,1')
 ->name('user.username.show');
 
 // Get avatar
 Route::get('/user/avatar/{user}', [AvatarController::class, 'show'])
+->middleware('throttle:6,1')
 ->name('user.avatar.show');

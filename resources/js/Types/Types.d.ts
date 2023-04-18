@@ -1,4 +1,5 @@
 import type Echo from 'laravel-echo';
+import type { AxiosStatic } from 'axios';
 
 export type UserRole = 'ADMIN' | 'USER' | 'OWNER';
 
@@ -13,7 +14,7 @@ declare global {
 
     interface Window {
         Echo: Echo;
-        axios: axios;
+        axios: AxiosStatic;
     }
 
     declare namespace svelteHTML {

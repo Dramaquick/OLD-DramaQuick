@@ -3,7 +3,7 @@
 
     export let user: User;
 
-    let src = `user/avatar/${user.id}?` + Date.now();
+    let src = `/api/user/avatar/${user.id}?` + Date.now();
 </script>
 
 <div class="user-button-container">

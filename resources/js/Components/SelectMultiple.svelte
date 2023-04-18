@@ -101,7 +101,7 @@
         top: 120%;
         left: 0;
         width: 11.9rem;
-        height: 135px;
+        height: 8.75rem;
         overflow: auto;
         background-color: white;
         box-sizing: border-box;

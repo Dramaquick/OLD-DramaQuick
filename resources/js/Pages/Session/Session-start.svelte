@@ -13,7 +13,7 @@
     onMount(() => {
         window.Echo.join('dramaquick_database_session.' + session.Session_Id)
             .joining((user) => {
-                console.log(e);
+                console.log(user);
             });
     });
 
@@ -34,24 +34,22 @@
             user.role = profile.user_role;
     }
 
-    // Mise en place des tags pour la session
-    let tags = {
-        tag1 : {
-            text: "officiel",
-            emoji: "⌛",
-            color: "#34FFAD",
-        },
-        tag2 : {
-            text: "halloween",
-            emoji: "🎃",
-            color: "#FFC634",
-        },
-        tag3 : {
-            text: "nourriture",
-            emoji: "🍨",
-            color: "#FFA6E6",
-        },
-    }
+    // Mise en place des tags de la session
+    let session_tags = [{text: 'Loading', emoji: '⌛', color: '#BCBCBC'}];
+
+    // On récupère les id des tags de la session
+    window.axios.get('/api/session/tags/' + session.Session_Id)
+    .then(function (response) {
+        // Pour chaque tag, on ajoute un objet dans le tableau
+        session_tags = [];
+        while (response.data['tags'].length > 0) {
+            let tag = response.data['tags'].pop();
+            session_tags.push({text: tag.Tag_Name, emoji: tag.Tag_Emoji, color: tag.Tag_Color});
+        }
+    })
+    .catch(function (error) {
+        console.log(error.response.data);
+    });
 
     // Mise en place du temps pour le timer
     let timer = {
@@ -177,7 +175,7 @@
                 {/each}
             </div>
             {/if}
-            <div class="timer-tags flex flex-row items-center gap-10">
+            <div class="timer-tags flex flex-row items-center gap-10 min-w-[765px]">
                 <Timer
                     bind:minutes={timer.minutes}
                     bind:seconds={timer.seconds}
@@ -188,8 +186,8 @@
                     bind:stop={stop}
                 />
                 <div class="tags flex flex-row items-center gap-4">
-                    {#each Object.keys(tags) as tag}
-                        <Tag bind:tag={tags[tag]}/>
+                    {#each Object.keys(session_tags) as tag}
+                        <Tag bind:tag={session_tags[tag]}/>
                     {/each}
                 </div>
             </div>

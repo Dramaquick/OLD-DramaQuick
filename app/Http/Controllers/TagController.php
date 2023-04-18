@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\DSessionTag;
+use App\Models\DSession;
 use Inertia\Inertia;
 
 class TagController extends Controller
@@ -71,8 +72,9 @@ class TagController extends Controller
      */
     public function showForSession($id)
     {
-        $tags = DSessionTag::where('Session_Id', $id)->get();
-        return Inertia::render('Tags/Show', ['tags' => $tags]);
+        $session = DSession::where('Session_Id', $id)->first();
+        $tags = $session->tags()->get();
+        return response()->json(['tags' => $tags]);
     }
 
     /**

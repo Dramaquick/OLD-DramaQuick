@@ -6,8 +6,19 @@
     import SelectMultiple from "@/Components/SelectMultiple.svelte";
     import Button from "../../Components/Button.svelte";
     import QuestionCreator from "../../Components/QuestionCreator.svelte";
-    import { router } from  "@inertiajs/svelte";
+    import { page,router } from  "@inertiajs/svelte";
     import PageSwitchLayout from '@/Layouts/PageSwitchLayout.svelte';
+    import Notification from "@/Components/Notification.svelte";
+
+    // On récupère les données de l'utilisateur
+    let profile: User = $page.props.auth.user;
+
+    // Mise en place des données de l'utilisateur
+    let user = {
+        pseudo: profile.name,
+        role: profile.user_role,
+        icon: false,
+    }
 
     // Mise en place des différentes rapidités
     let items_speed = [
@@ -27,9 +38,12 @@
         // Pour chaque tag, on ajoute un objet dans le tableau
         items_tags = [];
         response.data['tags'].forEach((tag: { Tag_Id: number; Tag_Name: string; }) => {
-            items_tags.push({id: tag.Tag_Id, name: Majuscule(tag.Tag_Name)});
+            if (tag.Tag_Id == 1 && user.role == 'ADMIN') {
+                items_tags.push({id: tag.Tag_Id, name: Majuscule(tag.Tag_Name)});
+            } else if (tag.Tag_Id != 1) {
+                items_tags.push({id: tag.Tag_Id, name: Majuscule(tag.Tag_Name)});
+            };
         });
-        console.log(items_tags)
     })
     .catch(function (error) {
         console.log(error.response.data);
@@ -45,21 +59,50 @@
         Session_Tags: [],
     };
 
+    // Fonction permettant de notifier l'utilisateur
+    function notify(title, text, type, duration, format, position, input, placeholder, action, id) {
+        if (id != "") {
+            if (document.getElementById(id) != null) {
+                return;
+            }
+        } else {
+            id = undefined;
+        }
+        const notification = document.createElement('div');
+        document.body.appendChild(notification);
+
+        new Notification({
+            target: notification,
+            props: {
+                title,
+                text,
+                type,
+                duration,
+                format,
+                position,
+                input,
+                placeholder,
+                action,
+                id
+            }
+        });
+    };
+
     // Fonction permettant de créer une session
     function create_session() {
-        router.post('/quiz/store', session_parameters);
+        router.post('/quiz/store', [session_parameters, questions]);
     }
 
     // Mise en place de la liste des questions
-    let questions = {
-        question1: {
-            title: null,
-            description: null,
+    let questions = [
+        {
+            title: "",
+            description: "",
             type: 0,
-            opt_counter: 0,
-            options: {},
+            options: [],
+            index: 0
         },
-    };
+    ];
 
 
 
