@@ -65,7 +65,6 @@ class AnswerController extends Controller
         }
 
         $validated = Validator::make($request->all(), [
-            'Answer_Values' => 'required',
             'Question_Id' => 'required',
             'Session_Id' => 'required',
             'User_Id' => 'required'
@@ -75,7 +74,20 @@ class AnswerController extends Controller
             return response()->json(['errors' => $validated->errors()], 422);
         }
 
-        $answer = DAnswer::create($request -> all());
+        $answer = $request->Answer_Values;
+
+        if (gettype($request->Answer_Values) == 'array') {
+            $answer = implode(',', $request->Answer_Values);
+        }
+
+        $answer = DAnswer::create(
+            [
+                'Answer_Values' => $answer,
+                'Question_Id' => $request->Question_Id,
+                'Session_Id' => $request->Session_Id,
+                'User_Id' => $request->User_Id
+            ]
+        );
         return redirect('/api/nextquestion/' . $answer->Session_Id);
     }
 

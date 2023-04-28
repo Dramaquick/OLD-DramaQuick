@@ -50,10 +50,10 @@ class QuestionController extends Controller
     public function show($question_id, $number)
     { 
         // Get question
-        $question = DQuestion::where('Question_Id', $question_id)->first();
+        $question = DQuestion::find($question_id);
         $question->number = $number;
         // Get session
-        $session = DSession::where('Session_Id', $question->Session_Id)->first();
+        $session = DSession::find($question->Session_Id);
         //Get number of questions in the session
         $number_of_questions = DQuestion::where('Session_Id', $question->Session_Id)->count();
         $session->number_of_questions = $number_of_questions;
@@ -63,6 +63,26 @@ class QuestionController extends Controller
         switch ($type) {
             case 1 :
                 return Inertia::render('Session/Session-select', [
+                    'question' => $question,
+                    'session' => $session,
+                ]);
+            case 2 :
+                return Inertia::render('Session/Session-text', [
+                    'question' => $question,
+                    'session' => $session,
+                ]);
+            case 3 :
+                return Inertia::render('Session/Session-lowtext', [
+                    'question' => $question,
+                    'session' => $session,
+                ]);
+            case 4 :
+                return Inertia::render('Session/Session-checkbox', [
+                    'question' => $question,
+                    'session' => $session,
+                ]);
+            case 5 :
+                return Inertia::render('Session/Session-radiobutton', [
                     'question' => $question,
                     'session' => $session,
                 ]);

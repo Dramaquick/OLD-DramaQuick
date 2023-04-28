@@ -3,19 +3,25 @@
     import TextBox from "../../Components/TextBox.svelte";
     import Button from "../../Components/Button.svelte";
     import Notification from "../../Components/Notification.svelte";
+    import PageSwitchLayout from "@/Layouts/PageSwitchLayout.svelte";
+    import {page,router} from "@inertiajs/svelte";
+
+    let session = $page.props.session;
+    let question = $page.props.question;
+    let user = $page.props.auth.user;
+
 
     // Mise en place du temps pour le timer
     let timer = {
-        minutes: 1,
-        seconds: 10,
+        minutes: 0,
+        seconds: 15,
     };
 
-    // Mise en place des données de la session pour le texte
     let text = {
-        session: "#35878454",
-        page: "4/10",
-        title: "Pourquoi le Japon ?",
-        description: "Bah oui c'est vrai mdr",
+        session: "#"+session.Session_Id,
+        page: question.number.toString() + "/" + session.number_of_questions.toString(),
+        title: question.Question_Title,
+        description: question.Question_Description,
         placeholder: "Blablabla"
     }
 
@@ -50,6 +56,17 @@
             }
         });
     }
+
+    function Next() {
+        let request = {
+            Session_Id: session.Session_Id.toString(),
+            Question_Id: question.Question_Id.toString(),
+            Answer_Values: form.text,
+            User_Id: user.id.toString(),
+        }
+        console.log(request)
+        router.post('/api/answer/store', request);
+    }
 </script>
 
 <!-- Permet de modifier l'head de la page -->
@@ -57,6 +74,7 @@
     <title>DramaQuick</title>
 </svelte:head>
 
+<PageSwitchLayout>
 <!-- Contenu de la page -->
 <main class="h-screen w-full overflow-hidden bg-cover bg-no-repeat">
     <h1 class="font-semibold text-[2rem] text-black py-12 pl-56 w-full">DramaQuick</h1>
@@ -77,6 +95,7 @@
             <Timer
                 bind:minutes={timer.minutes}
                 bind:seconds={timer.seconds}
+                action = {[{time: [0, 0], action: () => {Next()}}]}
             />
         </div>
         <div class="button flex justify-end items-end">
@@ -85,6 +104,7 @@
     </div>
     </div>
 </main>
+</PageSwitchLayout>
 
 <style>
     main {

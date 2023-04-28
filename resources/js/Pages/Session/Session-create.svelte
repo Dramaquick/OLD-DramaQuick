@@ -178,9 +178,9 @@
 
 <!-- Contenu de la page -->
 <PageSwitchLayout>
-    <main class="h-full w-full bg-cover bg-no-repeat pb-9">
+    <main class="min-h-screen w-full bg-cover bg-no-repeat pb-9">
         <div class="flex justify-center">
-            <div class="flex flex-col w-5/6">
+            <div class="infos-container flex flex-col w-5/6">
                 <h1 class="font-semibold text-[2rem] text-black py-6">DramaQuick</h1>
                 <div class="infos flex justify-evenly">
                 <div class="main-infos grid bg-white shadow rounded-2.5xl px-14 py-6 w-142 h-full">
@@ -192,10 +192,10 @@
                         </div>
                         <p class="pb-2">Titre du quiz</p>
                         <div class="pb-3.5 w-full">
-                            <TextBox bind:value={session_parameters.Session_Title} placeholder="Quiz super cool, 3ème B..." showIcon={false} class="w-full"/>
+                            <TextBox bind:value={session_parameters.Session_Title} placeholder="Quiz super cool, 3ème B..." showIcon={false} class="w-full" style="min-width: 0px !important;"/>
                         </div>
                         <p class="pb-2">Description du quiz</p>
-                        <div class="pb-3.5 h-36">
+                        <div class="pb-3.5 h-36 w-full">
                             <TextArea bind:value={session_parameters.Session_Description} placeholder="Un quiz trop génial réalisé par moi parce que les quiz c’est cool..."/>
                         </div>
                         <div class="flex flex-col items-center">
@@ -252,7 +252,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="secondary-infos bg-white shadow rounded-2.5xl w-142 h-200 px-14 py-6">
+                <div class="secondary-infos bg-white shadow rounded-2.5xl w-142 h-fit px-14 py-6">
                         <div class="questioncreator w-full">
                             <QuestionCreator bind:questions={session_parameters.Session_Questions} />
                         </div>
@@ -349,6 +349,35 @@
     }
 
     @media screen and (max-width: 500px) {
-        
+        .main-infos {
+            padding: 1.5rem 1rem 1.5rem 1rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .text {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+        }
+
+        .secondary-infos {
+            padding: 1.5rem 1rem 1.5rem 1rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .infos-container {
+            width: 95%;
+        }
+    }
+
+    @media screen and (max-width: 400px) {
+        .main-infos {
+            padding: 1.5rem 0.5rem 1.5rem 0.5rem;
+        }
     }
 </style>

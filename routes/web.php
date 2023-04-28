@@ -63,6 +63,10 @@ Route::get('/quiz/create', function () {
     return Inertia::render('Session/Session-create');
 })->middleware(['auth', 'verified'])->name('session.create');
 
+// Access final page of quiz
+Route::get('/quiz/{session}/end', [SessionController::class, 'end'])
+->middleware(['auth', 'verified'])->where('session', '[0-9]+')->name('session.end');
+
 // ----------------- Question -----------------
 
 // Create question

@@ -17,7 +17,6 @@
     export let autocomplete = "off";
     export let pattern = null;
     export let minlength = null;
-    export let maxlength = null;
     export let showIcon = true;
     export let style = "";
     export let type = "text";
@@ -49,7 +48,7 @@
         {autocomplete}
         {pattern}
         {minlength}
-        {maxlength}
+        maxlength="255"
         {disabled}
         on:input={onInput}
         />
@@ -64,7 +63,7 @@
         {autocomplete}
         {pattern}
         {minlength}
-        {maxlength}
+        maxlength="255"
         {disabled}
         on:input={onInput}
         />

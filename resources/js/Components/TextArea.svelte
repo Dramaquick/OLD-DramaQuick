@@ -11,7 +11,6 @@
     export let autocomplete = "off";
     export let pattern = "";
     export let minlength = "";
-    export let maxlength = "";
     let focused = false;
 </script>
 
@@ -26,8 +25,8 @@
     {autocomplete}
     {pattern}
     {minlength}
-    {maxlength}
     {disabled}
+    maxlength = "255"
     />
 </div>
 

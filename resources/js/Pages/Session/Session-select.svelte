@@ -3,6 +3,7 @@
     import SelectList from "../../Components/SelectList.svelte";
     import Button from "../../Components/Button.svelte";
     import Notification from "../../Components/Notification.svelte";
+    import PageSwitchLayout from "@/Layouts/PageSwitchLayout.svelte";
     import {page,router} from "@inertiajs/svelte";
 
     let session = $page.props.session;
@@ -10,7 +11,7 @@
     let user = $page.props.auth.user;
 
     function stringToArray(string) {
-        let array = string.slice(1,-1).split(",");
+        let array = string.split(",");
         for (let i = 0; i < array.length; i++) {
             array[i] = array[i];
         }
@@ -38,11 +39,10 @@
 
     // Mise en place des données de la session pour le texte
     let text = {
-        session: session.Session_Id,
+        session: "#"+session.Session_Id,
         page: question.number.toString() + "/" + session.number_of_questions.toString(),
         title: question.Question_Title,
         description: question.Question_Description,
-        placeholder: "Blablabla"
     }
 
     // Mise en place du formulaire pour la selectlist
@@ -94,6 +94,7 @@
     <title>DramaQuick</title>
 </svelte:head>
 
+<PageSwitchLayout>
 <!-- Contenu de la page -->
 <main class="h-screen w-full overflow-hidden bg-cover bg-no-repeat">
     <h1 class="font-semibold text-[2rem] text-black py-12 pl-56 w-full">DramaQuick</h1>
@@ -125,6 +126,7 @@
     </div>
     </div>
 </main>
+</PageSwitchLayout>
 
 <style>
     main {

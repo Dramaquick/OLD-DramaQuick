@@ -31,10 +31,10 @@
         <div>
             <p class="session text-[1.5rem] color font-normal w-fit">Session {text.session}</p>
             <h1 class="title py-8 w-144 font-semibold text-[2.25rem] w-fit">Vous avez terminé le quiz !</h1>
-            <h2 class="desc bordered pr-52 pl-6 font-normal text-[1.5rem] h-fit w-fit">Merci d'avoir participé !<br> Vous allez être redirigé automatiquement vers la page d'accueil, mais vous pouvez aussi cliquer sur le bouton ci-dessous.</h2>
+            <h2 class="desc bordered pr-52 pl-6 font-normal text-[1.5rem] h-fit w-fit">Merci d'avoir participé !<br> Vous &#40;n'&#41;allez &#40;pas&#41; être redirigé automatiquement vers la page d'accueil, mais vous pouvez aussi cliquer sur le bouton ci-dessous.</h2>
         </div>
         <div class="button flex justify-center items-center">
-            <Button class="">Voir les résultats</Button>
+            <Button class="" action={() => {window.location.href='/'}}>Voir les résultats</Button>
         </div>
     </div>
     </div>

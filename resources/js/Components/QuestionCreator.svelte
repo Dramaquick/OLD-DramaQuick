@@ -1,6 +1,6 @@
 <script lang="ts">
     import SelectList from "./SelectList.svelte";
-    import Counter from "./Counter.svelte";
+    import Counter from "./CounterCreate.svelte";
 
     export let questions = [
         {
@@ -93,7 +93,7 @@
 
 </script>
 
-<div class="w-full h-200 flex flex-col items-center">
+<div class="questioncreator w-full min-h-200 flex flex-col items-center">
     <div class="text grid pb-4 justify-between w-full">
         <h1 class="title-style z-0 relative inline-block font-semibold text-[1.50rem] w-fit">Questions</h1>
         <div class="Add flex flex-row gap-4 justify-center items-center">
@@ -117,7 +117,7 @@
             </div>
             <input type="text" class="text-[#656565] border-none w-full bg-transparent focus:border-transparent focus:ring-0" bind:value={Question_Description} placeholder="Description de la question" />
             <div class="flex flew-rox gap-4 items-center">
-                    <SelectList bind:value={Question_Type} placeholder="Type de question" items={items} />
+                    <SelectList bind:value={Question_Type} placeholder="Type de question" items={items} isQuestionCreator={true}/>
                 {#if Question_Type == 1 || Question_Type == 4 || Question_Type == 5}
                     <button class="rounded-50% bg-[#dbf9ed] text-[#00e589] text-[1.5rem] w-9 font-medium" on:click={() => addOption(index)}>+</button>
                 {/if}
@@ -132,18 +132,18 @@
                     {/each}
                 </div>
             {:else if Question_Type == 7}
-                <div class="mx-4 my-4 px-[5rem]">
+                <div class="my-4 w-full flex flex-col items-center">
                     <SelectList bind:value={Question_Slider.type} placeholder="Type du slider" items={items_slider} width={218} />
-                    <div class="flex gap-4 ml-[-1rem] pt-4">
+                    <div class="flex gap-4 pt-4 justify-center">
                         <div class="flex flex-col items-center">
                             <p class="">Minimum</p>
-                            <div class="scale-75">
+                            <div class="">
                             <Counter bind:value={Question_Slider.min} min={0} max={Question_Slider.max-1}/>
                             </div>
                         </div>
-                        <div class="flex flex-col ml-2.5 items-center w-25%">
+                        <div class="flex flex-col ml-2.5 items-center">
                             <p class="">Maximum</p>
-                            <div class="scale-75">
+                            <div class="">
                                 <Counter bind:value={Question_Slider.max} min={Question_Slider.min+1} max={100}/>
                             </div>
                         </div>
@@ -169,6 +169,7 @@
         color: black;
     }
     .questions-container {
+        max-height: 41rem;
         height: 41rem;
         overflow-y: auto;
     }
@@ -215,6 +216,12 @@
         content: " ";
     }
 
+    @media screen and (max-width: 1400px) {
+        .questions-container {
+            height: fit-content;
+        }
+    }
+
     @media screen and (max-width: 600px) {
         .text {
             display: flex;
@@ -224,6 +231,29 @@
 
         .text .Add {
             justify-content: left;
+        }
+    }
+
+    @media screen and (max-width: 500px) {
+        .questioncreator {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .questioncreator .text {
+            width: fit-content;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .questions-container {
+            padding-right: 0.3rem;
+        }
+
+        .question {
+            padding: 0.5rem;
         }
     }
 </style>

@@ -3,39 +3,51 @@
     import RadioButton from "../../Components/RadioButton.svelte";
     import Button from "../../Components/Button.svelte";
     import Notification from "../../Components/Notification.svelte";
+    import PageSwitchLayout from "@/Layouts/PageSwitchLayout.svelte";
+    import {page,router} from "@inertiajs/svelte";
+
+    let session = $page.props.session;
+    let question = $page.props.question;
+    let user = $page.props.auth.user;
 
     // Mise en place du temps pour le timer
     let timer = {
-        minutes: 1,
-        seconds: 10,
+        minutes: 0,
+        seconds: 15,
     };
 
+    function stringToArray(string) {
+        let array = string.split(",");
+        for (let i = 0; i < array.length; i++) {
+            array[i] = array[i];
+        }
+        return array;
+    }
+
+    let options = stringToArray(question.Question_Options);
+
     // Mise en place des données pour les boutons radio
-    let items = [
-        {id: 1, name: 'Choix 1'},
-        {id: 2, name: 'Choix 2'},
-        {id: 3, name: 'Choix 3'},
-        {id: 4, name: 'Choix 4'},
-        {id: 5, name: 'Choix 5'},
-        {id: 6, name: 'Choix 6'},
-        {id: 7, name: 'Choix 7'},
-        {id: 8, name: 'Choix 8'},
-        {id: 9, name: 'Choix 9'},
-        {id: 10, name: 'Choix 10'}
-    ];
+    let items : any = [];
+
+    options.forEach((option, index) => {
+        items.push({
+            id: index,
+            name: option,
+        })
+        console.log(index)
+    });
 
     // Mise en place des données de la session pour le texte
     let text = {
-        session: "#35878454",
-        page: "4/10",
-        title: "Pourquoi le Japon ?",
-        description: "Bah oui c'est vrai mdr",
-        placeholder: "Blablabla"
+        session: session.Session_Id,
+        page: question.number.toString() + "/" + session.number_of_questions.toString(),
+        title: question.Question_Title,
+        description: question.Question_Description,
     }
-
+    
     // Mise en place du formulaire pour les boutons radio
     let form = {
-        selected: 0,
+        selected: -1,
     }
 
     // Fonction qui permet de notifier l'utilisateur
@@ -64,6 +76,17 @@
             }
         });
     }
+
+    function Next() {
+        let request = {
+            Session_Id: session.Session_Id.toString(),
+            Question_Id: question.Question_Id.toString(),
+            Answer_Values: form.selected.toString(),
+            User_Id: user.id.toString(),
+        }
+        console.log(request)
+        router.post('/api/answer/store', request);
+    }
 </script>
 
 <!-- Permet de modifier l'head de la page -->
@@ -84,104 +107,41 @@
         <p class="page font-semibold text-[1.5rem] text-black text-right">{text.page}</p>
         <div class="gridradio flex justify-center gap-40">
             <div class="radio1 flex flex-col gap-4">
+                {#each items as item}
+                {#if (item.id % 2 == 0) }
                 <div class="flex gap-4">
                     <RadioButton
                         class=""
                         name="test"
-                        value={1}
+                        value={item.id}
                         bind:selected={form.selected}
                     />
-                    <p>Le saumon</p>
+                    <p>{item.name}</p>
                 </div>
-                <div class="flex gap-4">
-                    <RadioButton
-                        class=""
-                        name="test"
-                        value={2}
-                        bind:selected={form.selected}
-                    />
-                    <p>Le saumon</p>
-                </div>
-                <div class="flex gap-4">
-                    <RadioButton
-                        class=""
-                        name="test"
-                        value={3}
-                        bind:selected={form.selected}
-                    />
-                    <p>Le saumon</p>
-                </div>
-                <div class="flex gap-4">
-                    <RadioButton
-                        class=""
-                        name="test"
-                        value={4}
-                        bind:selected={form.selected}
-                    />
-                    <p>Le saumon</p>
-                </div> 
-                <div class="flex gap-4">
-                    <RadioButton
-                        class=""
-                        name="test"
-                        value={5}
-                        bind:selected={form.selected}
-                    />
-                    <p>Le saumon</p>
-                </div>
+                {/if}
+                {/each}
             </div>
             <div class="radio2 flex flex-col gap-4">
+                {#each items as item}
+                {#if (item.id % 2 != 0) }
                 <div class="flex gap-4">
                     <RadioButton
                         class=""
                         name="test"
-                        value={6}
+                        value={item.id}
                         bind:selected={form.selected}
                     />
-                    <p>Le saumon</p>
+                    <p>{item.name}</p>
                 </div>
-                <div class="flex gap-4">
-                    <RadioButton
-                        class=""
-                        name="test"
-                        value={7}
-                        bind:selected={form.selected}
-                    />
-                    <p>Le saumon</p>
-                </div>
-                <div class="flex gap-4">
-                    <RadioButton
-                        class=""
-                        name="test"
-                        value={8}
-                        bind:selected={form.selected}
-                    />
-                    <p>Le saumon</p>
-                </div>
-                <div class="flex gap-4">
-                    <RadioButton
-                        class=""
-                        name="test"
-                        value={9}
-                        bind:selected={form.selected}
-                    />
-                    <p>Le saumon</p>
-                </div> 
-                <div class="flex gap-4">
-                    <RadioButton
-                        class=""
-                        name="test"
-                        value={10}
-                        bind:selected={form.selected}
-                    />
-                    <p>Le saumon</p>
-                </div>
+                {/if}
+                {/each}
             </div>
         </div>
         <div class="timer-tags flex flex-row items-end gap-1">
             <Timer
                 bind:minutes={timer.minutes}
                 bind:seconds={timer.seconds}
+                action = {[{time: [0, 0], action: () => {Next()}}]}
             />
         </div>
         <div class="button flex justify-end items-end">

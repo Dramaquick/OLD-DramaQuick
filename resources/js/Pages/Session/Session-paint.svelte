@@ -3,6 +3,7 @@
     import Paint from "../../Components/Paint.svelte";
     import Button from "../../Components/Button.svelte";
     import Notification from "../../Components/Notification.svelte";
+    import PageSwitchLayout from "@/Layouts/PageSwitchLayout.svelte";
     import {page,router} from "@inertiajs/svelte";
 
     let session = $page.props.session;
@@ -83,6 +84,7 @@
     <title>DramaQuick</title>
 </svelte:head>
 
+<PageSwitchLayout>
 <!-- Contenu de la page -->
 <main class="h-screen w-full overflow-hidden bg-cover bg-no-repeat">
     <h1 class="font-semibold text-[2rem] text-black py-12 pl-56 w-full">DramaQuick</h1>
@@ -110,6 +112,7 @@
     </div>
     </div>
 </main>
+</PageSwitchLayout>
 
 <style>
     main {

@@ -3,6 +3,7 @@
     import Slider from "../../Components/Slider.svelte";
     import Button from "../../Components/Button.svelte";
     import Notification from "../../Components/Notification.svelte";
+    import PageSwitchLayout from "@/Layouts/PageSwitchLayout.svelte";
     import {page,router} from "@inertiajs/svelte";
 
     let session = $page.props.session;
@@ -23,35 +24,31 @@
         description: question.Question_Description,
     }
 
-    // String to dictionary
-    function stringToDictionary(string) {
-        let dictionary = {};
-        let array = string.slice(1,-1).split(",");
+    function stringToArray(string) {
+        let array = string.split(",");
         for (let i = 0; i < array.length; i++) {
-            let key = array[i].split(":")[0].slice(1, -1);
-            let value = array[i].split(":")[1];
-            dictionary[key] = value;
+            array[i] = array[i];
         }
-        return dictionary;
+        return array;
     }
 
-    let options : any = stringToDictionary(question.Question_Options);
+    let options = stringToArray(question.Question_Options);
 
     let slider = [
-        options.min,
-        options.max,
+        options[0],
+        options[1],
     ]
 
     let form : any = {};
 
     // Mise en place du formulaire pour le slider
-    if (options.type == 1) {
+    if (options[2] == 1) {
         form = {
-            slider: Math.round((options.min + options.max) / 2),
+            slider: Math.round((options[0] + options[1]) / 2),
         };
     } else {
         form = {
-            slider: [options.min, options.max - Math.round(((options.min + options.max) / 2) / 2)],
+            slider: [options[0], options[1] - Math.round(((options[0] + options[1]) / 2) / 2)],
         };
     }
 
@@ -99,6 +96,7 @@
     <title>DramaQuick</title>
 </svelte:head>
 
+<PageSwitchLayout>
 <!-- Contenu de la page -->
 <main class="h-screen w-full overflow-hidden bg-cover bg-no-repeat">
     <h1 class="font-semibold text-[2rem] text-black py-12 pl-56 w-full">DramaQuick</h1>
@@ -111,19 +109,19 @@
         </div>
         <p class="page font-semibold text-[1.5rem] text-black text-right">{text.page}</p>
         <div class="slider flex justify-center items-center scale-150">
-            {#if options.type == 1}
+            {#if options[2] == 1}
             <Slider
                 type="simple"
                 bind:values={form.slider}
-                min={Number(options.min)}
-                max={Number(options.max)}
+                min={Number(slider[0])}
+                max={Number(slider[1])}
             />
-            {:else if options.type == 2}
+            {:else if options[2] == 2}
             <Slider
                 type="double"
                 bind:values={form.slider}
-                min={Number(options.min)}
-                max={Number(options.max)}
+                min={Number(slider[0])}
+                max={Number(slider[1])}
             />
             {/if}
         </div>
@@ -140,6 +138,7 @@
     </div>
     </div>
 </main>
+</PageSwitchLayout>
 
 <style>
     main {

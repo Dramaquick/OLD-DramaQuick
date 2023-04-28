@@ -325,4 +325,60 @@ class SessionController extends Controller
         //
     }
 
+    /**
+     * Get if the session exsts.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function sessionExist($id)
+    {
+        $session = DSession::find($id);
+
+        if ($session) {
+            return redirect()->route('session.show', $session->Session_Id);
+        }
+        else {
+            return redirect('/');
+        }
+    }
+
+    /**
+     * Get the next question of the session.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function nextQuestion($id)
+    {
+        $session = DSession::find($id);
+
+        $questions = DQuestion::where('Session_Id', $id)->get();
+
+        $count = 1;
+        foreach($questions as $question) {
+            // On vérifie qu'elle na pas de answers
+            $answers = DAnswer::where('Question_Id', $question->Question_Id)->get();
+            if (count($answers) == 0) {
+                return redirect()->route('question.show', [$question->Question_Id, $count]);
+            }
+        }
+        return redirect()->route('session.end', $session->Session_Id);
+    }
+
+    /**
+     * Get the final page.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function end($id)
+    {
+        $session = DSession::find($id);
+
+        return Inertia::render('Session/Session-finish', [
+            'session' => $session,
+        ]);
+    }
+
 }
