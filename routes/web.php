@@ -70,8 +70,9 @@ Route::post('/question/store', [QuestionController::class, 'store'])
 ->middleware(['auth', 'verified'])->name('question.store');
 
 // Access question
-Route::get('/question/{question}', [QuestionController::class, 'show'])
-->middleware(['auth', 'verified'])->where('question', '[0-9]+')->name('question.show');
+
+Route::get('/question/{question}/{counter}', [QuestionController::class, 'show'])
+->name('question.show');
 
 // ----------------- User -----------------
 

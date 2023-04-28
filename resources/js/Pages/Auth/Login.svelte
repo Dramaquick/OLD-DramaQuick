@@ -41,7 +41,7 @@
 <PageSwitchLayout>
 <main>
     <div class="right">
-        <div class="right_content">
+        <div class="right_content flex flex-col justify-center items-center">
             <h1>Se connecter</h1>
             <h2>Entrez vos informations ci-dessous.</h2>
 
@@ -49,7 +49,7 @@
 
             <form
                 on:submit|preventDefault={onSubmit}
-                class="flex flex-col gap-4"
+                class="flex flex-col gap-4 justify-center items-center"
             >
                 <div class="w-full">
                     <label for="email">Email</label>
@@ -66,7 +66,7 @@
                     />
                 </div>
 
-                <div>
+                <div class="w-full">
                     <label for="password">Mot de passe</label>
                     <div class="input">
                         <BreezeInput
@@ -104,7 +104,7 @@
                         {/if}
                     </div>
                 </div>
-                <div class="submit">
+                <div class="submit w-full">
                     <BreezeButton
                         sclass:opacity-25={form.processing}
                         disabled={form.processing}
@@ -113,7 +113,7 @@
                         Se connecter
                     </BreezeButton>
                 </div>
-                <div class="line">
+                <div class="line flex flex-row justify-between items-center mt-[1rem]">
                     <div>
                         <svg
                             width="211"
@@ -150,7 +150,7 @@
                         </svg>
                     </div>
                 </div>
-                <div class="bottom">
+                <div class="bottom w-full flex justify-between">
                     <div>
                         <h3>Toujours pas inscrit ?</h3>
                     </div>
@@ -210,11 +210,9 @@
         font-size: 20px;
         line-height: 30px;
         color: #808a86;
-        margin-right: 6.5rem;
     }
 
     form {
-        margin-right: 100px;
         margin-top: 50px;
         width: 30.5rem;
     }
@@ -251,14 +249,6 @@
     }
 
     .submit {
-        margin-top: 1.875rem;
-    }
-
-    .line {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
         margin-top: 1.875rem;
     }
 
@@ -334,12 +324,12 @@
             margin-top: 0;
         }
 
-        .remember {
-            margin-left: 0.71125rem;
+        .line {
+            display: none;
         }
 
-        .line {
-            justify-content: space-around;
+        .remember {
+            margin-left: 0.71125rem;
         }
 
         .spaceforget {
@@ -352,9 +342,11 @@
         }
 
         .bottom {
-            display: flex;
-            flex-direction: row;
+            flex-direction: column;
+            align-items: center;
             justify-content: space-between;
+
+            height: 4rem;
         }
     }
 

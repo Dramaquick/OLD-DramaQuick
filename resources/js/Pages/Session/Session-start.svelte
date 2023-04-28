@@ -8,14 +8,81 @@
     import PageSwitchLayout from '@/Layouts/PageSwitchLayout.svelte';
     import { onMount } from 'svelte';
 
+
     export let session;
+
+    // Mise en place des membres de la session
+    let users: User[] = [];
+
+    function reloadUsers() {
+        let previous = users;
+        users = [];
+        users = previous;
+    }
 
     onMount(() => {
         window.Echo.join('dramaquick_database_session.' + session.Session_Id)
-            .joining((user) => {
+            .here((current_users: User[]) => {
+                for(let user of current_users) {
+                    if (user.id == $page.props.session.Owner_Id) {
+                        user.user_role = "OWNER";
+                        users.unshift(user);
+                        continue
+                    };
+                    users.push(user);
+                }
+                reloadUsers();
+                console.log(users);
+                if (Object.keys(users).length >= session.Session_MinUser) {
+                    if (stop) {
+                    stop = false;
+                    }
+                } else {
+                    if (!stop) {
+                    stop = true;
+                    }
+                }
+                timer(timeroptions.minutes, timeroptions.seconds, stop, [{time: [0, 0], action: ()=>{startSession()}}]);
+            })
+            .joining((user: User) => {
+                if (user.id == $page.props.session.Owner_Id) {
+                    user.user_role = "OWNER";
+                    users.unshift(user);
+                    return;
+                };
+                users.push(user);
+                reloadUsers();
+                notify(user.name,"a rejoint la session","success",5000,"box","corner-top-right",false,"",() => {},"join");
                 console.log(user);
-            });
+                if (Object.keys(users).length >= session.Session_MinUser) {
+                    if (stop) {
+                    stop = false;
+                    }
+                } else {
+                    if (!stop) {
+                    stop = true;
+                    }
+                }
+                timer(timeroptions.minutes, timeroptions.seconds, stop, [{time: [0, 0], action: ()=>{startSession()}}]);
+            })
+            .leaving((user: User) => {
+                users = users.filter((u: User) => u.id != user.id);
+                reloadUsers();
+                notify(user.name,"a quitté la session","error",5000,"box","corner-bottom-right",false,"",() => {},"quit");
+                console.log(user);
+                if (Object.keys(users).length >= session.Session_MinUser) {
+                    if (stop) {
+                    stop = false;
+                    }
+                } else {
+                    if (!stop) {
+                    stop = true;
+                    }
+                }
+                timer(timeroptions.minutes, timeroptions.seconds, stop, [{time: [0, 0], action: ()=>{startSession()}}]);
+            })
     });
+
 
     // On récupère les données de l'utilisateur
     let profile: User = $page.props.auth.user;
@@ -37,6 +104,14 @@
     // Mise en place des tags de la session
     let session_tags = [{text: 'Loading', emoji: '⌛', color: '#BCBCBC'}];
 
+    function ReverseArray(array : any) {
+        let newarray = [];
+        while (array.length > 0) {
+            newarray.push(array.pop());
+        }
+        session_tags = newarray;
+    }
+
     // On récupère les id des tags de la session
     window.axios.get('/api/session/tags/' + session.Session_Id)
     .then(function (response) {
@@ -46,46 +121,18 @@
             let tag = response.data['tags'].pop();
             session_tags.push({text: tag.Tag_Name, emoji: tag.Tag_Emoji, color: tag.Tag_Color});
         }
+        ReverseArray(session_tags);
     })
     .catch(function (error) {
         console.log(error.response.data);
     });
 
     // Mise en place du temps pour le timer
-    let timer = {
+    let timeroptions = {
         minutes: 0,
-        seconds: 31,
+        seconds: 5,
     };
-    let stop = true;
-
-    // Mise en place des membres de la session
-    let users: User[] = [
-        {
-            id: 1,
-            name: "Stive",
-            user_role: "OWNER",
-        },
-        {
-            id: 1,
-            name: "Stive",
-            user_role: "ADMIN",
-        },
-        {
-            id: 1,
-            name: "Stive",
-            user_role: "ADMIN",
-        },
-        {
-            id: 1,
-            name: "Stive",
-            user_role: "USER",
-        },
-        {
-            id: 1,
-            name: "Stive",
-            user_role: "USER",
-        },
-    ]
+    let stop = null;
 
     // Mise en place des données de la session pour le texte
     let text = {
@@ -125,11 +172,37 @@
         });
     };
 
-    if (Object.keys(users).length >= session.Session_MinUser) {
-        stop = true;
-    } else {
-        stop = false;
+    // function to add a timer
+    function timer(minutes, seconds, stop, action) {
+        let div_timer = document.getElementById("timerparent");
+        // SI il y a un element dans le div, on le supprime
+        if (div_timer.firstChild) {
+            div_timer.removeChild(div_timer.firstChild);
+        }
+        // On crée un nouveau timer
+        const timer = document.createElement('div');
+        div_timer.appendChild(timer);
+        new Timer({
+            target: timer,
+            props: {
+                minutes,
+                seconds,
+                stop,
+                action
+            }
+        });
     }
+
+    // function start session 
+    function startSession() {
+        console.log("start session");
+        router.get('/api/nextquestion/' + session.Session_Id)
+    }
+
+    $: {
+        text.size = Object.keys(users).length + "/" + session.Session_MaxUser;
+    }
+
 </script>
 
 <!-- Permet de modifier l'head de la page -->
@@ -176,15 +249,8 @@
             </div>
             {/if}
             <div class="timer-tags flex flex-row items-center gap-10 min-w-[765px]">
-                <Timer
-                    bind:minutes={timer.minutes}
-                    bind:seconds={timer.seconds}
-                    action={[{
-                        time: [0, 30], action: () => {notify("Début de la session","La session va commencer dans 30 secondes", "info", 5000, "bar", "bottom", false, "", () => {}, "")}}, 
-                        {time: [0, 15], action: () => {notify("Début de la session","La session va commencer dans 15 secondes", "info", 5000, "bar", "bottom", false, "", () => {}, "")}}, 
-                        {time: [-10, 0], action: () => {window.location.href = "/session-paint"}}]}
-                    bind:stop={stop}
-                />
+                <div id="timerparent">
+                </div>
                 <div class="tags flex flex-row items-center gap-4">
                     {#each Object.keys(session_tags) as tag}
                         <Tag bind:tag={session_tags[tag]}/>

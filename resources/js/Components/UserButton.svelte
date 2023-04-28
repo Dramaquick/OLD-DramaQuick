@@ -10,7 +10,7 @@
     <img class="user-image" src={src} alt="user_image"/>
     <!-- svelte-ignore a11y-mouse-events-have-key-events -->
     <div class="user-menu">
-        <a class="user-menu-item" href="/profile">Profile</a>
+        <a class="user-menu-item" href="/profile">Profil</a>
         <div class="separator"></div>
         <button use:inertia={{ href: "/logout", method: "post" }} class="user-menu-item">Se déconnecter</button>
     </div>

@@ -3,39 +3,51 @@
     import SelectList from "../../Components/SelectList.svelte";
     import Button from "../../Components/Button.svelte";
     import Notification from "../../Components/Notification.svelte";
+    import {page,router} from "@inertiajs/svelte";
+
+    let session = $page.props.session;
+    let question = $page.props.question;
+    let user = $page.props.auth.user;
+
+    function stringToArray(string) {
+        let array = string.slice(1,-1).split(",");
+        for (let i = 0; i < array.length; i++) {
+            array[i] = array[i];
+        }
+        return array;
+    }
+
+    let options = stringToArray(question.Question_Options);
 
     // Mise en place du temps pour le timer
     let timer = {
-        minutes: 1,
-        seconds: 10,
+        minutes: 0,
+        seconds: 15,
     };
 
     // Mise en place des choix pour la liste
-    let items = [
-        {id: 1, name: 'Choix 1'},
-        {id: 2, name: 'Choix 2'},
-        {id: 3, name: 'Choix 3'},
-        {id: 4, name: 'Choix 4'},
-        {id: 5, name: 'Choix 5'},
-        {id: 6, name: 'Choix 6'},
-        {id: 7, name: 'Choix 7'},
-        {id: 8, name: 'Choix 8'},
-        {id: 9, name: 'Choix 9'},
-        {id: 10, name: 'Choix 10'}
-    ];
+    let items : any = [];
+
+    options.forEach((option, index) => {
+        items.push({
+            id: index+1,
+            name: option,
+        })
+        console.log(index)
+    });
 
     // Mise en place des données de la session pour le texte
     let text = {
-        session: "#35878454",
-        page: "4/10",
-        title: "Pourquoi le Japon ?",
-        description: "Bah oui c'est vrai mdr",
+        session: session.Session_Id,
+        page: question.number.toString() + "/" + session.number_of_questions.toString(),
+        title: question.Question_Title,
+        description: question.Question_Description,
         placeholder: "Blablabla"
     }
 
     // Mise en place du formulaire pour la selectlist
     let form = {
-        selectValue: -1,
+        selectValue: 0,
     }
 
     // Fonction qui permet de notifier l'utilisateur
@@ -64,6 +76,17 @@
             }
         });
     }
+
+    function Next() {
+        let request = {
+            Session_Id: session.Session_Id.toString(),
+            Question_Id: question.Question_Id.toString(),
+            Answer_Values: form.selectValue,
+            User_Id: user.id.toString(),
+        }
+        console.log(request)
+        router.post('/api/answer/store', request);
+    }
 </script>
 
 <!-- Permet de modifier l'head de la page -->
@@ -75,7 +98,7 @@
 <main class="h-screen w-full overflow-hidden bg-cover bg-no-repeat">
     <h1 class="font-semibold text-[2rem] text-black py-12 pl-56 w-full">DramaQuick</h1>
     <div class="pl-56 pr-56">
-    <div class="grid bg-white w-full h-156 shadow rounded-2.5xl px-20 py-16">
+    <div class="grid bg-white w-full min-h-[39rem]  shadow rounded-2.5xl px-20 py-16">
         <div>
             <p class="session text-[1.5rem] color font-normal w-fit">Session {text.session}</p>
             <h1 class="title py-2 w-144 font-semibold text-[2.25rem] w-fit">{text.title}</h1>
@@ -93,6 +116,7 @@
             <Timer
                 bind:minutes={timer.minutes}
                 bind:seconds={timer.seconds}
+                action = {[{time: [0, 0], action: () => {Next()}}]}
             />
         </div>
         <div class="button flex justify-end items-end">

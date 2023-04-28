@@ -50,7 +50,7 @@ class DQuestion extends Model
      *
      * @var string
      */
-    protected $primaryKey = 'Session_Id_Question_Id';
+    protected $primaryKey = 'Question_Id';
 
     /**
      * The attributes that are mass assignable.
@@ -58,22 +58,21 @@ class DQuestion extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'Question_Name',
+        'Question_Title',
         'Question_Description',
         'Question_Type',
-        'Question_Duration',
-        'Question_Parameters'
-    ];
-
-    protected $casts = [
-        'Question_Duration' => 'integer'
+        'Question_Options',
+        'Session_Id'
     ];
 
     /**
      * Get the answers that belong to this question.
      */
     public function answers() {
-        return $this->hasMany(DAnswer::class, 'Session_Id_Question_Id');
+        return $this->hasMany(DAnswer::class)->where([
+            'Question_Id' => $this->Question_Id,
+            'Session_Id' => $this->Session_Id
+        ]);
     }
 
     public static function boot() {

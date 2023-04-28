@@ -6,15 +6,13 @@
     import Button from "./Button.svelte";
     import TextBox from "./TextBox.svelte";
     import 'animate.css'; // Animation library
-
+    import { router } from  "@inertiajs/svelte";
     /* ---------------------------- */
     /*         PARAMETERS           */
     /* ---------------------------- */
-
     type NotificationType = "success" | "warning" | "info" | "error" | "normal";
     type FormatType = "box" | "bar";
     type PositionType = "top" | "bottom" | "middle" | "left" | "right" | "corner-top-left" | "corner-top-right" | "corner-bottom-left" | "corner-bottom-right";
-
     export let title = "Notification";
     export let text = "This is a notification";
     export let type: NotificationType = "success";
@@ -26,36 +24,32 @@
     export let placeholder = "Placeholder";
     export let action = () => {};
     export let id = Math.random().toString();
-
+    export let blurBackground = false;
     /* ---------------------------- */
     /*           METHODS            */
     /* ---------------------------- */
-
     let destroy = false;
     let timeout;
     let close = false;
     let inputText = "";
     let modal;
-
     if (input) {
         duration = 0;
     };
-
     // When the component is mounted, set a timeout to destroy it
     onMount(() => {
         console.log(duration);
         if (duration > 0) {
             timeout = setTimeout(() => {
+                close = true;
                 Disparition()
             }, duration);
         }
     });
-
     // When the component is destroyed, clear the timeout
     onDestroy(() => {
         clearTimeout(timeout);
     });
-
     // Make the component disappear
     function Disparition() {
         let div = document.getElementById(id);
@@ -63,7 +57,7 @@
         setTimeout(() => {
             if (!close) {
                 if (id === "session"){
-                    window.location.href ="/quiz/"+inputText;
+                    router.post("/api/session/exist/"+inputText);
                 }
                 else {
                     action();
@@ -74,9 +68,7 @@
             clearTimeout(timeout);
         }, 250);
     }
-
     let classes;
-
     $: classes = "notification " + type;
     $: if (position === "middle" || position === "left" || position === "right" || position === "corner-top-left" || position === "corner-top-right" || position === "corner-bottom-left" || position === "corner-bottom-right") {
         classes += " box";
@@ -86,12 +78,11 @@
         classes += " " + format;
         classes += " " + position;
     }
-
 </script>
 
 {#if !destroy}
 <Portal>
-{#if format === "box"}
+{#if blurBackground}
 <div class="animate__animated {close ? "animate__fadeOut" : "animate__fadeIn"} bg-[#00000060] z-10 w-screen h-screen absolute absolute top-0 left-0 backdrop-blur-sm animate__faster"></div>
 {/if}
 <div id={id} class={classes}>
@@ -130,13 +121,15 @@
             <p class="pb-2">{title}</p>
             <hr>
             <div class="flex pt-4 px-4 gap-4 items-center">
+                <form action="/api/session/exist/{inputText}" method="post">
                 <TextBox placeholder={placeholder} bind:value={inputText} showIcon={false}/>
+                </form>
                 {#if inputText.length === 0}
-                    <Button class="h-12" action={() => {Disparition()}} disabled><svg width="12" height="19" viewBox="0 0 12 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <Button class="h-12" action={() => Disparition()} disabled><svg width="12" height="19" viewBox="0 0 12 19" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M1.32834 0.104168C1.20359 0.10359 1.07994 0.122799 0.964454 0.1607C0.848972 0.198599 0.743936 0.254442 0.65537 0.325027C0.56653 0.395824 0.496016 0.480055 0.447896 0.572861C0.399775 0.665667 0.375 0.765209 0.375 0.865746C0.375 0.966284 0.399775 1.06582 0.447896 1.15863C0.496016 1.25143 0.56653 1.33566 0.65537 1.40646L8.39923 7.62855C8.93173 8.05694 9.23082 8.63764 9.23082 9.24309C9.23082 9.84855 8.93173 10.4292 8.39923 10.8576L0.65537 17.0797C0.476888 17.2231 0.376618 17.4176 0.376618 17.6204C0.376618 17.8232 0.476888 18.0178 0.65537 18.1612C0.833852 18.3046 1.07592 18.3851 1.32834 18.3851C1.58075 18.3851 1.82282 18.3046 2.0013 18.1612L9.74516 11.9391C10.1865 11.5854 10.5367 11.1652 10.7756 10.7025C11.0145 10.2399 11.1375 9.74396 11.1375 9.24309C11.1375 8.74222 11.0145 8.24628 10.7756 7.78365C10.5367 7.32103 10.1865 6.90083 9.74516 6.54711L2.0013 0.325027C1.91274 0.254442 1.8077 0.198599 1.69222 0.1607C1.57674 0.122799 1.45308 0.10359 1.32834 0.104168Z" fill="#0D241B"/>
                         </svg></Button>
                 {:else}
-                    <Button class="h-12" action={() => {Disparition()}}><svg width="12" height="19" viewBox="0 0 12 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <Button class="h-12" action={() => Disparition()}><svg width="12" height="19" viewBox="0 0 12 19" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M1.32834 0.104168C1.20359 0.10359 1.07994 0.122799 0.964454 0.1607C0.848972 0.198599 0.743936 0.254442 0.65537 0.325027C0.56653 0.395824 0.496016 0.480055 0.447896 0.572861C0.399775 0.665667 0.375 0.765209 0.375 0.865746C0.375 0.966284 0.399775 1.06582 0.447896 1.15863C0.496016 1.25143 0.56653 1.33566 0.65537 1.40646L8.39923 7.62855C8.93173 8.05694 9.23082 8.63764 9.23082 9.24309C9.23082 9.84855 8.93173 10.4292 8.39923 10.8576L0.65537 17.0797C0.476888 17.2231 0.376618 17.4176 0.376618 17.6204C0.376618 17.8232 0.476888 18.0178 0.65537 18.1612C0.833852 18.3046 1.07592 18.3851 1.32834 18.3851C1.58075 18.3851 1.82282 18.3046 2.0013 18.1612L9.74516 11.9391C10.1865 11.5854 10.5367 11.1652 10.7756 10.7025C11.0145 10.2399 11.1375 9.74396 11.1375 9.24309C11.1375 8.74222 11.0145 8.24628 10.7756 7.78365C10.5367 7.32103 10.1865 6.90083 9.74516 6.54711L2.0013 0.325027C1.91274 0.254442 1.8077 0.198599 1.69222 0.1607C1.57674 0.122799 1.45308 0.10359 1.32834 0.104168Z" fill="#0D241B"/>
                         </svg></Button>
                 {/if}
@@ -208,7 +201,6 @@
         height: fit-content;
         min-height: 4rem;
     }
-
     .close {
         position: absolute;
         top: 0.5rem;
@@ -217,7 +209,6 @@
         font-size: 1.5rem;
         color: #666666;
     }
-
     .close-box {
         position: absolute;
         top: -1rem;
@@ -231,7 +222,6 @@
         padding: 0.5rem;
         box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
     }
-
     .close-bar {
         position: absolute;
         right: 2rem;
@@ -239,52 +229,43 @@
         font-size: 1.5rem;
         color: #666666;
     }
-
     .notification.box {
         border: 1px solid #e4e4e4;
     }
-
     .notification.bar {
         border: 1px solid #e4e4e4;
         padding: 2rem 0;
     }
-
     .notification.success {
         border: 1px solid #d1fae5;
         background-color: #d1fae5;
         color: #10b981;
     }
-
     .notification.error {
         border: 1px solid #fed7d7;
         background-color: #fed7d7;
         color: #ef4444;
     }
-
     .notification.info {
         border: 1px solid #bfdbfe;
         background-color: #bfdbfe;
         color: #0077ff;
     }
-
     .notification.warning {
         border: 1px solid #fef3c7;
         background-color: #fef3c7;
         color: #f59e0b;
     }
-
     .notification.normal {
         border: 1px solid #e4e4e4;
         background-color: #fff;
         color: #666666;
     }
-
     .notification.bottom.box {
         bottom: 1rem;
         left: 50%;
         transform: translateX(-50%);
     }
-
     .notification.bottom.bar {
         bottom: 0;
         left: 0;
@@ -292,13 +273,11 @@
         /* round corners */
         border-radius: 0.5rem 0.5rem 0 0;
     }
-
     .notification.top.box {
         top: 1.5rem;
         left: 50%;
         transform: translateX(-50%);
     }
-
     .notification.top.bar {
         top: 0;
         left: 0;
@@ -306,7 +285,6 @@
         /* round corners */
         border-radius: 0 0 0.5rem 0.5rem;
     }
-
     .notification.left {
         top: 50%;
         left: 1.5rem;
@@ -317,81 +295,61 @@
         right: 1.5rem;
         transform: translateY(-50%);
     }
-
     .notification.middle {
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
     }
-
     .notification.corner-top-left {
         top: 1.5rem;
         left: 1.5rem;
     }
-
     .notification.corner-top-right {
         top: 1.5rem;
         right: 1.5rem;
     }
-
     .notification.corner-bottom-left {
         bottom: 1rem;
         left: 1.5rem;
     }
-
     .notification.corner-bottom-right {
         bottom: 1rem;
         right: 1.5rem;
     }
-
-
-
     /* animation d'arrivée */
-
     .notification.bottom.box {
         animation: slide-in-bottom-box 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
     }
-
     .notification.bottom.bar {
         animation: slide-in-bottom-bar 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
     }
-
     .notification.top.box {
         animation: slide-in-top-box 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
     }
-
     .notification.top.bar {
         animation: slide-in-top-bar 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
     }
-
     .notification.left {
         animation: slide-in-left 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
     }
-
     .notification.right {
         animation: slide-in-right 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
     }
-
     .notification.middle {
         animation: scale-in-center 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
     }
-
     .notification.corner-top-left {
         animation: slide-in-top-left 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
     }
-
     .notification.corner-top-right {
         animation: slide-in-top-right 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
     }
-
     .notification.corner-bottom-left {
         animation: slide-in-bottom-left 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
     }
-
     .notification.corner-bottom-right {
         animation: slide-in-bottom-right 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
     }
-
     @keyframes slide-in-bottom-box {
         0% {
             opacity: 0;
@@ -402,7 +360,6 @@
             transform: translateX(-50%) translateY(0);
         }
     }
-
     @keyframes slide-in-bottom-bar {
         0% {
             opacity: 0;
@@ -413,7 +370,6 @@
             transform: translateY(0);
         }
     }
-
     @keyframes slide-in-top-box {
         0% {
             opacity: 0;
@@ -424,7 +380,6 @@
             transform: translateX(-50%) translateY(0);
         }
     }
-
     @keyframes slide-in-top-bar {
         0% {
             opacity: 0;
@@ -435,7 +390,6 @@
             transform: translateY(0);
         }
     }
-
     @keyframes slide-in-left {
         0% {
             opacity: 0;
@@ -446,7 +400,6 @@
             transform: translateX(0) translateY(-50%);
         }
     }
-
     @keyframes slide-in-right {
         0% {
             opacity: 0;
@@ -457,7 +410,6 @@
             transform: translateX(0) translateY(-50%);
         }
     }
-
     @keyframes scale-in-center {
         0% {
             opacity: 0;
@@ -468,7 +420,6 @@
             transform: scale(1) translateY(-50%) translateX(-50%);
         }
     }
-
     @keyframes slide-in-top-left {
         0% {
             opacity: 0;
@@ -479,7 +430,6 @@
             transform: translateX(0);
         }
     }
-
     @keyframes slide-in-top-right {
         0% {
             opacity: 0;
@@ -490,7 +440,6 @@
             transform: translateX(0);
         }
     }
-
     @keyframes slide-in-bottom-left {
         0% {
             opacity: 0;
@@ -501,7 +450,6 @@
             transform: translateX(0);
         }
     }
-
     @keyframes slide-in-bottom-right {
         0% {
             opacity: 0;
@@ -512,53 +460,40 @@
             transform: translateX(0);
         }
     }
-
     /* animation de disparition */
-
     .notification.bottom.box.disparition {
         animation: slide-out-bottom-box 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
     }
-
     .notification.bottom.bar.disparition {
         animation: slide-out-bottom-bar 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
     }
-
     .notification.top.box.disparition {
         animation: slide-out-top-box 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
     }
-
     .notification.top.bar.disparition {
         animation: slide-out-top-bar 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
     }
-
     .notification.left.disparition {
         animation: slide-out-left 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
     }
-
     .notification.right.disparition {
         animation: slide-out-right 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
     }
-
     .notification.middle.disparition {
         animation: scale-out-center 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
     }
-
     .notification.corner-top-left.disparition {
         animation: slide-out-top-left 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
     }
-
     .notification.corner-top-right.disparition {
         animation: slide-out-top-right 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
     }
-
     .notification.corner-bottom-left.disparition {
         animation: slide-out-bottom-left 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
     }
-
     .notification.corner-bottom-right.disparition {
         animation: slide-out-bottom-right 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
     }
-
     @keyframes slide-out-bottom-box {
         0% {
             opacity: 1;
@@ -569,7 +504,6 @@
             transform: translateX(-50%) translateY(125%);
         }
     }
-
     @keyframes slide-out-bottom-bar {
         0% {
             opacity: 1;
@@ -580,7 +514,6 @@
             transform: translateY(100%);
         }
     }
-
     @keyframes slide-out-top-box {
         0% {
             opacity: 1;
@@ -591,7 +524,6 @@
             transform: translateX(-50%) translateY(-125%);
         }
     }
-
     @keyframes slide-out-top-bar {
         0% {
             opacity: 1;
@@ -602,7 +534,6 @@
             transform: translateY(-100%);
         }
     }
-
     @keyframes slide-out-left {
         0% {
             opacity: 1;
@@ -613,7 +544,6 @@
             transform: translateX(-125%) translateY(-50%);
         }
     }
-
     @keyframes slide-out-right {
         0% {
             opacity: 1;
@@ -624,7 +554,6 @@
             transform: translateX(125%) translateY(-50%);
         }
     }
-
     @keyframes scale-out-center {
         0% {
             opacity: 1;
@@ -635,7 +564,6 @@
             transform: translateY(-50%) translateX(-50%) scale(0.5);
         }
     }
-
     @keyframes slide-out-top-left {
         0% {
             opacity: 1;
@@ -646,7 +574,6 @@
             transform: translateX(-125%);
         }
     }
-
     @keyframes slide-out-top-right {
         0% {
             opacity: 1;
@@ -657,7 +584,6 @@
             transform: translateX(125%);
         }
     }
-
     @keyframes slide-out-bottom-left {
         0% {
             opacity: 1;
@@ -668,7 +594,6 @@
             transform: translateX(-125%);
         }
     }
-
     @keyframes slide-out-bottom-right {
         0% {
             opacity: 1;
@@ -679,5 +604,4 @@
             transform: translateX(125%);
         }
     }
-
 </style>

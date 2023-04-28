@@ -1,8 +1,8 @@
-<script>
+<script lang="ts">
     import { onMount } from "svelte";
     import Slider from "./Slider.svelte";
 
-    export let setPaint;
+    export let setPaint : any;
 
     // Déclaration des variables
     let canvas;
@@ -340,6 +340,7 @@
     </div>
 
         <canvas
+            id = "canvas"
             {width}
             {height}
             bind:this={canvas}

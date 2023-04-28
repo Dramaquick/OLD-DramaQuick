@@ -31,6 +31,7 @@
     window.axios.get('/api/user/avatar/'+ user.id).then(function (response) {
         if (response.headers['content-type'] != "image/svg+xml") {
             def = true;
+            console.log("user:" + user.id + " has a custom avatar");
         }
     }).catch(function (error) {
         def = true;
@@ -51,7 +52,7 @@
         {/if}
         {#if def}
             <img class={`image ${user.user_role} custom-image`}
-            src={"/user/avatar/" + user.id + "?" + Date.now()}
+            src={"/api/user/avatar/" + user.id + "?" + Date.now()}
             alt="user_image"/>
         {/if}
         <div class="highlight"></div>

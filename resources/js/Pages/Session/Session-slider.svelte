@@ -3,24 +3,56 @@
     import Slider from "../../Components/Slider.svelte";
     import Button from "../../Components/Button.svelte";
     import Notification from "../../Components/Notification.svelte";
+    import {page,router} from "@inertiajs/svelte";
+
+    let session = $page.props.session;
+    let question = $page.props.question;
+    let user = $page.props.auth.user;
 
     // Mise en place du temps pour le timer
     let timer = {
-        minutes: 1,
-        seconds: 10,
+        minutes: 0,
+        seconds: 15,
     };
 
     // Mise en place des données de la session pour le texte
     let text = {
-        session: "#35878454",
-        page: "4/10",
-        title: "Pourquoi le Japon ?",
-        description: "Bah oui c'est vrai mdr"
+        session: session.Session_Id,
+        page: question.number.toString() + "/" + session.number_of_questions.toString(),
+        title: question.Question_Title,
+        description: question.Question_Description,
     }
 
+    // String to dictionary
+    function stringToDictionary(string) {
+        let dictionary = {};
+        let array = string.slice(1,-1).split(",");
+        for (let i = 0; i < array.length; i++) {
+            let key = array[i].split(":")[0].slice(1, -1);
+            let value = array[i].split(":")[1];
+            dictionary[key] = value;
+        }
+        return dictionary;
+    }
+
+    let options : any = stringToDictionary(question.Question_Options);
+
+    let slider = [
+        options.min,
+        options.max,
+    ]
+
+    let form : any = {};
+
     // Mise en place du formulaire pour le slider
-    let form = {
-        sliderdouble: [0, 10]
+    if (options.type == 1) {
+        form = {
+            slider: Math.round((options.min + options.max) / 2),
+        };
+    } else {
+        form = {
+            slider: [options.min, options.max - Math.round(((options.min + options.max) / 2) / 2)],
+        };
     }
 
     // Fonction qui permet de notifier l'utilisateur
@@ -49,6 +81,17 @@
             }
         });
     }
+
+    function Next() {
+        let request = {
+            Session_Id: session.Session_Id.toString(),
+            Question_Id: question.Question_Id.toString(),
+            Answer_Values: form.slider.toString(),
+            User_Id: user.id.toString(),
+        }
+        console.log(request)
+        router.post('/api/answer/store', request);
+    }
 </script>
 
 <!-- Permet de modifier l'head de la page -->
@@ -60,7 +103,7 @@
 <main class="h-screen w-full overflow-hidden bg-cover bg-no-repeat">
     <h1 class="font-semibold text-[2rem] text-black py-12 pl-56 w-full">DramaQuick</h1>
     <div class="pl-56 pr-56">
-    <div class="grid bg-white w-full h-156 shadow rounded-2.5xl px-20 py-16">
+    <div class="grid bg-white w-full min-h-[39rem] shadow rounded-2.5xl px-20 py-16">
         <div>
             <p class="session text-[1.5rem] color font-normal w-fit">Session {text.session}</p>
             <h1 class="title py-2 w-144 font-semibold text-[2.25rem] w-fit">{text.title}</h1>
@@ -68,17 +111,27 @@
         </div>
         <p class="page font-semibold text-[1.5rem] text-black text-right">{text.page}</p>
         <div class="slider flex justify-center items-center scale-150">
+            {#if options.type == 1}
+            <Slider
+                type="simple"
+                bind:values={form.slider}
+                min={Number(options.min)}
+                max={Number(options.max)}
+            />
+            {:else if options.type == 2}
             <Slider
                 type="double"
-                bind:values={form.sliderdouble}
-                min={0}
-                max={10}
+                bind:values={form.slider}
+                min={Number(options.min)}
+                max={Number(options.max)}
             />
+            {/if}
         </div>
         <div class="timer-tags flex items-end">
             <Timer
                 bind:minutes={timer.minutes}
                 bind:seconds={timer.seconds}
+                action = {[{time: [0, 0], action: () => {Next()}}]}
             />
         </div>
         <div class="button flex justify-end items-end">

@@ -2,11 +2,12 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ChangeUsernameController;
-use App\Http\Controllers\ChangeEmailController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\UsernameController;
 use App\Http\Controllers\AvatarController;
+use App\Http\Controllers\SessionController;
+use App\Http\Controllers\QuestionController;
+use App\Http\Controllers\AnswerController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,39 +24,21 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::resource('/user/change-username', ChangeUsernameController::class)
-    ->middleware('auth')
-    ->missing(function (Request $request) {
-        return Redirect::route('/change-username.index');
-    });;
-
-Route::resource('/user/change-email', ChangeEmailController::class)
-    ->middleware('auth')
-    ->missing(function (Request $request) {
-        return Redirect::route('/user/change-email.index');
-    });;
-
-Route::resource('/user/change-avatar', AvatarController::class)
-    ->middleware('auth')
-    ->missing(function (Request $request) {
-        return Redirect::route('/user/change-avatar.index');
-    });;
-
 // ----------------- Session -----------------
 
 // Get a tag
 Route::get('/tag/{tag}', [TagController::class, 'show'])
-->middleware('throttle:6,1')
+->middleware('throttle:60,1')
 ->name('tag.show');
 
 // Get all tags
 Route::get('/tags', [TagController::class, 'showAll'])
-->middleware('throttle:6,1')
+->middleware('throttle:60,1')
 ->name('tag.showAll');
 
 // Get tags of a session
 Route::get('/session/tags/{session}', [TagController::class, 'showForSession'])
-->middleware('throttle:6,1')
+->middleware('throttle:60,1')
 ->name('tag.showForSession');
 
 // ----------------- User --------------------
@@ -63,10 +46,23 @@ Route::get('/session/tags/{session}', [TagController::class, 'showForSession'])
 
 // Get username
 Route::get('/user/username/{user}', [UsernameController::class, 'show'])
-->middleware('throttle:6,1')
+->middleware('throttle:60,1')
 ->name('user.username.show');
 
 // Get avatar
 Route::get('/user/avatar/{user}', [AvatarController::class, 'show'])
-->middleware('throttle:6,1')
+->middleware('throttle:60,1')
 ->name('user.avatar.show');
+
+// ----------------- Session -----------------
+
+// Get session exist or not
+
+Route::post('/session/exist/{session}', [SessionController::class, 'sessionExist'])
+->name('session.exist');
+
+Route::get('/nextquestion/{session}', [SessionController::class, 'nextQuestion'])
+->name('session.nextQuestion');
+
+Route::post('/answer/store/', [AnswerController::class, 'store'])
+->name('answer.store');

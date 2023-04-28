@@ -14,14 +14,13 @@ return new class extends Migration
     public function up()
     {
         Schema::create('d_questions', function (Blueprint $table) {
-            $table->unsignedBigInteger('Question_Id');
-            $table->string('Question_Name');
+            $table->id('Question_Id');
+            $table->string('Question_Title');
             $table->string('Question_Description');
-            $table->string('Question_Type');
-            $table->unsignedBigInteger('Question_Duration');
+            $table->unsignedTinyInteger('Question_Type');
+            $table->string('Question_Options');
             $table->unsignedBigInteger('Session_Id');
             $table->foreign('Session_Id')->references('Session_Id')->on('d_sessions');
-            $table->primary(['Question_Id', 'Session_Id'], 'Session_Id_Question_Id');
             $table->timestamps();
         });
     }

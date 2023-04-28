@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\DQuestion;
+use App\Models\DAnswer;
+use App\Models\DSession;
+use Inertia\Inertia;
 
 class QuestionController extends Controller
 {
@@ -35,27 +38,45 @@ class QuestionController extends Controller
      */
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'Question_Name' => 'required|max:255',
-            'Question_Description' => 'required|max:255',
-            'Question_Type' => 'required|in:1,2,3,4,5,6',
-            'Session_Id' => 'required',
-        ]);
-
-        $question = DQuestion::create($validated);
-
-        return to_route('session.show', [$question]);
+        //
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param Request $question
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
-    {
-        //
+    public function show($question_id, $number)
+    { 
+        // Get question
+        $question = DQuestion::where('Question_Id', $question_id)->first();
+        $question->number = $number;
+        // Get session
+        $session = DSession::where('Session_Id', $question->Session_Id)->first();
+        //Get number of questions in the session
+        $number_of_questions = DQuestion::where('Session_Id', $question->Session_Id)->count();
+        $session->number_of_questions = $number_of_questions;
+        // Get the type of question
+        $type = $question->Question_Type;
+        // On retourne vers la page correspond au type de la question avec les options
+        switch ($type) {
+            case 1 :
+                return Inertia::render('Session/Session-select', [
+                    'question' => $question,
+                    'session' => $session,
+                ]);
+            case 6 :
+                return Inertia::render('Session/Session-paint', [
+                    'question' => $question,
+                    'session' => $session,
+                ]);
+            case 7 :
+                return Inertia::render('Session/Session-slider', [
+                    'question' => $question,
+                    'session' => $session,
+                ]);
+        }
     }
 
     /**

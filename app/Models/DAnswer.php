@@ -39,8 +39,11 @@ class DAnswer extends Model
     protected $table = 'd_answers';
 
     protected $fillable = [
-        'Answer_Values'
+        'Answer_Values',
+        'Question_Id',
+        'Session_Id',
+        'User_Id'
     ];
 
-    protected $primaryKey = 'Session_Id_Question_Id_Answer_Id';
+    protected $primaryKey = 'Answer_Id';
 }

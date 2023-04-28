@@ -51,11 +51,15 @@ class AvatarController extends Controller
         
         } else {
             // Convert image to webp
-            $finalImage = Image::make($request->avatar)->encode('webp', 90);
+            $finalImage = Image::canvas(500, 500, '#000000');
+            $avatar = Image::make($request->avatar)->encode('webp', 90);
+            $avatar->fit(500);
 
-            // Resize image if it's too big
-            if($finalImage->width() > 500) 
-                $finalImage->resize(500, null, function ($constraint) { $constraint->aspectRatio(); });
+            $finalImage->insert($avatar, 'center');
+
+            // // Resize image if it's too big
+            // $finalImage->resize(500, 500, function ($constraint) { $constraint->aspectRatio(); });
+            // $finalImage->fit(500);
 
             // Save image
             $destinationPath = public_path('avatars/');

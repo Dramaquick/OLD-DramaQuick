@@ -15,6 +15,7 @@ declare global {
     interface Window {
         Echo: Echo;
         axios: AxiosStatic;
+        Pusher: any;
     }
 
     declare namespace svelteHTML {
