@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
     import NavLink from "@/Components/NavLink.svelte";
     import TextBox from "../Components/TextBox.svelte";
     import { page, router } from "@inertiajs/svelte";
@@ -18,7 +18,7 @@
     // On initialise la variable modify à false qui permet de savoir si on est en train de modifier les informations de l'utilisateur
     // On initialise la variable index qui permet de savoir sur quelle partie de la page on se trouve
     let index = "Profil";
-    let modify = false;
+    let modify : any = false;
 
     // On crée un objet infos qui contient les données de l'utilisateur qui sont modifiables sur la page
     let infos = {
@@ -61,6 +61,7 @@
             1106: "L'avatar est trop lourd (A définir)",
             1107: "L'avatar n'est pas au bon format (jpeg, png ou webp)",
             1108: "L'avatar est vide",
+            2129: "Impossible de rejoindre la session",
         }[status];
 
         // On vérifie si on a un code de status
@@ -70,12 +71,12 @@
             let isError = status.toString()[1] == "1";
 
             // On affiche la notification
-            if (isError) notify("Erreur", description, "error", 5000, "box", "corner-bottom-right", false, '', '', "error");
-            else notify("Succès", description, "success", 5000, "box", "corner-bottom-right", false, '', '', "success");
+            if (isError) notify("Erreur", description, "error", 5000, "box", "corner-bottom-right", false, '', '', "error", false);
+            else notify("Succès", description, "success", 5000, "box", "corner-bottom-right", false, '', '', "success", false);
         }
     }   
 
-    
+    let inputText : string = "";    
 
     /* ---------------------------- */
     /*      UPDATE FUNCTIONS        */
@@ -149,8 +150,19 @@
             <h1 class="font-semibold text-[2rem] text-black">DramaQuick</h1>
             <div class="content flex items-center flex-row gap-2">
                 <NavLink href="/" activate={true}>Accueil</NavLink>
-                <NavLink href="" action={() => {notify("Rejoindre une session","","normal",0,"box","middle",true,"Entrer le code de session",() => {window.location.href ="/quiz/"},"session",true)}}>Rejoindre une session</NavLink>
-                <NavLink type={"button"} inertiaction={{ href: "/logout", method: "post" }}>Se déconnecter</NavLink>
+                <NavLink href="" action={() => {notify("Rejoindre une session","","normal",0,"box","middle",true,"Entrer le code de session",(inputText) => {
+                    if(inputText == "") {
+                        notify("Erreur","Veuillez entrer un code de session","error",5000,"box","corner-bottom-right",false,'','', "error", false);
+                        return;
+                    }
+                    // On test que le code de session entré est bien un nombre
+                    if(isNaN(parseInt(inputText))) {
+                        notify("Erreur","Veuillez entrer un code de session valide","error",5000,"box","corner-bottom-right",false,'','', "error", false);
+                        return;
+                    }
+                    window.location.href = "/quiz/"+inputText;
+                    },"session", true)}}>Rejoindre une session</NavLink>
+                <NavLink type={"button"} inertiaction={{ href: "/logout", method: "post" }} href>Se déconnecter</NavLink>
             </div>
         </nav>
         <div class="contenu flex flex-row relative pt-28 justify-evenly">

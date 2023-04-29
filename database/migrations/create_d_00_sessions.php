@@ -21,6 +21,7 @@ return new class extends Migration
             $table->unsignedBigInteger('Session_MaxUser');
             $table->unsignedBigInteger('Session_Speed');
             $table->unsignedBigInteger('Owner_Id');
+            $table->string('Session_Status');
             $table->foreign('Owner_Id')->references('id')->on('d_users');
             $table->timestamps();
         });

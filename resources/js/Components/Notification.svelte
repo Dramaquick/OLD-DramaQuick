@@ -22,7 +22,7 @@
     export let showIcon = true;
     export let input = false;
     export let placeholder = "Placeholder";
-    export let action = () => {};
+    export let action : any = () => {};
     export let id = Math.random().toString();
     export let blurBackground = false;
     /* ---------------------------- */
@@ -57,7 +57,7 @@
         setTimeout(() => {
             if (!close) {
                 if (id === "session"){
-                    router.post("/api/session/exist/"+inputText);
+                    action(inputText);
                 }
                 else {
                     action();
@@ -83,7 +83,7 @@
 {#if !destroy}
 <Portal>
 {#if blurBackground}
-<div class="animate__animated {close ? "animate__fadeOut" : "animate__fadeIn"} bg-[#00000060] z-10 w-screen h-screen absolute absolute top-0 left-0 backdrop-blur-sm animate__faster"></div>
+<div class="animate__animated {close ? "animate__fadeOut" : "animate__fadeIn"} bg-[#00000060] z-10 w-screen min-h-screen fixed top-0 left-0 backdrop-blur-sm animate__faster"></div>
 {/if}
 <div id={id} class={classes}>
 {#if format === "box"}
@@ -120,9 +120,9 @@
             </button>
             <p class="pb-2">{title}</p>
             <hr>
-            <div class="flex pt-4 px-4 gap-4 items-center">
+            <div class="flex pt-4 px-4 gap-4 items-center justify-center">
                 <form action="/api/session/exist/{inputText}" method="post">
-                <TextBox placeholder={placeholder} bind:value={inputText} showIcon={false}/>
+                <TextBox placeholder={placeholder} bind:value={inputText} showIcon={false} style="min-width: 0 !important;"/>
                 </form>
                 {#if inputText.length === 0}
                     <Button class="h-12" action={() => Disparition()} disabled><svg width="12" height="19" viewBox="0 0 12 19" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -185,6 +185,11 @@
 {/if}
 
 <style>
+    .notification-alternate {
+        width: 90%;
+        min-width: 16rem;
+        max-width: 26rem;
+    }
     .notification {
         position: fixed;
         z-index: 1000;

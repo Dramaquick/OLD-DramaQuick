@@ -27,9 +27,9 @@
                     if (user.id == $page.props.session.Owner_Id) {
                         user.user_role = "OWNER";
                         users.unshift(user);
-                        continue
-                    };
+                    } else {
                     users.push(user);
+                    };
                 }
                 reloadUsers();
                 console.log(users);
@@ -48,9 +48,9 @@
                 if (user.id == $page.props.session.Owner_Id) {
                     user.user_role = "OWNER";
                     users.unshift(user);
-                    return;
-                };
+                } else {
                 users.push(user);
+                };
                 reloadUsers();
                 notify(user.name,"a rejoint la session","success",5000,"box","corner-top-right",false,"",() => {},"join");
                 console.log(user);

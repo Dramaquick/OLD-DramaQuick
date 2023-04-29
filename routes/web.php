@@ -69,13 +69,9 @@ Route::get('/quiz/{session}/end', [SessionController::class, 'end'])
 
 // ----------------- Question -----------------
 
-// Create question
-Route::post('/question/store', [QuestionController::class, 'store'])
-->middleware(['auth', 'verified'])->name('question.store');
-
 // Access question
 
-Route::get('/question/{question}/{counter}', [QuestionController::class, 'show'])
+Route::get('/question/{session}/{question}', [QuestionController::class, 'show'])
 ->name('question.show');
 
 // ----------------- User -----------------

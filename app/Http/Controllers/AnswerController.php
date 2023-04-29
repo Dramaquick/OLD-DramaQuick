@@ -80,6 +80,11 @@ class AnswerController extends Controller
             $answer = implode(',', $request->Answer_Values);
         }
 
+        // SI une réponse existe déjà pour cette question par cet utilisateur, on enregistre pas la réponse
+        $answerExist = DAnswer::where('Question_Id', $request->Question_Id)->where('User_Id', $request->User_Id)->first();
+        if ($answerExist) {
+            return redirect('/api/nextquestion/' . $answerExist->Session_Id);
+        } else {
         $answer = DAnswer::create(
             [
                 'Answer_Values' => $answer,
@@ -89,6 +94,7 @@ class AnswerController extends Controller
             ]
         );
         return redirect('/api/nextquestion/' . $answer->Session_Id);
+    }
     }
 
     /**
@@ -134,5 +140,17 @@ class AnswerController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    /**
+     * Get the number of all answers.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function allAnswers()
+    {
+        $answersNumber = DAnswer::count();
+        return response()->json(['answers' => $answersNumber]);
     }
 }

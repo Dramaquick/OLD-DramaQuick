@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('d_answers', function (Blueprint $table) {
             $table->id('Answer_Id');
-            $table->string('Answer_Values');
+            $table->string('Answer_Values')->nullable();
             $table->unsignedBigInteger('Question_Id'); // Composite foregin key
             $table->unsignedBigInteger('Session_Id'); // Composite foregin key
             $table->unsignedBigInteger('User_Id');

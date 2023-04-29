@@ -6,8 +6,14 @@
         {
                 Question_Title: "",
                 Question_Description: "",
-                Question_Type: 7,
-                Question_Options: [],
+                Question_Type: null,
+                Question_Options: [{
+                value: "",
+                indexp: 0
+            },{
+                value: "",
+                indexp: 0
+            }],
                 index: 0,
                 Question_Slider: {
                     min: 0,
@@ -39,7 +45,13 @@
             Question_Title: "",
             Question_Description: "",
             Question_Type: 0,
-            Question_Options: [],
+            Question_Options: [{
+                value: "",
+                indexp: 0
+            },{
+                value: "",
+                indexp: 0
+            }],
             index: index,
             Question_Slider: {
                 min: 0,

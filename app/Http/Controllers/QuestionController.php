@@ -47,13 +47,24 @@ class QuestionController extends Controller
      * @param Request $question
      * @return \Illuminate\Http\Response
      */
-    public function show($question_id, $number)
+    public function show($session_id, $position)
     { 
-        // Get question
-        $question = DQuestion::find($question_id);
-        $question->number = $number;
+        $user = auth()->user();
+        if ($user->Session_Id != $session_id) {
+            return redirect('/');
+        }
+        // Get questions
+        $questions = DQuestion::where('Session_Id', $session_id)->orderBy('Question_Id')->get();
         // Get session
-        $session = DSession::find($question->Session_Id);
+        $session = DSession::find($session_id);
+        // Get question
+        $question = $questions[$position - 1];
+        // Set the position of the question
+        $question->position = $position;
+        $answer = DAnswer::where('Question_Id', $question->Question_Id)->where('User_Id', $user->id)->first();
+        if ($answer) {
+            return redirect('/');
+        }
         //Get number of questions in the session
         $number_of_questions = DQuestion::where('Session_Id', $question->Session_Id)->count();
         $session->number_of_questions = $number_of_questions;

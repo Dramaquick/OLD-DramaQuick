@@ -60,8 +60,8 @@ class SessionController extends Controller
             'Session_Tags' => 'nullable|array',
             'Session_Tags.*' => 'exists:d_session_tags,Tag_Id',
             'Session_Questions' => 'required|array',
-            'Session_Questions.*.Question_Title' => 'required|max:100|min:2',
-            'Session_Questions.*.Question_Description' => 'required|max:255|min:2',
+            'Session_Questions.*.Question_Title' => 'required|max:100|min:1',
+            'Session_Questions.*.Question_Description' => 'required|max:255|min:1',
             'Session_Questions.*.Question_Type' => 'required|in:1,2,3,4,5,6,7',
             'Session_Questions.*.Question_Options' => 'array|required_if:Session_Questions.*.Question_Type,1,4,5,7',
             'Session_Questions.*.Question_Options.*.value' => 'max:255|min:1',
@@ -225,6 +225,7 @@ class SessionController extends Controller
             'Session_MaxUser' => $request->Session_MaxUser,
             'Session_Speed' => $request->Session_Speed,
             'Owner_Id' => $request->Owner_Id,
+            'Session_Status' => 'pending_start',
         ]);
 
         $tags = $request->input('Session_Tags');
@@ -278,17 +279,26 @@ class SessionController extends Controller
      * @param int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(DSession $session) {
+    public function show($id) {
 
-        $owner = User::find($session->Owner_Id, [ 'name' ]);
+        if (DSession::find($id) || auth()->user()->Session_Id == null) {
+        $session = DSession::find($id);
+        if ($session->Session_Status == 'pending_start') {
+            $owner = User::find($session->Owner_Id, [ 'name' ]);
 
-        User::where('id', auth()->id())->update(['Session_Id' => $session->Session_Id]);
-        event(new \App\Events\JoinSessionEvent($session->Session_Id, auth()->user()));
+            User::where('id', auth()->id())->update(['Session_Id' => $session->Session_Id]);
+            event(new \App\Events\JoinSessionEvent($session->Session_Id, auth()->user()));
 
-        return Inertia::render('Session/Session-start', [
-            'session' => $session,
-            'owner' => $owner,
-        ]);
+            return Inertia::render('Session/Session-start', [
+                'session' => $session,
+                'owner' => $owner,
+            ]);
+        }
+        }
+
+            session()->flash('status', 2129);
+
+            return redirect()->back();
 
     }
     /**
@@ -326,24 +336,6 @@ class SessionController extends Controller
     }
 
     /**
-     * Get if the session exsts.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function sessionExist($id)
-    {
-        $session = DSession::find($id);
-
-        if ($session) {
-            return redirect()->route('session.show', $session->Session_Id);
-        }
-        else {
-            return redirect('/');
-        }
-    }
-
-    /**
      * Get the next question of the session.
      *
      * @param  int  $id
@@ -353,14 +345,22 @@ class SessionController extends Controller
     {
         $session = DSession::find($id);
 
-        $questions = DQuestion::where('Session_Id', $id)->get();
+        // on récupère les questions classé dans l'ordre de leur ID
+        $questions = DQuestion::where('Session_Id', $id)->orderBy('Question_Id')->get();
 
-        $count = 1;
         foreach($questions as $question) {
-            // On vérifie qu'elle na pas de answers
-            $answers = DAnswer::where('Question_Id', $question->Question_Id)->get();
+            // On vérifie qu'elle na pas de answers del'utilisateur
+            $answers = DAnswer::where('Question_Id', $question->Question_Id)->where('User_Id', auth()->id())->get();
+
             if (count($answers) == 0) {
-                return redirect()->route('question.show', [$question->Question_Id, $count]);
+                // On récupère la position de la question dans questions
+                $position = $question->Question_Id;
+                // On fait la position moins l'id de la premiere question pour avoir la position dans le tableau
+                $position = $position - $questions[0]->Question_Id + 1;
+                if ($position == 1 && $session->Session_Status == 'pending_start') {
+                    DSession::where('Session_Id', $id)->update(['Session_Status' => 'in_progress']);
+                }
+                return redirect()->route('question.show', [$session->Session_Id, $position]);
             }
         }
         return redirect()->route('session.end', $session->Session_Id);
@@ -376,9 +376,55 @@ class SessionController extends Controller
     {
         $session = DSession::find($id);
 
+        // On modifie l'utilisateur pour qu'il ne soit plus dans la session
+        User::where('id', auth()->id())->update(['Session_Id' => null]);
+
+        if ($session->Session_Status == 'in_progress') {
+            DSession::where('Session_Id', $id)->update(['Session_Status' => 'finished']);
+        }
+
         return Inertia::render('Session/Session-finish', [
             'session' => $session,
         ]);
+    }
+
+    /**
+     * Get the number of sessions already created.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function sessionsFinished()
+    {
+        $sessions = DSession::where('Session_Status', 'finished')->count();
+
+        return response()->json(['sessions' => $sessions]);
+    }
+
+    /**
+     * Get the number of sessions in_progress and pending_start.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function sessionsInProgress()
+    {
+        $sessions = DSession::where('Session_Status', 'in_progress')->orWhere('Session_Status', 'pending_start')->count();
+
+        return response()->json(['sessions' => $sessions]);
+    }
+
+    /**
+     * Leaving session, set user infos.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function leave()
+    {
+        User::where('id', auth()->id())->update(['Session_Id' => null]);
+
+        return redirect('/');
     }
 
 }

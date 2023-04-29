@@ -42,7 +42,7 @@
     // Mise en place des données de la session pour le texte
     let text = {
         session: "#"+session.Session_Id,
-        page: question.number.toString() + "/" + session.number_of_questions.toString(),
+        page: question.position.toString() + "/" + session.number_of_questions.toString(),
         title: question.Question_Title,
         description: question.Question_Description,
     }

@@ -71,7 +71,8 @@ class DSession extends Model
         'Session_MinUser',
         'Session_MaxUser',
         'Session_Speed',
-        'Owner_Id'
+        'Owner_Id',
+        'Session_Status'
     ];
 
     /**
