@@ -10,6 +10,12 @@
     import PageSwitchLayout from '@/Layouts/PageSwitchLayout.svelte';
     import Notification from "@/Components/Notification.svelte";
 
+    window.axios.get('/user/getsession').then((response) => {
+        if (response.data != null) {
+            router.get('/session/reset');
+        }
+    });
+
     // On récupère les données de l'utilisateur
     let profile: User = $page.props.auth.user;
 
@@ -198,11 +204,11 @@
                         </div>
                         <p class="pb-2">Titre du quiz</p>
                         <div class="pb-3.5 w-full">
-                            <TextBox bind:value={session_parameters.Session_Title} placeholder="Quiz super cool, 3ème B..." showIcon={false} class="w-full" style="min-width: 0px !important;"/>
+                            <TextBox bind:value={session_parameters.Session_Title} placeholder="Quiz super cool, 3ème B..." showIcon={false} class="w-full" style="min-width: 0px !important;" maxlength={"100"}/>
                         </div>
                         <p class="pb-2">Description du quiz</p>
                         <div class="pb-3.5 h-36 w-full">
-                            <TextArea bind:value={session_parameters.Session_Description} placeholder="Un quiz trop génial réalisé par moi parce que les quiz c’est cool..."/>
+                            <TextArea bind:value={session_parameters.Session_Description} placeholder="Un quiz trop génial réalisé par moi parce que les quiz c’est cool..." maxlength={"255"}/>
                         </div>
                         <div class="flex flex-col items-center">
                             <div class="params-container flex flex-row items-start w-full">

@@ -25,6 +25,7 @@
     export let action : any = () => {};
     export let id = Math.random().toString();
     export let blurBackground = false;
+    export let isOnWelcome = false;
     /* ---------------------------- */
     /*           METHODS            */
     /* ---------------------------- */
@@ -78,6 +79,12 @@
         classes += " " + format;
         classes += " " + position;
     }
+    $: if (isOnWelcome) {
+        classes = "notification-alternate " + classes
+    }
+    $: if (id === "leave") {
+        classes = "notification-alternate-leave " + classes
+    }
 </script>
 
 {#if !destroy}
@@ -96,8 +103,8 @@
             </button>
             <p class="text-left pl-4 text-black text-[1.5rem]">{title}</p>
             <p class="text-[#878D8B] text-left text-[1.125rem] font-normal px-4">{text}</p>
-            <div class="flex flex-row w-full px-4 gap-12 pt-4">
-                <Button class="outline" width={14.875} action={() => {action=() => {};Disparition()}}>Annuler</Button>
+            <div class="buttons-container flex flex-row w-full px-4 gap-12 pt-4">
+                <Button class="outline" action={() => {action=() => {};Disparition()}}>Annuler</Button>
                 <Button action={() => {Disparition()}}>Quitter la session</Button>
             </div>
         </div>
@@ -121,7 +128,7 @@
             <p class="pb-2">{title}</p>
             <hr>
             <div class="flex pt-4 px-4 gap-4 items-center justify-center">
-                <form action="/api/session/exist/{inputText}" method="post">
+                <form action="/quiz/{inputText}" method="get">
                 <TextBox placeholder={placeholder} bind:value={inputText} showIcon={false} style="min-width: 0 !important;"/>
                 </form>
                 {#if inputText.length === 0}
@@ -185,10 +192,15 @@
 {/if}
 
 <style>
+    .notification-alternate-leave {
+        width: 90% !important;
+        min-width: 16rem !important;
+        max-width: max-content !important;
+    }
     .notification-alternate {
-        width: 90%;
-        min-width: 16rem;
-        max-width: 26rem;
+        width: 90% !important;
+        min-width: 16rem !important;
+        max-width: 26rem !important;
     }
     .notification {
         position: fixed;
@@ -607,6 +619,20 @@
         100% {
             opacity: 0;
             transform: translateX(125%);
+        }
+    }
+
+
+    @media screen and (max-width: 750px) {
+        .notification-alternate-leave .buttons-container {
+            gap: 1rem;
+            flex-direction: column;
+        }
+    }
+
+    @media screen and (max-width: 450px) {
+        .notification-alternate-leave div {
+            padding: 1rem;
         }
     }
 </style>

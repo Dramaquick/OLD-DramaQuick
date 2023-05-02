@@ -24,11 +24,23 @@
         }
     }
 
+    $: {
+        if (value <= min) {
+            value = min;
+        }
+        else if (value >= max) {
+            value = max;
+        }
+        // On vérifie aussi que le input contient bien un nombre
+        else if (isNaN(value)) {
+            value = min;
+        }
+    }
+
 </script>
 
 <div class="flex flex-row justify-center items-center w-[6rem] h-[3rem] bg-white border-2 border-vert-pale border-solid rounded box-border font-[Noto Sans] font-bold text-[1.1rem]"
     >
-    {#if value >= min}
     <div class="flex items-center justify-center w-full h-full">
         <button class="{`${ value === min ? "fill-white-gray cursor-not-allowed" : "" }`} h-full" on:click={() => no_min(value)}>
             <svg width="15" height="12" viewBox="0 0 9 6" fill='none' xmlns="http://www.w3.org/2000/svg">
@@ -36,9 +48,7 @@
             </svg>
         </button>
     </div>
-    {/if}
-    <p class="text-[#00E589]">{value}</p>
-    {#if value <= max}
+    <input type="text" class="w-full h-full text-center border-none focus:ring-0 text-[#00E589] text-[1.1rem] px-0" value={value} on:input={e => value = e.target.value} />
     <div class="flex items-center justify-center w-full h-full">
         <button class="{`${ value === max ? "fill-white-gray cursor-not-allowed" : "" }`} h-full" on:click={() => no_max(value)}>
             <svg width="15" height="12" viewBox="0 0 9 6" xmlns="http://www.w3.org/2000/svg">
@@ -46,5 +56,13 @@
             </svg>
         </button>
     </div>
-    {/if}
 </div>
+
+<style>
+    input[type = 'text']:focus {
+        outline: none;
+        ring: none;
+    }
+
+
+</style>

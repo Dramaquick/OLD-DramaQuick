@@ -23,7 +23,7 @@
     // Mise en place du temps pour le timer
     let timer = {
         minutes: 0,
-        seconds: 15,
+        seconds: 0,
     };
 
     // Mise en place des choix pour la liste
@@ -96,34 +96,36 @@
 
 <PageSwitchLayout>
 <!-- Contenu de la page -->
-<main class="h-screen w-full overflow-hidden bg-cover bg-no-repeat">
-    <h1 class="font-semibold text-[2rem] text-black py-12 pl-56 w-full">DramaQuick</h1>
-    <div class="pl-56 pr-56">
-    <div class="grid bg-white w-full min-h-[39rem]  shadow rounded-2.5xl px-20 py-16">
-        <div>
-            <p class="session text-[1.5rem] color font-normal w-fit">Session {text.session}</p>
-            <h1 class="title py-2 w-144 font-semibold text-[2.25rem] w-fit">{text.title}</h1>
-            <h2 class="desc bordered pl-6 w-144 font-normal text-[1.5rem] h-fit w-fit">{text.description}</h2>
+<main class="min-h-screen w-full overflow-hidden bg-cover bg-no-repeat">
+    <h1 class="sitetitle font-semibold text-[2rem] text-black py-12 pl-56 w-full">DramaQuick</h1>
+    <div class="w-full flex justify-center mb-4">
+        <div class="container flex flex-col justify-between bg-white w-4/6 min-h-[39rem]  shadow rounded-2.5xl px-20 py-16">
+            <div class="infos">
+                <div class="header flex justify-between">
+                    <p class="session text-[1.5rem] color font-normal w-fit">Session {text.session}</p>
+                    <p class="page font-semibold text-[1.5rem] text-black text-right">{text.page}</p>
+                </div>
+                <div class="content">
+                    <h1 class="title py-2 font-semibold text-[2.25rem] w-full">{text.title}</h1>
+                    <h2 class="desc bordered pl-6 font-normal text-[1.5rem] h-fit w-full">{text.description}</h2>
+                </div>
+            </div>
+            <div class="w-full flex justify-center my-16">
+                <SelectList
+                    bind:value={form.selectValue}
+                    placeholder="Sélectionnez une valeur..."
+                    items={items}
+                />
+            </div>
+            <div class="timer-tags flex flex-row justify-between">
+                <Timer
+                    bind:minutes={timer.minutes}
+                    bind:seconds={timer.seconds}
+                    action = {[{time: [0, 0], action: () => {Next()}}]}
+                />
+                <Button class="outline" action={() => {notify("Quitter la session","Souhaitez-vous vraiment quitter la session ?","normal",0,"box","middle",false,"",() => {window.location.href ="/leave"},"leave")}}>Quitter la session</Button>
+            </div>
         </div>
-        <p class="page font-semibold text-[1.5rem] text-black text-right">{text.page}</p>
-        <div class="selectlist flex justify-center">
-            <SelectList
-                bind:value={form.selectValue}
-                placeholder="Sélectionnez une valeur..."
-                items={items}
-            />
-        </div>
-        <div class="timer-tags flex flex-row items-end gap-1">
-            <Timer
-                bind:minutes={timer.minutes}
-                bind:seconds={timer.seconds}
-                action = {[{time: [0, 0], action: () => {Next()}}]}
-            />
-        </div>
-        <div class="button flex justify-end items-end">
-            <Button class="outline" action={() => {notify("Quitter la session","Souhaitez-vous vraiment quitter la session ?","normal",0,"box","middle",false,"",() => {window.location.href ="/"},"leave")}}>Quitter la session</Button>
-        </div>
-    </div>
     </div>
 </main>
 </PageSwitchLayout>
@@ -142,31 +144,72 @@
     }
 
     .session {
-        grid-row: 1;
-        grid-column: 1;
+        overflow-wrap: break-word;
     }
 
     .page {
-        grid-row: 1;
-        grid-column: 2;
+        overflow-wrap: break-word;
     }
 
     .title {
-        grid-row: 1;
-        grid-column: 1;
+        overflow-wrap: break-word;
     }
 
     .desc {
-        grid-row: 1;
-        grid-column: 1;
+        overflow-wrap: break-word;
     }
 
     .bordered {
         border-left: 4px solid #34FFAD;
     }
 
-    .selectlist {
-        grid-row: 2;
-        grid-column: 1/3;
+    @media screen and (max-width: 1000px) {
+        .timer-tags {
+            flex-direction: column;
+            width: 100%;
+            align-items: center;
+        }
+    }
+
+    @media screen and (max-width: 700px) {
+        .content h1 {
+            font-size: 2rem;
+        }
+
+        .content h2 {
+            font-size: 1.5rem;
+        }
+
+        main .container {
+            padding: 2rem;
+            width: 95%;
+        }
+    }
+
+    @media screen and (max-width: 650px) {
+        .sitetitle {
+            padding-left: 0;
+            display: flex;
+            justify-content: center;
+        }
+    }
+
+    @media screen and (max-width: 500px) {
+        .header {
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .content h1 {
+            font-size: 1.5rem;
+        }
+
+        .content h2 {
+            font-size: 1.25rem;
+        }
+
+        main .container {
+            padding: 1rem;
+        }
     }
 </style>

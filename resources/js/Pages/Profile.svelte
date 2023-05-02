@@ -5,6 +5,12 @@
     import Notification from "../Components/Notification.svelte";
     import PageSwitchLayout from "@/Layouts/PageSwitchLayout.svelte";
 
+    window.axios.get('/user/getsession').then((response) => {
+        if (response.data != null) {
+            router.get('/session/reset');
+        }
+    });
+
     // On récupère les données de l'utilisateur
     let profile = $page.props.auth.user;
 

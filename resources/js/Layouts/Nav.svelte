@@ -23,13 +23,13 @@
                 let isError = status.toString()[1] == "1";
 
                 // On affiche la notification
-                if (isError) notify("Erreur", description, "error", 5000, "box", "corner-bottom-right", false, '', '', "error", false);
-                else notify("Succès", description, "success", 5000, "box", "corner-bottom-right", false, '', '', "success", false);
+                if (isError) notify("Erreur", description, "error", 5000, "box", "corner-bottom-right", false, '', '', "error", false, false);
+                else notify("Succès", description, "success", 5000, "box", "corner-bottom-right", false, '', '', "success", false, false);
             }
     }
 
     // function for notifications
-    function notify(title, text, type, duration, format, position, input, placeholder, action, id, blurBackground) {
+    function notify(title, text, type, duration, format, position, input, placeholder, action, id, blurBackground, isOnWelcome) {
         if (id != undefined) {
             if (document.getElementById(id) != null) {
                 return;
@@ -51,7 +51,8 @@
                 placeholder,
                 action,
                 id,
-                blurBackground
+                blurBackground,
+                isOnWelcome
             }
         });
     }
@@ -64,16 +65,16 @@
             <NavLink href="/">Accueil</NavLink>
             <NavLink href="" action={() => {notify("Rejoindre une session","","normal",0,"box","middle",true,"Entrer le code de session",(inputText) => {
                 if(inputText == "") {
-                    notify("Erreur","Veuillez entrer un code de session","error",5000,"box","corner-bottom-right",false,'','', "error", false);
+                    notify("Erreur","Veuillez entrer un code de session","error",5000,"box","corner-bottom-right",false,'','', "error", false, false);
                     return;
                 }
                 // On test que le code de session entré est bien un nombre
                 if(isNaN(parseInt(inputText))) {
-                    notify("Erreur","Veuillez entrer un code de session valide","error",5000,"box","corner-bottom-right",false,'','', "error", false);
+                    notify("Erreur","Veuillez entrer un code de session valide","error",5000,"box","corner-bottom-right",false,'','', "error", false, false);
                     return;
                 }
                 window.location.href = "/quiz/"+inputText;
-                },"session", true)}}>Rejoindre une session</NavLink>
+                },"session", true, true)}}>Rejoindre une session</NavLink>
             {#if $page.props.auth.user}
             <div class="pl-2">
                 <UserButton user={$page.props.auth.user} />
@@ -84,19 +85,6 @@
             {/if}
         </div>
         <div class="content flex flex-col items-center gap-2 bg-white rounded-xl hidden" id="links-container-mobile">
-            <NavLink href="/">Accueil</NavLink>
-            <NavLink href="" action={() => {notify("Rejoindre une session","","normal",0,"box","middle",true,"Entrer le code de session",(inputText) => {
-                if(inputText == "") {
-                    notify("Erreur","Veuillez entrer un code de session","error",5000,"box","corner-bottom-right",false,'','', "error", false);
-                    return;
-                }
-                // On test que le code de session entré est bien un nombre
-                if(isNaN(parseInt(inputText))) {
-                    notify("Erreur","Veuillez entrer un code de session valide","error",5000,"box","corner-bottom-right",false,'','', "error", false);
-                    return;
-                }
-                window.location.href = "/quiz/"+inputText;
-                },"session", true)}}>Rejoindre une session</NavLink>
             {#if $page.props.auth.user}
             <div class="pl-2">
                 <UserButton user={$page.props.auth.user} />
@@ -121,17 +109,17 @@
         background: rgba(255, 255, 255, 1);
     }
 
-    #links-container-mobile {
-        border: solid 1px #A0A0A0;
-    }
-
     @media screen and (max-width: 1300px) {
         #links-container {
             display: none;
         }
 
         #links-container-mobile {
-            display: none;
+            display: flex;
+        }
+
+        nav {
+            padding-right: 4rem;
         }
     }
 

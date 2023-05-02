@@ -1,14 +1,27 @@
-<script>
+<script lang="ts">
     import BreezeButton from "@/Components/Button.svelte";
     import BreezeCheckbox from "@/Components/Checkbox.svelte";
     import BreezeInput from "@/Components/TextBox.svelte";
     import BreezeValidationErrors from "@/Components/ValidationErrors.svelte";
-    import { useForm } from "@inertiajs/svelte";
+    import { useForm,page } from "@inertiajs/svelte";
     import Link from "@/Components/Link.svelte";
     import PageSwitchLayout from "@/Layouts/PageSwitchLayout.svelte";
+    import { onMount } from "svelte";
     let err = {};
     export let errors = {};
     export let canResetPassword;
+
+    onMount(
+        () => {
+           // On vérifie si l'utilisateur est connecté
+           let user = $page.props.auth.user;
+              if (user != null) {
+                // Si l'utilisateur est connecté, on le redirige vers la page d'accueil
+                window.location.href = "/";
+              }
+        }
+    )
+
 
     const form = useForm({
         email: null,

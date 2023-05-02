@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('Question_Title');
             $table->string('Question_Description');
             $table->unsignedTinyInteger('Question_Type');
-            $table->string('Question_Options');
+            $table->longText('Question_Options');
             $table->unsignedBigInteger('Session_Id');
             $table->foreign('Session_Id')->references('Session_Id')->on('d_sessions');
             $table->timestamps();

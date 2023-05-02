@@ -275,7 +275,7 @@
     
 </script>
 
-<div class="w-fit h-full inline-flex gap-4">
+<div class="container w-fit h-full inline-flex gap-4">
     <div class="tool-buttons grid grid-rows-6 grid-columns-2 gap-x-2.5 h-80">
         <input
             type="radio"
@@ -351,7 +351,7 @@
             on:touchend={stopDrawing}
             on:touchmove={handleMouseMove}
             on:click={handleMouseClick}
-            class="h-80 w-140 border-6 border-[#00e589] border-solid rounded-md"
+            class="h-80 max-w-140 border-6 border-[#00e589] border-solid rounded-md w-full"
             style="background: {background};"
         />
 
@@ -504,5 +504,88 @@
         transition: 0.2s ease-in;
         background-position: center;
         transition: .2s;
+    }
+
+
+    @media screen and (max-width: 1400px) {
+        .container {
+            flex-direction: column;
+        }
+
+        .tool-buttons {
+            display: grid;
+            grid-template-rows: repeat(2, 1fr);
+            grid-template-columns: repeat(4, 1fr);
+            row-gap: 0.4rem;
+            column-gap: 0.4rem;
+            height: fit-content;
+            width: fit-content;
+        }
+
+        .trash {
+            grid-column: 1 !important;
+            grid-row: 1 !important;
+        }
+
+        .undo {
+            grid-column: 2 !important;
+            grid-row: 1 !important;
+        }
+
+        .redo {
+            grid-column: 3 !important;
+            grid-row: 1 !important;
+        }
+
+        .eraser {
+            grid-column: 4 !important;
+            grid-row: 1 !important;
+        }
+
+        .pen {
+            grid-column: 1 !important;
+            grid-row: 2 !important;
+        }
+
+        .line {
+            grid-column: 2 !important;
+            grid-row: 2 !important;
+        }
+
+        .fill {
+            grid-column: 3 !important;
+            grid-row: 2 !important;
+        }
+
+        .slider {
+            grid-column: 4 !important;
+            grid-row: 2 !important;
+
+            display: none;
+        }
+
+        .color-buttons {
+            display: grid;
+            grid-template-rows: repeat(2, 1fr);
+            grid-template-columns: repeat(8, 1fr);
+            row-gap: 0.4rem;
+            column-gap: 0.4rem;
+            height: fit-content;
+
+            width: fit-content;
+        }
+    }
+
+    @media screen and (max-width: 400px) {
+        .color-buttons {
+            display: grid;
+            grid-template-rows: repeat(2, 1fr);
+            grid-template-columns: repeat(6, 1fr);
+            row-gap: 0.4rem;
+            column-gap: 0.4rem;
+            height: fit-content;
+
+            width: fit-content;
+        }
     }
 </style>

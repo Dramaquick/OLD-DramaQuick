@@ -20,6 +20,7 @@
     export let showIcon = true;
     export let style = "";
     export let type = "text";
+    export let maxlength = null;
 
     function onInput() {
         dispatch("input", value);
@@ -48,7 +49,7 @@
         {autocomplete}
         {pattern}
         {minlength}
-        maxlength="255"
+        {maxlength}
         {disabled}
         on:input={onInput}
         />
@@ -63,7 +64,7 @@
         {autocomplete}
         {pattern}
         {minlength}
-        maxlength="255"
+        {maxlength}
         {disabled}
         on:input={onInput}
         />

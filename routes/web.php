@@ -7,6 +7,7 @@ use App\Http\Controllers\ChangeEmailController;
 use App\Http\Controllers\AvatarController;
 use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\TagController;
+use App\Http\Controllers\AnswerController;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -72,7 +73,7 @@ Route::get('/quiz/{session}/end', [SessionController::class, 'end'])
 // Access question
 
 Route::get('/question/{session}/{question}', [QuestionController::class, 'show'])
-->name('question.show');
+->middleware(['auth', 'verified'])->name('question.show');
 
 // ----------------- User -----------------
 
@@ -93,6 +94,20 @@ Route::get('/profile', function () {
     return Inertia::render('Profile');
 })->middleware(['auth', 'verified'])->name('profile');
 
+Route::get('/nextquestion/{session}', [SessionController::class, 'nextQuestion'])
+->middleware(['auth', 'verified'])->name('session.nextQuestion');
+
+Route::get('/answer/{session}/{question}', [QuestionController::class, 'show'])
+->middleware(['auth', 'verified'])->name('answer.show');
+
+Route::get('/leave', [SessionController::class, 'leave'])
+->middleware(['auth', 'verified'])->name('session.leave');
+
+Route::get('/session/reset', [SessionController::class, 'reset'])
+->middleware(['auth', 'verified'])->name('session.reset');
+
+Route::get('/user/getsession', [SessionController::class, 'getUserSession'])
+->middleware(['auth', 'verified'])->name('user.getsession');
 // ----------------- Other -----------------
 
 Route::get('/fire-event', function () {

@@ -148,6 +148,6 @@
     }
 
     p {
-        width: 8rem;
+        width: fit-content;
     }
 </style>

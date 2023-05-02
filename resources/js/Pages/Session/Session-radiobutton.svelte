@@ -12,8 +12,8 @@
 
     // Mise en place du temps pour le timer
     let timer = {
-        minutes: 0,
-        seconds: 15,
+        minutes: 60,
+        seconds: 0,
     };
 
     function stringToArray(string) {
@@ -94,102 +94,159 @@
     <title>DramaQuick</title>
 </svelte:head>
 
-<!-- Contenu de la page -->
-<main class="h-screen w-full overflow-hidden bg-cover bg-no-repeat">
-    <h1 class="font-semibold text-[2rem] text-black py-12 pl-56 w-full">DramaQuick</h1>
-    <div class="pl-56 pr-56">
-    <div class="grid bg-white w-full h-156 shadow rounded-2.5xl px-20 py-16">
-        <div>
-            <p class="session text-[1.5rem] color font-normal w-fit">Session {text.session}</p>
-            <h1 class="title py-2 w-144 font-semibold text-[2.25rem] w-fit">{text.title}</h1>
-            <h2 class="desc bordered pl-6 w-144 font-normal text-[1.5rem] h-fit w-fit">{text.description}</h2>
-        </div>
-        <p class="page font-semibold text-[1.5rem] text-black text-right">{text.page}</p>
-        <div class="gridradio flex justify-center gap-40">
-            <div class="radio1 flex flex-col gap-4">
-                {#each items as item}
-                {#if (item.id % 2 == 0) }
-                <div class="flex gap-4">
-                    <RadioButton
-                        class=""
-                        name="test"
-                        value={item.id}
-                        bind:selected={form.selected}
-                    />
-                    <p>{item.name}</p>
+<PageSwitchLayout>
+    <!-- Contenu de la page -->
+        <main class="min-h-screen w-full overflow-hidden bg-cover bg-no-repeat">
+            <h1 class="sitetitle font-semibold text-[2rem] text-black py-12 pl-56 w-full">DramaQuick</h1>
+            <div class="w-full flex justify-center mb-4">
+                <div class="container flex flex-col justify-between bg-white w-4/6 min-h-[39rem]  shadow rounded-2.5xl px-20 py-16">
+                    <div class="infos">
+                        <div class="header flex justify-between">
+                            <p class="session text-[1.5rem] color font-normal w-fit">Session {text.session}</p>
+                            <p class="page font-semibold text-[1.5rem] text-black text-right">{text.page}</p>
+                        </div>
+                        <div class="content">
+                            <h1 class="title py-2 font-semibold text-[2.25rem] w-full">{text.title}</h1>
+                            <h2 class="desc bordered pl-6 font-normal text-[1.5rem] h-fit w-full">{text.description}</h2>
+                        </div>
+                    </div>
+                    <div class="checkbox-container w-full flex justify-center my-16">
+                        <div class="radio1 flex flex-col gap-4">
+                            {#each items as item}
+                            {#if (item.id % 2 == 0) }
+                            <div class="flex gap-4">
+                                <RadioButton
+                                    class=""
+                                    name="test"
+                                    value={item.id}
+                                    bind:selected={form.selected}
+                                />
+                                <p>{item.name}</p>
+                            </div>
+                            {/if}
+                            {/each}
+                        </div>
+                        <div class="radio2 flex flex-col gap-4">
+                            {#each items as item}
+                            {#if (item.id % 2 != 0) }
+                            <div class="flex gap-4">
+                                <RadioButton
+                                    class=""
+                                    name="test"
+                                    value={item.id}
+                                    bind:selected={form.selected}
+                                />
+                                <p>{item.name}</p>
+                            </div>
+                            {/if}
+                            {/each}
+                        </div>
+                    </div>
+                    <div class="timer-tags flex flex-row justify-between">
+                        <Timer
+                            bind:minutes={timer.minutes}
+                            bind:seconds={timer.seconds}
+                            action = {[{time: [0, 0], action: () => {Next()}}]}
+                        />
+                        <Button class="outline" action={() => {notify("Quitter la session","Souhaitez-vous vraiment quitter la session ?","normal",0,"box","middle",false,"",() => {window.location.href ="/leave"},"leave")}}>Quitter la session</Button>
+                    </div>
                 </div>
-                {/if}
-                {/each}
             </div>
-            <div class="radio2 flex flex-col gap-4">
-                {#each items as item}
-                {#if (item.id % 2 != 0) }
-                <div class="flex gap-4">
-                    <RadioButton
-                        class=""
-                        name="test"
-                        value={item.id}
-                        bind:selected={form.selected}
-                    />
-                    <p>{item.name}</p>
-                </div>
-                {/if}
-                {/each}
-            </div>
-        </div>
-        <div class="timer-tags flex flex-row items-end gap-1">
-            <Timer
-                bind:minutes={timer.minutes}
-                bind:seconds={timer.seconds}
-                action = {[{time: [0, 0], action: () => {Next()}}]}
-            />
-        </div>
-        <div class="button flex justify-end items-end">
-            <Button class="outline" action={() => {notify("Quitter la session","Souhaitez-vous vraiment quitter la session ?","normal",0,"box","middle",false,"",() => {window.location.href ="/"},"leave")}}>Quitter la session</Button>
-        </div>
-    </div>
-    </div>
-</main>
-
-<style>
-    main {
-        background-image: url(/img/landing/back.png);
-    }
-
-    .shadow {
-        box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
-    }
-
-    .color {
-        color: #666666;
-    }
-
-    .session {
-        grid-row: 1;
-        grid-column: 1;
-    }
-
-    .page {
-        grid-row: 1;
-        grid-column: 2;
-    }
-
-    .title {
-        grid-row: 1;
-        grid-column: 1;
-    }
-
-    .desc {
-        grid-row: 1;
-        grid-column: 1;
-    }
-
-    .bordered {
-        border-left: 4px solid #34FFAD;
-    }
-
-    .gridradio {
-        grid-row: 2;
-        grid-column: 1/3;
-    }
-</style>
+        </main>
+    </PageSwitchLayout>
+    
+    <style>
+        main {
+            background-image: url(/img/landing/back.png);
+        }
+    
+        .shadow {
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+        }
+    
+        .color {
+            color: #666666;
+        }
+    
+        .session {
+            overflow-wrap: break-word;
+        }
+    
+        .page {
+            overflow-wrap: break-word;
+        }
+    
+        .title {
+            overflow-wrap: break-word;
+        }
+    
+        .desc {
+            overflow-wrap: break-word;
+        }
+    
+        .bordered {
+            border-left: 4px solid #34FFAD;
+        }
+    
+        .checkbox-container {
+            gap: 2rem;
+        }
+    
+        .checkbox-container p {
+            overflow-wrap: anywhere;
+        }
+    
+        @media screen and (max-width: 1000px) {
+            .timer-tags {
+                flex-direction: column;
+                width: 100%;
+                align-items: center;
+            }
+    
+            .checkbox-container {
+                flex-direction: column;
+            }
+        }
+    
+        @media screen and (max-width: 700px) {
+            .content h1 {
+                font-size: 2rem;
+            }
+    
+            .content h2 {
+                font-size: 1.5rem;
+            }
+    
+            main .container {
+                padding: 2rem;
+                width: 95%;
+            }
+        }
+    
+        @media screen and (max-width: 650px) {
+            .sitetitle {
+                padding-left: 0;
+                display: flex;
+                justify-content: center;
+            }
+        }
+    
+        @media screen and (max-width: 500px) {
+            .header {
+                flex-direction: column;
+                align-items: center;
+            }
+    
+            .content h1 {
+                font-size: 1.5rem;
+            }
+    
+            .content h2 {
+                font-size: 1.25rem;
+            }
+    
+            main .container {
+                padding: 1rem;
+            }
+        }
+    </style>

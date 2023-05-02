@@ -93,7 +93,7 @@ class AnswerController extends Controller
                 'User_Id' => $request->User_Id
             ]
         );
-        return redirect('/api/nextquestion/' . $answer->Session_Id);
+        return redirect()->guest(route('session.nextQuestion', ['session' => $answer->Session_Id]));
     }
     }
 
@@ -103,9 +103,30 @@ class AnswerController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($session_id, $position)
     {
-        //
+        // On récupère la question
+        $questions = DQuestion::where('Session_Id', $session_id)->orderBy('Question_Id')->get();
+        // Get session
+        $session = DSession::find($session_id);
+        // Get question
+        $question = $questions[$position - 1];
+        // On récupère les réponses
+        $answers = DAnswer::where('Question_Id', $question->Question_Id)->get();
+        // On récupère le nombre de réponses
+        $answersNumber = DAnswer::where('Question_Id', $question->Question_Id)->count();
+        $answers->number = $answersNumber;
+
+        // On regarde le type de la question
+        $type = $question->Question_Type;
+
+        // Si le type vaut 1, 5 ou 7 et que pour le type 6, le type du slider est 1, on retourne la vue avec les réponses
+        if ($type == 1 || $type == 5 || ($type == 7 && explode(',', $question->Question_Options)[2] == "1")) {
+            return Inertia::render('/session-answer-pie', [
+                'answers' => $answers,
+                'question' => $question
+            ]);
+        }
     }
 
     /**

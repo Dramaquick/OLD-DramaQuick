@@ -28,17 +28,17 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 // Get a tag
 Route::get('/tag/{tag}', [TagController::class, 'show'])
-->middleware('throttle:60,1')
+->middleware('throttle:120,1')
 ->name('tag.show');
 
 // Get all tags
 Route::get('/tags', [TagController::class, 'showAll'])
-->middleware('throttle:60,1')
+->middleware('throttle:120,1')
 ->name('tag.showAll');
 
 // Get tags of a session
 Route::get('/session/tags/{session}', [TagController::class, 'showForSession'])
-->middleware('throttle:60,1')
+->middleware('throttle:120,1')
 ->name('tag.showForSession');
 
 // ----------------- User --------------------
@@ -46,12 +46,12 @@ Route::get('/session/tags/{session}', [TagController::class, 'showForSession'])
 
 // Get username
 Route::get('/user/username/{user}', [UsernameController::class, 'show'])
-->middleware('throttle:60,1')
+->middleware('throttle:120,1')
 ->name('user.username.show');
 
 // Get avatar
 Route::get('/user/avatar/{user}', [AvatarController::class, 'show'])
-->middleware('throttle:60,1')
+->middleware('throttle:120,1')
 ->name('user.avatar.show');
 
 // ----------------- Session -----------------
@@ -60,9 +60,6 @@ Route::get('/user/avatar/{user}', [AvatarController::class, 'show'])
 
 Route::post('/session/exist/{session}', [SessionController::class, 'sessionExist'])
 ->name('session.exist');
-
-Route::get('/nextquestion/{session}', [SessionController::class, 'nextQuestion'])
-->name('session.nextQuestion');
 
 Route::post('/answer/store/', [AnswerController::class, 'store'])
 ->name('answer.store');

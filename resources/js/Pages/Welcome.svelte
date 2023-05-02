@@ -6,6 +6,12 @@
     import PageSwitchLayout from '@/Layouts/PageSwitchLayout.svelte';
     import {router,page} from "@inertiajs/svelte";
 
+    window.axios.get('/user/getsession').then((response) => {
+        if (response.data != null) {
+            router.get('/session/reset');
+        }
+    });
+
     // Si on appuie sur echap et que la notification est ouverte, on la ferme
     document.addEventListener("keydown", (e) => {
         if (e.key == "Escape") {
@@ -34,8 +40,8 @@
                 let isError = status.toString()[1] == "1";
 
                 // On affiche la notification
-                if (isError) notify("Erreur", description, "error", 5000, "box", "corner-bottom-right", false, '', '', "error", false);
-                else notify("Succès", description, "success", 5000, "box", "corner-bottom-right", false, '', '', "success", false);
+                if (isError) notify("Erreur", description, "error", 5000, "box", "corner-bottom-right", false, '', '', "error", false, false);
+                else notify("Succès", description, "success", 5000, "box", "corner-bottom-right", false, '', '', "success", false, false);
             }
     }
 
@@ -59,7 +65,7 @@
     
 
     // function for notifications
-    function notify(title, text, type, duration, format, position, input, placeholder, action, id, blurBackground) {
+    function notify(title, text, type, duration, format, position, input, placeholder, action, id, blurBackground, isOnWelcome) {
         if (id != undefined) {
             if (document.getElementById(id) != null) {
                 return;
@@ -81,7 +87,8 @@
                 placeholder,
                 action,
                 id,
-                blurBackground
+                blurBackground,
+                isOnWelcome
             }
         });
     }
@@ -96,7 +103,7 @@
 <PageSwitchLayout>
     <Nav>
         <div class="contenu flex flex-row min-h-screen w-screen max-h-fit">
-            <div class="pl-56 pt-45 w-full max-[1300px]:pl-16 max-[1300px]:pr-16 max-[500px]:pl-8 max-[500px]:pr-8">
+            <div class="pl-56 pt-45 w-full max-[1300px]:pl-16 max-[1300px]:pr-16 max-[500px]:pl-8 max-[500px]:pr-8 pb-8">
                 <h1 class="font-semibold text-[3rem] text-black w-160 max-[750px]:text-[2rem] max-[750px]:w-full">
                     Une nouvelle version de DramaQuiz
                 </h1>
@@ -108,16 +115,16 @@
                 <div class="gap-8 flex flex-row w-[35.5rem] max-[700px]:flex-col max-[700px]:w-full max-[500px]:text-sm">
                     <Button class="" action={() => {notify("Rejoindre une session","","normal",0,"box","middle",true,"Entrer le code de session",(inputText) => {
                         if(inputText == "") {
-                            notify("Erreur","Veuillez entrer un code de session","error",5000,"box","corner-bottom-right",false,'','', "error", false);
+                            notify("Erreur","Veuillez entrer un code de session","error",5000,"box","corner-bottom-right",false,'','', "error", false, false);
                             return;
                         }
                         // On test que le code de session entré est bien un nombre
                         if(isNaN(parseInt(inputText))) {
-                            notify("Erreur","Veuillez entrer un code de session valide","error",5000,"box","corner-bottom-right",false,'','', "error", false);
+                            notify("Erreur","Veuillez entrer un code de session valide","error",5000,"box","corner-bottom-right",false,'','', "error", false, false);
                             return;
                         }
                         window.location.href = "/quiz/"+inputText;
-                        },"session", true)}}>Rejoindre une session</Button>
+                        },"session", true, true)}}>Rejoindre une session</Button>
                     <Button
                         class="outline"
                         action={() => {window.location.href ="/quiz/create"}}

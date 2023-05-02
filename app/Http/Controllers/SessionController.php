@@ -281,7 +281,7 @@ class SessionController extends Controller
      */
     public function show($id) {
 
-        if (DSession::find($id) || auth()->user()->Session_Id == null) {
+        if (DSession::find($id) && auth()->user()->Session_Id == null) {
         $session = DSession::find($id);
         if ($session->Session_Status == 'pending_start') {
             $owner = User::find($session->Owner_Id, [ 'name' ]);
@@ -343,16 +343,22 @@ class SessionController extends Controller
      */
     public function nextQuestion($id)
     {
+
+        $user = auth()->user();
         $session = DSession::find($id);
 
         // on récupère les questions classé dans l'ordre de leur ID
         $questions = DQuestion::where('Session_Id', $id)->orderBy('Question_Id')->get();
 
         foreach($questions as $question) {
-            // On vérifie qu'elle na pas de answers del'utilisateur
-            $answers = DAnswer::where('Question_Id', $question->Question_Id)->where('User_Id', auth()->id())->get();
-
-            if (count($answers) == 0) {
+            // On recupère toutes les réponses de la question
+            $answers = DAnswer::where('Question_Id', $question->Question_Id)->get();
+            // On vérifie si la question n'a pas de réponse de la part de l'utilisateur
+            foreach ($answers as $answer) {
+                if ($answer->User_Id == $user->id) {
+                    return redirect()->route('session.end', $session->Session_Id);
+                }
+            }
                 // On récupère la position de la question dans questions
                 $position = $question->Question_Id;
                 // On fait la position moins l'id de la premiere question pour avoir la position dans le tableau
@@ -361,7 +367,6 @@ class SessionController extends Controller
                     DSession::where('Session_Id', $id)->update(['Session_Status' => 'in_progress']);
                 }
                 return redirect()->route('question.show', [$session->Session_Id, $position]);
-            }
         }
         return redirect()->route('session.end', $session->Session_Id);
     }
@@ -425,6 +430,37 @@ class SessionController extends Controller
         User::where('id', auth()->id())->update(['Session_Id' => null]);
 
         return redirect('/');
+    }
+
+    /**
+     * Reset the session_id of a user.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function reset()
+    {
+        // On récupère l'utilisateur
+        $user = auth()->user();
+
+        // On vérifie que l'utilisateur n'est pas dans une session
+        if ($user->Session_Id != null) {
+            User::where('id', auth()->id())->update(['Session_Id' => null]);
+        }
+
+        return null;
+    }
+
+    public function getUserSession()
+    {
+        $user = auth()->user();
+
+        if ($user->Session_Id != null) {
+            $session = DSession::find($user->Session_Id);
+            return response()->json(['session' => $session]);
+        }
+
+        return null;
     }
 
 }

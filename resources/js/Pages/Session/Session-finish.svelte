@@ -12,7 +12,7 @@
     // On redirige l'utilisateur vers la page d'accueil après 10 secondes
     onMount(() => {
         setTimeout(() => {
-            router.push('/')
+            window.location.href='/';
         }, 10_000)
     })
     
@@ -24,19 +24,19 @@
 </svelte:head>
 
 <!-- Contenu de la page -->
-<main class="h-screen w-full overflow-hidden bg-cover bg-no-repeat">
-    <h1 class="font-semibold text-[2rem] text-black py-12 pl-56 w-full">DramaQuick</h1>
-    <div class="pl-56 pr-56">
-    <div class="grid bg-white w-full h-156 shadow rounded-2.5xl px-20 py-16">
-        <div>
-            <p class="session text-[1.5rem] color font-normal w-fit">Session {text.session}</p>
-            <h1 class="title py-8 w-144 font-semibold text-[2.25rem] w-fit">Vous avez terminé le quiz !</h1>
-            <h2 class="desc bordered pr-52 pl-6 font-normal text-[1.5rem] h-fit w-fit">Merci d'avoir participé !<br> Vous &#40;n'&#41;allez &#40;pas&#41; être redirigé automatiquement vers la page d'accueil, mais vous pouvez aussi cliquer sur le bouton ci-dessous.</h2>
+<main class="min-h-screen w-full overflow-hidden bg-cover bg-no-repeat">
+    <h1 class="font-semibold text-[2rem] text-black py-12 pl-56">DramaQuick</h1>
+    <div class="w-full flex justify-center mb-4">
+        <div class="infos-container flex bg-white w-5/6 h-fit shadow rounded-2.5xl px-20 py-16 flex-col justify-between">
+            <div>
+                <p class="session text-[1.5rem] color font-normal w-fit">Session {text.session}</p>
+                <h1 class="title py-8 font-semibold text-[2.25rem] w-fit">Vous avez terminé le quiz !</h1>
+                <h2 class="desc bordered pl-6 font-normal text-[1.5rem] h-fit w-fit">Merci d'avoir participé !<br> Vous allez être redirigé automatiquement vers la page d'accueil, mais vous pouvez aussi cliquer sur le bouton ci-dessous.</h2>
+            </div>
+            <div class="button flex justify-center items-center mt-8">
+                <Button class="" action={() => {window.location.href='/'}}>Voir les résultats</Button>
+            </div>
         </div>
-        <div class="button flex justify-center items-center">
-            <Button class="" action={() => {window.location.href='/'}}>Voir les résultats</Button>
-        </div>
-    </div>
     </div>
 </main>
 
@@ -70,5 +70,42 @@
 
     .bordered {
         border-left: 4px solid #34FFAD;
+    }
+
+    @media screen and (max-width: 650px) {
+        main {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        main h1 {
+            padding-left: 0px;
+        }
+    }
+
+    @media screen and (max-width: 600px) {
+        .infos-container {
+            padding: 2rem;
+        }
+    }
+
+    @media screen and (max-width: 400px) {
+        .infos-container {
+            width: 95%;
+        }
+
+        .infos-container h1 {
+            font-size: 2rem;
+        }
+
+        .infos-container h2 {
+            font-size: 1.25rem;
+        }
+
+        .infos-container p {
+            font-size: 1.25rem;
+        }
     }
 </style>
