@@ -34,17 +34,6 @@
                     };
                 }
                 reloadUsers();
-                console.log(users);
-                if (Object.keys(users).length >= session.Session_MinUser) {
-                    if (stop) {
-                    stop = false;
-                    }
-                } else {
-                    if (!stop) {
-                    stop = true;
-                    }
-                }
-                timer(timeroptions.minutes, timeroptions.seconds, stop, [{time: [0, 0], action: ()=>{startSession(MyChannel)}}]);
             })
             .joining((user: User) => {
                 if (user.id == $page.props.session.Owner_Id) {
@@ -55,46 +44,28 @@
                 };
                 reloadUsers();
                 notify(user.name,"a rejoint la session","success",5000,"box","corner-top-right",false,"",() => {},"join");
-                console.log(user);
-                if (Object.keys(users).length >= session.Session_MinUser) {
-                    if (stop) {
-                    stop = false;
-                    }
-                } else {
-                    if (!stop) {
-                    stop = true;
-                    }
-                }
-                timer(timeroptions.minutes, timeroptions.seconds, stop, [{time: [0, 0], action: ()=>{startSession(MyChannel)}}]);
+                MyChannel.whisper('Timer', timeroptions);
             })
             .leaving((user: User) => {
                 users = users.filter((u: User) => u.id != user.id);
                 reloadUsers();
                 notify(user.name,"a quitté la session","error",5000,"box","corner-bottom-right",false,"",() => {},"quit");
-                console.log(user);
-                if (Object.keys(users).length >= session.Session_MinUser) {
-                    if (stop) {
-                    stop = false;
-                    }
-                } else {
-                    if (!stop) {
-                    stop = true;
-                    }
-                }
-                timer(timeroptions.minutes, timeroptions.seconds, stop, [{time: [0, 0], action: ()=>{startSession(MyChannel)}}]);
             })
 
             setInterval(() => {
                 MyChannel.listen('SessionStarted', (e: any) => {
-                console.log(e);
                 window.location.href='/nextquestion/' + session.Session_Id;
             })
             }, 3000);
 
     
             MyChannel.listenForWhisper('SessionStarted', (e: any) => {
-                console.log(e);
                 window.location.href='/nextquestion/' + session.Session_Id;
+            })
+
+            MyChannel.listenForWhisper('Timer', (e: any) => {
+                timeroptions.minutes = e.minutes;
+                timeroptions.seconds = e.seconds;
             })
     });
 
@@ -144,10 +115,9 @@
 
     // Mise en place du temps pour le timer
     let timeroptions = {
-        minutes: 60,
+        minutes: 1,
         seconds: 0,
     };
-    let stop = null;
 
     // Mise en place des données de la session pour le texte
     let text = {
@@ -187,27 +157,6 @@
         });
     };
 
-    // function to add a timer
-    function timer(minutes, seconds, stop, action) {
-        let div_timer = document.getElementById("timerparent");
-        // SI il y a un element dans le div, on le supprime
-        if (div_timer.firstChild) {
-            div_timer.removeChild(div_timer.firstChild);
-        }
-        // On crée un nouveau timer
-        const timer = document.createElement('div');
-        div_timer.appendChild(timer);
-        new Timer({
-            target: timer,
-            props: {
-                minutes,
-                seconds,
-                stop,
-                action
-            }
-        });
-    }
-
     // function start session 
     function startSession(MyChannel) {
         console.log("Session started");
@@ -217,9 +166,22 @@
         window.location.href='/nextquestion/' + session.Session_Id;
     }
 
+    let timer = false;
+
     $: {
         text.size = Object.keys(users).length + "/" + session.Session_MaxUser;
+        if (Object.keys(users).length >= session.Session_MinUser) {
+            timer = true;
+        } else {
+            timer = false;
+            timeroptions = {
+                minutes: 1,
+                seconds: 0,
+            };
+        }
     }
+
+    $: secondString = timeroptions.seconds.toString().padStart(2, '0');
 
 </script>
 
@@ -278,8 +240,16 @@
                 </div>
                 <div class="tags-buttons w-full flex justify-between">
                     <div class="timer-tags flex flex-row items-center gap-10">
-                        <div id="timerparent">
-                        </div>
+                        {#if timer}
+                            <Timer bind:minutes={timeroptions.minutes} bind:seconds={timeroptions.seconds} action = {[{time: [0, 0], action: () => {startSession(MyChannel)}}]} />
+                        {:else}
+                        <div id="timer" class="flex gap-4 items-end">
+                            <span id="time" class="flex items-end justify-start font-semibold text-[2.25rem] text-center text-black w-[5.5rem]">
+                            {timeroptions.minutes}:{secondString} 
+                            </span>
+                            <p class="text-[1.5rem] text-[#666666] font-normal w-fit h-12 flex items-center">restantes</p>
+                            </div>
+                        {/if}
                         <div class="tags flex flex-row items-center gap-4">
                             {#each Object.keys(session_tags) as tag}
                                 <Tag bind:tag={session_tags[tag]}/>

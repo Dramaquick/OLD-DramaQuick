@@ -5,6 +5,15 @@
     import Notification from "../../Components/Notification.svelte";
     import PageSwitchLayout from "@/Layouts/PageSwitchLayout.svelte";
     import {page,router} from "@inertiajs/svelte";
+    import {onMount} from "svelte";
+
+    let MyChannel;
+    onMount(() => {
+        MyChannel = window.Echo.join('dramaquick_database_session.' + session.Session_Id)
+            .leaving((user) => {
+                notify(user.name,"a quitté la session","error",5000,"box","corner-bottom-right",false,"",() => {},"quit");
+            })
+    });
 
     let session = $page.props.session;
     let question = $page.props.question;
@@ -12,9 +21,26 @@
 
     // Mise en place du temps pour le timer
     let timer = {
-        minutes: 60,
-        seconds: 0,
+        minutes: 0,
+        seconds: 15,
     };
+
+    if (session.Session_Speed == 1) {
+        timer = {
+            minutes: 0,
+            seconds: 15,
+        };
+    } else if (session.Session_Speed == 2) {
+        timer = {
+            minutes: 0,
+            seconds: 30,
+        };
+    } else if (session.Session_Speed == 3) {
+        timer = {
+            minutes: 0,
+            seconds: 45,
+        };
+    }
 
     function stringToArray(string) {
         let array = string.split(",");

@@ -68,12 +68,22 @@ Route::get('/quiz/create', function () {
 Route::get('/quiz/{session}/end', [SessionController::class, 'end'])
 ->middleware(['auth', 'verified'])->where('session', '[0-9]+')->name('session.end');
 
+// Get number participants of a session
+
+Route::get('/quiz/{session}/participants', [SessionController::class, 'getNumberUsers'])
+->middleware(['auth', 'verified'])->name('session.participants');
+
 // ----------------- Question -----------------
 
 // Access question
 
 Route::get('/question/{session}/{question}', [QuestionController::class, 'show'])
-->middleware(['auth', 'verified'])->name('question.show');
+->middleware(['auth', 'verified'])->where('session', '[0-9]+')->name('question.show');
+
+// access result question
+
+Route::get('/question/result/{session}/{question}', [AnswerController::class, 'show'])
+->middleware(['auth', 'verified'])->where('session', '[0-9]+')->name('question.result');
 
 // ----------------- User -----------------
 
@@ -145,7 +155,7 @@ Route::get('/session-slider', function () {
 
 Route::get('/session-finish', function () {
     return Inertia::render('Session/Session-finish');
-});
+})->middleware(['auth', 'verified'])->where('session', '[0-9]+');
 
 Route::get('/session-answer-text', function () {
     return Inertia::render('Session/Session-answer-text');

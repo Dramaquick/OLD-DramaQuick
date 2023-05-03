@@ -283,7 +283,12 @@ class SessionController extends Controller
 
         if (DSession::find($id) && auth()->user()->Session_Id == null) {
         $session = DSession::find($id);
-        if ($session->Session_Status == 'pending_start') {
+        // On cherche le nombre de personne étant déjà dans la session
+        $users = User::where('Session_Id', $id)->get();
+        $users_count = count($users);
+        // On chervhe la limite de user de la session
+        $session_max = $session->Session_MaxUser;
+        if ($session->Session_Status == 'pending_start' && $users_count < $session_max) {
             $owner = User::find($session->Owner_Id, [ 'name' ]);
 
             User::where('id', auth()->id())->update(['Session_Id' => $session->Session_Id]);
@@ -381,9 +386,6 @@ class SessionController extends Controller
     {
         $session = DSession::find($id);
 
-        // On modifie l'utilisateur pour qu'il ne soit plus dans la session
-        User::where('id', auth()->id())->update(['Session_Id' => null]);
-
         if ($session->Session_Status == 'in_progress') {
             DSession::where('Session_Id', $id)->update(['Session_Status' => 'finished']);
         }
@@ -461,6 +463,26 @@ class SessionController extends Controller
         }
 
         return null;
+    }
+
+    public function getNumberUsers($id)
+    {
+            $users = User::where('Session_Id', $id)->get();
+            $users_count = count($users);
+            return response()->json(['users_count' => $users_count]);
+    }
+
+    /**
+     * Reset the session_id of a user.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function resetResult($id)
+    {
+        User::where('id', $id)->update(['Session_Id' => null]);
+
+        return redirect('/');
     }
 
 }

@@ -26,7 +26,6 @@
     $: {
             // On met à jour status qui contient le code de status
             let status = $page.props.flash.status;
-            console.log("status:"+status);
 
             // On crée une variable description qui contient la description des codes de status
             let description = {

@@ -4,8 +4,8 @@
 
 <div class="textes-container">
     {#each textes as text}
-        <div class="texte text-[1rem] text-[#272727]">
-            <p>{text}</p>
+        <div class="texte text-[1rem] text-[#272727] w-full">
+            <p class="w-full">{text}</p>
         </div>
     {/each}
 </div>

@@ -25,3 +25,14 @@ Broadcast::channel('session.{id}', function (User $user, int $id) {
         return $user;
     }
 });
+
+Broadcast::channel('result.session.{id}', function (User $user, int $id) {
+    Log::info("Got channel joing with id: " . $user->id);    
+    Log::info("Session id: " . $user->Session_Id);
+    Log::info("Channel id: " . $id);
+    Log::info("Session id === Channel id: " . ($user->Session_Id === $id));
+
+    if($user->Session_Id === $id) {
+        return $user;
+    }
+});

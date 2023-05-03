@@ -78,3 +78,11 @@ Route::get('/sessions/inprogress', [SessionController::class, 'sessionsInProgres
 
 Route::get('/answers/all', [AnswerController::class, 'allAnswers'])
 ->name('answer.all');
+
+// Get number of same answers
+
+Route::get('/answers/same/{response}', [AnswerController::class, 'getNumberOfSame'])
+->name('answer.same');
+
+Route::get('/session/resetResult/{user}', [SessionController::class, 'resetResult'])
+->middleware(['auth', 'verified'])->name('session.resetResult');

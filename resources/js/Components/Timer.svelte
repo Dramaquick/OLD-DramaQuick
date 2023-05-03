@@ -1,5 +1,5 @@
-<script>
-    import { onMount, afterUpdate } from 'svelte';
+<script lang="ts">
+    import { onMount, onDestroy } from 'svelte';
     export let minutes = 0;
     export let seconds = 0;
     export let action = [{time: [minutes, seconds], action: ()=>{}}];
@@ -19,9 +19,10 @@
     } 
     nextAction();
 
-    if (!stop) {
+    let interval : any = null;
+
     onMount(() => {
-        let interval = setInterval(() => {
+        interval = setInterval(() => {
             if (!stop) {
             if (mainAction.time[0] == minutes && mainAction.time[1] == seconds) {
                 mainAction.action();
@@ -48,7 +49,10 @@
             }
         }, 1000);
     });
-    }
+
+    onDestroy(() => {
+        clearInterval(interval);
+    });
 </script>
 
 <div id="timer" class="flex gap-4 items-end">
