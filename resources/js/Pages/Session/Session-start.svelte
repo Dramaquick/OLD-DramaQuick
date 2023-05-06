@@ -183,6 +183,13 @@
 
     $: secondString = timeroptions.seconds.toString().padStart(2, '0');
 
+    $: {
+        // On vérifie qu'on est bien connecté au channel
+        if (!MyChannel) {
+            // Si on ne l'est pas, on se connecte
+            MyChannel = window.Echo.join('dramaquick_database_session.' + session.Session_Id)
+        }
+    }
 </script>
 
 <!-- Permet de modifier l'head de la page -->

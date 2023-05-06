@@ -10,7 +10,7 @@
     onMount(() => {
         MyChannel = window.Echo.join('dramaquick_database_result.session.' + session.Session_Id)
             .listenForWhisper('Result', (e) => {
-                window.location.href = "/question/result/"+session.Session_Id+"/"+question.position+1 ;
+                window.location.href = "/question/result/"+session.Session_Id+"/"+(question.position+1).toString() ;
             });
     });
 
@@ -92,7 +92,7 @@
         MyChannel.whisper('Result', {
             session: session.Session_Id,
         });
-        window.location.href="/question/result/"+session.Session_Id+"/"+question.position+1;
+        window.location.href="/question/result/"+session.Session_Id+"/"+(question.position+1).toString();
     }
 </script>
 

@@ -44,26 +44,6 @@ class AnswerController extends Controller
         $question = DQuestion::where('Question_Id', $request->Question_Id)->first();
         $type = $question->Question_Type;
 
-        // Si le type vaut 6, c'est un paint, on stocke l'image dans le dossier public/paints au format webp avec comme nom, l'id de la question et l'id du user, on fait une validation
-        if ($type == 6) {
-            // Mon image ressemble à : data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHI....
-            $image = $request->Answer_Values;
-            // On enlève le début de la chaine de caractère pour ne garder que le base64
-            $path = public_path('paints/');
-            $image = Image::make(file_get_contents($image))->encode('webp', 90);   
-            $destinationPath = public_path('paints/');
-            $image->save($destinationPath . $request->User_Id .'_' . $request->Question_Id . '.webp');
-            $path = $request->User_Id .'_' . $request->Question_Id . '.webp';
-
-            $answer = DAnswer::create([
-                'Answer_Values' => $path,
-                'Question_Id' => $request->Question_Id,
-                'Session_Id' => $request->Session_Id,
-                'User_Id' => $request->User_Id
-            ]);
-            return redirect('/api/nextquestion/' . $answer->Session_Id);
-        }
-
         $validated = Validator::make($request->all(), [
             'Question_Id' => 'required',
             'Session_Id' => 'required',
@@ -85,6 +65,24 @@ class AnswerController extends Controller
         if ($answerExist) {
             return redirect('/api/nextquestion/' . $answerExist->Session_Id);
         } else {
+            // Si le type vaut 6, c'est un paint, on stocke l'image dans le dossier public/paints au format webp avec comme nom, l'id de la question et l'id du user, on fait une validation
+        if ($type == 6) {
+            // Mon image ressemble à : data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHI....
+            $image = $request->Answer_Values;
+            // On enlève le début de la chaine de caractère pour ne garder que le base64
+            $path = public_path('paints/');
+            $image = Image::make(file_get_contents($image))->encode('webp', 90);   
+            $destinationPath = public_path('paints/');
+            $image->save($destinationPath . $request->User_Id .'_' . $request->Question_Id . '.webp');
+            $path = $request->User_Id .'_' . $request->Question_Id . '.webp';
+
+            $answer = DAnswer::create([
+                'Answer_Values' => $path,
+                'Question_Id' => $request->Question_Id,
+                'Session_Id' => $request->Session_Id,
+                'User_Id' => $request->User_Id
+            ]);
+        } else {
         $answer = DAnswer::create(
             [
                 'Answer_Values' => $answer,
@@ -93,6 +91,7 @@ class AnswerController extends Controller
                 'User_Id' => $request->User_Id
             ]
         );
+        }
         return redirect()->guest(route('session.nextQuestion', ['session' => $answer->Session_Id]));
     }
     }

@@ -1,6 +1,5 @@
 <script lang="ts">
     import Button from "../../Components/Button.svelte";
-    import AffichageTexte from "../../Components/AffichageTexte.svelte";
     import Notification from "../../Components/Notification.svelte";
     import {page} from "@inertiajs/svelte";
     import {onMount} from "svelte";
@@ -26,12 +25,10 @@
         title: question.Question_Title,
     };
 
-    let texts = [];
+    let paints = [];
     answers.forEach(answer => {
-        texts.push(answer.Answer_Values);
+        paints.push(answer.Answer_Values);
     });
-
-    console.log(texts)
 
     // Fonction qui permet de notifier l'utilisateur
     function notify(title, text, type, duration, format, position, input, placeholder, action, id) {
@@ -88,7 +85,13 @@
                 <h1 class="subtitle py-2 font-semibold text-[1.75rem] w-full">{text.title} <i class="not-italic font-semibold text-[1.25rem]">({answers.length} réponses)</i></h1>
             </div>
             <div class="affichage my-8">
-                <AffichageTexte bind:textes={texts} />
+                <div class="textes-container">
+                    {#each paints as paint}
+                        <div class="texte text-[1rem] text-[#272727] w-full">
+                            <img src={"/paints/"+paint} alt="Paint" class="w-full"/>
+                        </div>
+                    {/each}
+                </div>
             </div>
             <div class="buttons flex justify-between">
                 {#if user.id == session.Owner_Id}
@@ -138,6 +141,11 @@
 
     .modal-container {
         min-height: 75vh;
+    }
+
+    .textes-container {
+        max-height: 604px;
+        overflow-y: auto;
     }
 
     @media screen and (max-width: 1100px) {

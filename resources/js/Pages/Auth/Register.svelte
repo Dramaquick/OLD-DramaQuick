@@ -95,6 +95,7 @@
                 showIcon={false}
                 type="password"
                 class="w-full"
+                minlength="8"
                 on:input={(evt) => ($form.password = evt.detail)}
             />
             </div>
@@ -109,6 +110,7 @@
                 type="password"
                 wrapperClass="w-full"
                 class="w-full"
+                minlength="8"
                 on:input={(evt) => ($form.password_confirmation = evt.detail)}
             />
         </div>

@@ -85,4 +85,4 @@ Route::get('/answers/same/{response}', [AnswerController::class, 'getNumberOfSam
 ->name('answer.same');
 
 Route::get('/session/resetResult/{user}', [SessionController::class, 'resetResult'])
-->middleware(['auth', 'verified'])->name('session.resetResult');
+->name('session.resetResult');

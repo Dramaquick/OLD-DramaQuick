@@ -11,6 +11,7 @@ use App\Models\User;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Response;
+use Mockery\Generator\StringManipulation\Pass\Pass;
 
 class SessionController extends Controller
 {
@@ -358,12 +359,8 @@ class SessionController extends Controller
         foreach($questions as $question) {
             // On recupère toutes les réponses de la question
             $answers = DAnswer::where('Question_Id', $question->Question_Id)->get();
-            // On vérifie si la question n'a pas de réponse de la part de l'utilisateur
-            foreach ($answers as $answer) {
-                if ($answer->User_Id == $user->id) {
-                    return redirect()->route('session.end', $session->Session_Id);
-                }
-            }
+            // On vérifie si la question n'a pas de réponse de la part de l'utilisateur, sinon on passe à la question suivante
+            if (count($answers) == 0) {
                 // On récupère la position de la question dans questions
                 $position = $question->Question_Id;
                 // On fait la position moins l'id de la premiere question pour avoir la position dans le tableau
@@ -372,8 +369,19 @@ class SessionController extends Controller
                     DSession::where('Session_Id', $id)->update(['Session_Status' => 'in_progress']);
                 }
                 return redirect()->route('question.show', [$session->Session_Id, $position]);
-        }
-        return redirect()->route('session.end', $session->Session_Id);
+            } else {
+                // On vérifie que dans les réponses de la question, il n'y a pas la réponse de l'utilisateur
+                $answer = DAnswer::where('Question_Id', $question->Question_Id)->where('User_Id', $user->id)->first();
+                if (!$answer) {
+                    // On récupère la position de la question dans questions
+                    $position = $question->Question_Id;
+                    // On fait la position moins l'id de la premiere question pour avoir la position dans le tableau
+                    $position = $position - $questions[0]->Question_Id + 1;
+                    return redirect()->route('question.show', [$session->Session_Id, $position]);
+                }
+            }
+    }
+    return redirect()->route('session.end', $session->Session_Id);
     }
 
     /**
