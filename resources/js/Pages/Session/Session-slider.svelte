@@ -112,7 +112,6 @@
             Answer_Values: form.slider.toString(),
             User_Id: user.id.toString(),
         }
-        console.log(request)
         router.post('/api/answer/store', request);
     }
 </script>

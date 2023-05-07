@@ -159,7 +159,7 @@
 
     // function start session 
     function startSession(MyChannel) {
-        console.log("Session started");
+        ("Session started");
         MyChannel.whisper('SessionStarted', {
             session: session.Session_Id,
         });

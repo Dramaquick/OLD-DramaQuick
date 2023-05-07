@@ -31,7 +31,6 @@
     window.axios.get('/api/user/avatar/'+ user.id).then(function (response) {
         if (response.headers['content-type'] != "image/svg+xml") {
             def = true;
-            console.log("user:" + user.id + " has a custom avatar");
         }
     }).catch(function (error) {
         def = true;

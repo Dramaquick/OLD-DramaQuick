@@ -60,7 +60,7 @@
             id: index,
             name: option,
         })
-        console.log(index)
+        (index)
     });
 
     // Mise en place des données de la session pour le texte
@@ -110,7 +110,6 @@
             Answer_Values: form.selected.toString(),
             User_Id: user.id.toString(),
         }
-        console.log(request)
         router.post('/api/answer/store', request);
     }
 </script>

@@ -101,7 +101,7 @@
         });
     })
     .catch(function (error) {
-        console.log(error.response.data);
+        console.log(error);
     });
 
     // Mise en place des paramètres de la session (modifiables par l'utilisateur)

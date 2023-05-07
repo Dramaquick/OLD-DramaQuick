@@ -83,7 +83,6 @@
     };
 
     function startResult(MyChannel) {
-        console.log("Session started");
         MyChannel.whisper('Result', {
             session: session.Session_Id,
         });

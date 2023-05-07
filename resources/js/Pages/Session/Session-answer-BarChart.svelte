@@ -47,14 +47,9 @@
         });
     }
 
-    console.log(answers);
-    console.log(data)
     answers.forEach(answer => {
         for (let j = 0; j < data.length; j++) {
-            console.log(answer.Answer_Values)
-            console.log(options[answer.Answer_Values])
-            console.log(data[j].group)
-            if (options[answer.Answer_Values] == data[j].group) {
+            if (options[(Number(answer.Answer_Values)-1).toString()] == data[j].group) {
                 data[j].value++;
             }
         }
@@ -100,7 +95,6 @@
     }
 
     function nextResult(MyChannel) {
-        console.log("Session started");
         MyChannel.whisper('Result', {
             session: session.Session_Id,
         });

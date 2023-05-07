@@ -65,7 +65,6 @@
     // Function for add a new option
     function addOption(questionid) {
         let index = questions[questionid].Question_Options.length;
-        console.log(index);
         if (index <= 9) {
             questions[questionid].Question_Options.push({
                 value: "",

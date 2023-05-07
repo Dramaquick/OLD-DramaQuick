@@ -99,7 +99,6 @@
             User_Id: user.id,
             Answer_Values: img,
         }
-        console.log(request);
         router.post('/api/answer/store', request);
         
     }

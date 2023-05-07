@@ -90,7 +90,6 @@
             Answer_Values: form.text,
             User_Id: user.id.toString(),
         }
-        console.log(request)
         router.post('/api/answer/store', request);
     }
 </script>

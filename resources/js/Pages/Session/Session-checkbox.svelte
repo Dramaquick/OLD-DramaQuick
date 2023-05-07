@@ -19,8 +19,6 @@
     let question = $page.props.question;
     let user = $page.props.auth.user;
 
-    console.log(user)
-
     function stringToArray(string) {
         let array = string.split(",");
         for (let i = 0; i < array.length; i++) {
@@ -62,7 +60,6 @@
             id: index,
             name: option,
         })
-        console.log(index)
     });
 
     // Mise en place des données de la session pour le texte
@@ -79,8 +76,6 @@
     for(let i = 0; i < options.length; i++) {
         form[i] = 0;
     }
-
-    console.log(form)
 
     // Fonction qui permet de notifier l'utilisateur
     function notify(title, text, type, duration, format, position, input, placeholder, action, id) {
@@ -116,7 +111,6 @@
             Answer_Values: form,
             User_Id: user.id.toString(),
         }
-        console.log(request)
         router.post('/api/answer/store', request);
     }
 </script>

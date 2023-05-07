@@ -31,7 +31,7 @@
         texts.push(answer.Answer_Values);
     });
 
-    console.log(texts)
+    (texts)
 
     // Fonction qui permet de notifier l'utilisateur
     function notify(title, text, type, duration, format, position, input, placeholder, action, id) {
@@ -61,7 +61,6 @@
     }
 
     function nextResult(MyChannel) {
-        console.log("Session started");
         MyChannel.whisper('Result', {
             session: session.Session_Id,
         });

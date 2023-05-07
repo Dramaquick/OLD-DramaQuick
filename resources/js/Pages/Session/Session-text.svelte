@@ -89,7 +89,6 @@
             Answer_Values: form.textArea,
             User_Id: user.id.toString(),
         }
-        console.log(request)
         router.post('/api/answer/store', request);
     }
 </script>

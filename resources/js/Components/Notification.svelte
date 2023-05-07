@@ -39,7 +39,6 @@
     };
     // When the component is mounted, set a timeout to destroy it
     onMount(() => {
-        console.log(duration);
         if (duration > 0) {
             timeout = setTimeout(() => {
                 close = true;

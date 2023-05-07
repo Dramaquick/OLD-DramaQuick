@@ -27,8 +27,10 @@
         title: question.Question_Title,
     };
 
-    // Mise en place des données du graphique
     let data = [];
+
+    // Mise en place des données du graphique
+    if (question.Question_Type != 7) {
 
     function stringToArray(string) {
         let array = string.split(",");
@@ -47,18 +49,52 @@
         });
     }
 
-    console.log(answers);
-    console.log(data)
     answers.forEach(answer => {
         for (let j = 0; j < data.length; j++) {
-            console.log(answer.Answer_Values)
-            console.log(options[answer.Answer_Values])
-            console.log(data[j].group)
-            if (options[answer.Answer_Values] == data[j].group) {
+            if (options[(Number(answer.Answer_Values)-1).toString()] == data[j].group) {
                 data[j].value++;
             }
         }
     });
+
+    }else{
+
+        function stringToArray(string) {
+            let array = string.split(",");
+            for (let i = 0; i < array.length; i++) {
+                array[i] = array[i];
+            }
+            return array;
+        }
+
+        let options = stringToArray(question.Question_Options);
+
+        for (let i = Number(options[0]); i <= Number(options[1]); i++) {
+            data.push({
+                group: i.toString(),
+                value: 0,
+            });
+        }
+
+        answers.forEach(answer => {
+            for (let j = 0; j < data.length; j++) {
+                if (Number(answer.Answer_Values) == Number(data[j].group)) {
+                    data[j].value++;
+                }
+            }
+        });
+
+        console.log(answers);
+
+    }
+
+    // On enleve les données qui n'ont pas de valeur
+    for (let i = 0; i < data.length; i++) {
+        if (data[i].value == 0) {
+            data.splice(i, 1);
+            i--;
+        }
+    }
 
     // Fonction qui permet de notifier l'utilisateur
     function notify(title, text, type, duration, format, position, input, placeholder, action, id) {
@@ -88,7 +124,6 @@
     }
 
     function nextResult(MyChannel) {
-        console.log("Session started");
         MyChannel.whisper('Result', {
             session: session.Session_Id,
         });
