@@ -49,6 +49,9 @@ class TagController extends Controller
     public function show($id)
     {
         $tag = DSessionTag::where('Tag_Id', $id)->get();
+
+        // La requête SQL est : SELECT * FROM tags WHERE Tag_Id = $id
+
         return Inertia::render('Tags/Show', ['tag' => $tag]);
     }
 
@@ -61,6 +64,9 @@ class TagController extends Controller
     public function showAll()
     {
         $tags = DSessionTag::all();
+
+        // La requête SQL est : SELECT * FROM tags
+
         return response()->json(['tags' => $tags]);
     }
 
@@ -73,6 +79,9 @@ class TagController extends Controller
     public function showForSession($id)
     {
         $session = DSession::where('Session_Id', $id)->first();
+
+        // La requête SQL est : SELECT * FROM sessions WHERE Session_Id = $id
+
         $tags = $session->tags()->get();
         return response()->json(['tags' => $tags]);
     }

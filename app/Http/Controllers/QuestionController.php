@@ -55,18 +55,30 @@ class QuestionController extends Controller
         }
         // Get questions
         $questions = DQuestion::where('Session_Id', $session_id)->orderBy('Question_Id')->get();
+
+        // La requête SQL est : SELECT * FROM questions WHERE Session_Id = $session_id ORDER BY Question_Id
+
         // Get session
         $session = DSession::find($session_id);
+
+        // La requête SQL est : SELECT * FROM sessions WHERE Session_Id = $session_id
+
         // Get question
         $question = $questions[$position - 1];
         // Set the position of the question
         $question->position = $position;
         $answer = DAnswer::where('Question_Id', $question->Question_Id)->where('User_Id', $user->id)->first();
+
+        // La requête SQL est : SELECT * FROM answers WHERE Question_Id = $question->Question_Id AND User_Id = $user->id
+
         if ($answer) {
             return redirect('/');
         }
         //Get number of questions in the session
         $number_of_questions = DQuestion::where('Session_Id', $question->Session_Id)->count();
+
+        // La requête SQL est : SELECT COUNT(*) FROM questions WHERE Session_Id = $question->Session_Id
+
         $session->number_of_questions = $number_of_questions;
         // Get the type of question
         $type = $question->Question_Type;

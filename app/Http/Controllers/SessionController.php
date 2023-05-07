@@ -229,6 +229,8 @@ class SessionController extends Controller
             'Session_Status' => 'pending_start',
         ]);
 
+        // La requête SQL est : INSERT INTO `d_sessions` (`Session_Title`, `Session_Description`, `Session_MinUser`, `Session_MaxUser`, `Session_Speed`, `Owner_Id`, `Session_Status`) VALUES ($request->Session_Title, $request->Session_Description, $request->Session_MinUser, $request->Session_MaxUser, $request->Session_Speed, $request->Owner_Id, 'pending_start')
+
         $tags = $request->input('Session_Tags');
 
         $session->tags()->attach($tags);
@@ -268,6 +270,8 @@ class SessionController extends Controller
                 'Question_Options' => $question['Question_Options'],
             ]);
 
+            // La requête SQL est : INSERT INTO `d_questions` (`Question_Title`, `Question_Description`, `Question_Type`, `Session_Id`, `Question_Options`) VALUES ($question['Question_Title'], $question['Question_Description'], $question['Question_Type'], $session->Session_Id, $question['Question_Options'])
+
         }
 
         session() -> flash('status', 2001);
@@ -284,15 +288,26 @@ class SessionController extends Controller
 
         if (DSession::find($id) && auth()->user()->Session_Id == null) {
         $session = DSession::find($id);
+
+        // La requête SQL est : SELECT * FROM `d_sessions` WHERE `d_sessions`.`Session_Id` = $id
+
         // On cherche le nombre de personne étant déjà dans la session
         $users = User::where('Session_Id', $id)->get();
+
+        // La requête SQL est : SELECT * FROM `users` WHERE `users`.`Session_Id` = $id
+
         $users_count = count($users);
         // On chervhe la limite de user de la session
         $session_max = $session->Session_MaxUser;
         if ($session->Session_Status == 'pending_start' && $users_count < $session_max) {
             $owner = User::find($session->Owner_Id, [ 'name' ]);
 
+            // La requête SQL est : SELECT `name` FROM `users` WHERE `users`.`id` = $session->Owner_Id
+
             User::where('id', auth()->id())->update(['Session_Id' => $session->Session_Id]);
+
+            // La requête SQL est : UPDATE `users` SET `Session_Id` = $session->Session_Id WHERE `users`.`id` = auth()->id()
+
             event(new \App\Events\JoinSessionEvent($session->Session_Id, auth()->user()));
 
             return Inertia::render('Session/Session-start', [
@@ -353,12 +368,19 @@ class SessionController extends Controller
         $user = auth()->user();
         $session = DSession::find($id);
 
+        // La requête SQL est : SELECT * FROM `d_sessions` WHERE `d_sessions`.`Session_Id` = $id
+
         // on récupère les questions classé dans l'ordre de leur ID
         $questions = DQuestion::where('Session_Id', $id)->orderBy('Question_Id')->get();
+
+        // La requête SQL est : SELECT * FROM `d_questions` WHERE `d_questions`.`Session_Id` = $id ORDER BY `d_questions`.`Question_Id` ASC
 
         foreach($questions as $question) {
             // On recupère toutes les réponses de la question
             $answers = DAnswer::where('Question_Id', $question->Question_Id)->get();
+
+            // La requête SQL est : SELECT * FROM `d_answers` WHERE `d_answers`.`Question_Id` = $question->Question_Id
+
             // On vérifie si la question n'a pas de réponse de la part de l'utilisateur, sinon on passe à la question suivante
             if (count($answers) == 0) {
                 // On récupère la position de la question dans questions
@@ -367,11 +389,17 @@ class SessionController extends Controller
                 $position = $position - $questions[0]->Question_Id + 1;
                 if ($position == 1 && $session->Session_Status == 'pending_start') {
                     DSession::where('Session_Id', $id)->update(['Session_Status' => 'in_progress']);
+
+                    // La requête SQL est : UPDATE `d_sessions` SET `Session_Status` = 'in_progress' WHERE `d_sessions`.`Session_Id` = $id
+
                 }
                 return redirect()->route('question.show', [$session->Session_Id, $position]);
             } else {
                 // On vérifie que dans les réponses de la question, il n'y a pas la réponse de l'utilisateur
                 $answer = DAnswer::where('Question_Id', $question->Question_Id)->where('User_Id', $user->id)->first();
+
+                // La requête SQL est : SELECT * FROM `d_answers` WHERE `d_answers`.`Question_Id` = $question->Question_Id AND `d_answers`.`User_Id` = $user->id
+
                 if (!$answer) {
                     // On récupère la position de la question dans questions
                     $position = $question->Question_Id;
@@ -394,8 +422,13 @@ class SessionController extends Controller
     {
         $session = DSession::find($id);
 
+        // La requête SQL est : SELECT * FROM `d_sessions` WHERE `d_sessions`.`Session_Id` = $id
+
         if ($session->Session_Status == 'in_progress') {
             DSession::where('Session_Id', $id)->update(['Session_Status' => 'finished']);
+
+            // La requête SQL est : UPDATE `d_sessions` SET `Session_Status` = 'finished' WHERE `d_sessions`.`Session_Id` = $id
+
         }
 
         return Inertia::render('Session/Session-finish', [
@@ -413,6 +446,8 @@ class SessionController extends Controller
     {
         $sessions = DSession::where('Session_Status', 'finished')->count();
 
+        // La requête SQL est : SELECT * FROM `d_sessions` WHERE `d_sessions`.`Session_Status` = 'finished'
+
         return response()->json(['sessions' => $sessions]);
     }
 
@@ -426,6 +461,8 @@ class SessionController extends Controller
     {
         $sessions = DSession::where('Session_Status', 'in_progress')->orWhere('Session_Status', 'pending_start')->count();
 
+        // La requête SQL est : SELECT * FROM `d_sessions` WHERE `d_sessions`.`Session_Status` = 'in_progress' OR `d_sessions`.`Session_Status` = 'pending_start'
+
         return response()->json(['sessions' => $sessions]);
     }
 
@@ -438,6 +475,8 @@ class SessionController extends Controller
     public function leave()
     {
         User::where('id', auth()->id())->update(['Session_Id' => null]);
+
+        // La requête SQL est : UPDATE `users` SET `Session_Id` = null WHERE `users`.`id` = auth()->id()
 
         return redirect('/');
     }
@@ -456,6 +495,9 @@ class SessionController extends Controller
         // On vérifie que l'utilisateur n'est pas dans une session
         if ($user->Session_Id != null) {
             User::where('id', auth()->id())->update(['Session_Id' => null]);
+
+            // La requête SQL est : UPDATE `users` SET `Session_Id` = null WHERE `users`.`id` = auth()->id()
+
         }
 
         return null;
@@ -467,6 +509,9 @@ class SessionController extends Controller
 
         if ($user->Session_Id != null) {
             $session = DSession::find($user->Session_Id);
+
+            // La requête SQL est : SELECT * FROM `d_sessions` WHERE `d_sessions`.`Session_Id` = $user->Session_Id
+
             return response()->json(['session' => $session]);
         }
 
@@ -476,6 +521,9 @@ class SessionController extends Controller
     public function getNumberUsers($id)
     {
             $users = User::where('Session_Id', $id)->get();
+
+            // La requête SQL est : SELECT * FROM `users` WHERE `users`.`Session_Id` = $id
+
             $users_count = count($users);
             return response()->json(['users_count' => $users_count]);
     }
@@ -489,6 +537,8 @@ class SessionController extends Controller
     public function resetResult($id)
     {
         User::where('id', $id)->update(['Session_Id' => null]);
+
+        // La requête SQL est : UPDATE `users` SET `Session_Id` = null WHERE `users`.`id` = $id
 
         return redirect('/');
     }

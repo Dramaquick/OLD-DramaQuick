@@ -82,6 +82,8 @@ class AnswerController extends Controller
                 'Session_Id' => $request->Session_Id,
                 'User_Id' => $request->User_Id
             ]);
+
+            // La requête SQL est : INSERT INTO `d_answers` (`Answer_Values`, `Question_Id`, `Session_Id`, `User_Id`) VALUES ($path, $request->Question_Id, $request->Session_Id, $request->User_Id)
         } else {
         $answer = DAnswer::create(
             [
@@ -91,6 +93,8 @@ class AnswerController extends Controller
                 'User_Id' => $request->User_Id
             ]
         );
+
+        // La requête SQL est : INSERT INTO `d_answers` (`Answer_Values`, `Question_Id`, `Session_Id`, `User_Id`) VALUES ($answer, $request->Question_Id, $request->Session_Id, $request->User_Id)
         }
         return redirect()->guest(route('session.nextQuestion', ['session' => $answer->Session_Id]));
     }
@@ -107,8 +111,14 @@ class AnswerController extends Controller
         $position = $position - 1;
         // On récupère la question
         $questions = DQuestion::where('Session_Id', $session_id)->orderBy('Question_Id')->get();
+
+        // La requête SQL est : SELECT * FROM `d_questions` WHERE `Session_Id` = $session_id ORDER BY `Question_Id` ASC
+
         // Get session
         $session = DSession::find($session_id);
+
+        // La requête SQL est : SELECT * FROM `d_sessions` WHERE `Session_Id` = $session_id
+
         // Get question
         try {
         $question = $questions[$position];
@@ -117,8 +127,14 @@ class AnswerController extends Controller
         }
         // On récupère les réponses
         $answers = DAnswer::where('Question_Id', $question->Question_Id)->get();
+
+        // La requête SQL est : SELECT * FROM `d_answers` WHERE `Question_Id` = $question->Question_Id
+
         // On récupère le nombre de réponses
         $answersNumber = DAnswer::where('Question_Id', $question->Question_Id)->count();
+
+        // La requête SQL est : SELECT COUNT(*) FROM `d_answers` WHERE `Question_Id` = $question->Question_Id
+
         $answers->number = $answersNumber;
 
         // On regarde le type de la question
@@ -126,6 +142,9 @@ class AnswerController extends Controller
 
         //Get number of questions in the session
         $number_of_questions = DQuestion::where('Session_Id', $question->Session_Id)->count();
+
+        // La requête SQL est : SELECT COUNT(*) FROM `d_questions` WHERE `Session_Id` = $question->Session_Id
+
         $session->number_of_questions = $number_of_questions;
 
         $question->position = $position+1;
@@ -201,6 +220,9 @@ class AnswerController extends Controller
     public function allAnswers()
     {
         $answersNumber = DAnswer::count();
+
+        // La requête SQL est : SELECT COUNT(*) FROM `d_answers`
+
         return response()->json(['answers' => $answersNumber]);
     }
 
@@ -212,6 +234,9 @@ class AnswerController extends Controller
      */
     public function getNumberOfSame($response){
         $answersNumber = DAnswer::where('Answer_Values', $response)->count();
+
+        // La requête SQL est : SELECT COUNT(*) FROM `d_answers` WHERE `Answer_Values` = $response
+
         return response()->json(['answers' => $answersNumber]);
     }
 }   

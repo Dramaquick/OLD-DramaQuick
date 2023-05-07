@@ -83,6 +83,8 @@ class ChangeEmailController extends Controller
         } else {
             User::where('id', auth()->id())->update(['email' => $request->email]);
 
+            // La requête SQL est : UPDATE `d_users` SET `email` = $request->email WHERE `d_users`.`id` = auth()->id()
+
             session()->flash('status', 1002);
         }
 

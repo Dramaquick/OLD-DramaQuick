@@ -49,6 +49,9 @@ class UsernameController extends Controller
     public function show($id)
     {
         $username = User::where('id', $id)->value('name');
+
+        // La requête SQL est : SELECT * FROM users WHERE id = $id
+
         return response()->json(['username' => $username]);
     }
 
@@ -85,6 +88,8 @@ class UsernameController extends Controller
         
         } else {
             User::where('id', auth()->id())->update(['name' => $request->username]);
+
+            // La requête SQL est : UPDATE `d_users` SET `email` = $request->email WHERE `d_users`.`id` = auth()->id()
 
             session()->flash('status', 1001);
         }

@@ -187,7 +187,7 @@
                 <h1 class="display-pseudo font-semibold text-[3rem] text-black mt-8">{user.pseudo}</h1>
             </div>
             <div class="infos bg-[#FBFBFB] w-[48.75rem] h-max rounded-lg p-8">
-                <div class="inner-nav flex flex-row rounded-lg bg-[#F2F2F2] justify-between p-4">
+                <div class="inner-nav flex flex-row rounded-lg bg-[#F2F2F2] justify-evenly p-4">
                     <button class="text-[1.25rem] text-black px-8 rounded-lg transition {index === "Profil" ? "bg-[#34FFAD]" : "bg-transparent"}" on:click={() => index = "Profil"}>Profil</button>
                     <div class="w-0.5 h-[2.75rem] bg-[#C5C5C5]"></div>
                     <!--<button class="text-[1.25rem] text-black px-8 rounded-lg transition {index === "Préférences" ? "bg-[#34FFAD]" : "bg-transparent"}" on:click={() => index = "Préférences"}>Préférences</button>
