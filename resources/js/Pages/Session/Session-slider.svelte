@@ -1,26 +1,84 @@
-<script>
+<script lang="ts">
     import Timer from "../../Components/Timer.svelte";
     import Slider from "../../Components/Slider.svelte";
     import Button from "../../Components/Button.svelte";
     import Notification from "../../Components/Notification.svelte";
+    import PageSwitchLayout from "@/Layouts/PageSwitchLayout.svelte";
+    import {page,router} from "@inertiajs/svelte";
+    import {onMount} from "svelte";
 
-    // Décompteur en temps réel pour Timer
+    let MyChannel;
+    onMount(() => {
+        MyChannel = window.Echo.join('dramaquick_database_session.' + session.Session_Id)
+            .leaving((user) => {
+                notify(user.name,"a quitté la session","error",5000,"box","corner-bottom-right",false,"",() => {},"quit");
+            })
+    });
+
+    let session = $page.props.session;
+    let question = $page.props.question;
+    let user = $page.props.auth.user;
+
+    // Mise en place du temps pour le timer
     let timer = {
-        minutes: 1,
-        seconds: 10,
+        minutes: 0,
+        seconds: 15,
     };
 
+    if (session.Session_Speed == 1) {
+        timer = {
+            minutes: 0,
+            seconds: 15,
+        };
+    } else if (session.Session_Speed == 2) {
+        timer = {
+            minutes: 0,
+            seconds: 30,
+        };
+    } else if (session.Session_Speed == 3) {
+        timer = {
+            minutes: 0,
+            seconds: 45,
+        };
+    }
+
+    // Mise en place des données de la session pour le texte
     let text = {
-        session: "#35878454",
-        page: "4/10",
-        title: "Pourquoi le Japon ?",
-        description: "Bah oui c'est vrai mdr"
+        session: "#"+session.Session_Id,
+        page: question.position.toString() + "/" + session.number_of_questions.toString(),
+        title: question.Question_Title,
+        description: question.Question_Description,
     }
 
-    let form = {
-        sliderdouble: [0, 10]
+    function stringToArray(string) {
+        let array = string.split(",");
+        for (let i = 0; i < array.length; i++) {
+            array[i] = array[i];
+        }
+        return array;
     }
 
+    let options = stringToArray(question.Question_Options);
+
+    let slider = [
+        options[0],
+        options[1],
+    ]
+
+    let form : any = {};
+
+    // Mise en place du formulaire pour le slider
+    if (options[2] == 1) {
+        form = {
+            slider: Math.round((options[0] + options[1]) / 2),
+        };
+    } else {
+        form = {
+            slider: [options[0], options[1] - Math.round(((options[0] + options[1]) / 2) / 2)],
+        };
+    }
+
+    // Fonction qui permet de notifier l'utilisateur
     function notify(title, text, type, duration, format, position, input, placeholder, action, id) {
         if (id != undefined) {
             if (document.getElementById(id) != null) {
@@ -46,6 +104,16 @@
             }
         });
     }
+
+    function Next() {
+        let request = {
+            Session_Id: session.Session_Id.toString(),
+            Question_Id: question.Question_Id.toString(),
+            Answer_Values: form.slider.toString(),
+            User_Id: user.id.toString(),
+        }
+        router.post('/api/answer/store', request);
+    }
 </script>
 
 <!-- Permet de modifier l'head de la page -->
@@ -53,37 +121,51 @@
     <title>DramaQuick</title>
 </svelte:head>
 
+<PageSwitchLayout>
 <!-- Contenu de la page -->
-<main class="h-screen w-full overflow-hidden bg-cover bg-no-repeat">
-    <h1 class="font-semibold text-[2rem] text-black py-12 pl-56 w-full">DramaQuick</h1>
-    <div class="pl-56 pr-56">
-    <div class="grid bg-white w-full h-156 shadow rounded-2.5xl px-20 py-16">
-        <div>
-            <p class="session text-[1.5rem] color font-normal w-fit">Session {text.session}</p>
-            <h1 class="title py-2 w-144 font-semibold text-[2.25rem] w-fit">{text.title}</h1>
-            <h2 class="desc bordered pl-6 w-144 font-normal text-[1.5rem] h-fit w-fit">{text.description}</h2>
+    <main class="min-h-screen w-full overflow-hidden bg-cover bg-no-repeat">
+        <h1 class="sitetitle font-semibold text-[2rem] text-black py-12 pl-56 w-full">DramaQuick</h1>
+        <div class="w-full flex justify-center mb-4">
+            <div class="container flex flex-col justify-between bg-white w-4/6 min-h-[39rem]  shadow rounded-2.5xl px-20 py-16">
+                <div class="infos">
+                    <div class="header flex justify-between">
+                        <p class="session text-[1.5rem] color font-normal w-fit">Session {text.session}</p>
+                        <p class="page font-semibold text-[1.5rem] text-black text-right">{text.page}</p>
+                    </div>
+                    <div class="content">
+                        <h1 class="title py-2 font-semibold text-[2.25rem] w-full">{text.title}</h1>
+                        <h2 class="desc bordered pl-6 font-normal text-[1.5rem] h-fit w-full">{text.description}</h2>
+                    </div>
+                </div>
+                <div class="w-full flex justify-center my-16">
+                    {#if options[2] == 1}
+                        <Slider
+                            type="simple"
+                            bind:values={form.slider}
+                            min={Number(slider[0])}
+                            max={Number(slider[1])}
+                        />
+                    {:else if options[2] == 2}
+                        <Slider
+                            type="double"
+                            bind:values={form.slider}
+                            min={Number(slider[0])}
+                            max={Number(slider[1])}
+                        />
+                    {/if}
+                </div>
+                <div class="timer-tags flex flex-row justify-between">
+                    <Timer
+                        bind:minutes={timer.minutes}
+                        bind:seconds={timer.seconds}
+                        action = {[{time: [0, 0], action: () => {Next()}}]}
+                    />
+                    <Button class="outline" action={() => {notify("Quitter la session","Souhaitez-vous vraiment quitter la session ?","normal",0,"box","middle",false,"",() => {window.location.href ="/leave"},"leave")}}>Quitter la session</Button>
+                </div>
+            </div>
         </div>
-        <p class="page font-semibold text-[1.5rem] text-black text-right">{text.page}</p>
-        <div class="slider flex justify-center items-center scale-150">
-            <Slider
-                type="double"
-                bind:values={form.sliderdouble}
-                min={0}
-                max={10}
-            />
-        </div>
-        <div class="timer-tags flex items-end">
-            <Timer
-                bind:minutes={timer.minutes}
-                bind:seconds={timer.seconds}
-            />
-        </div>
-        <div class="button flex justify-end items-end">
-            <Button class="outline" action={() => {notify("Quitter la session","Souhaitez-vous vraiment quitter la session ?","normal",0,"box","middle",false,"",() => {window.location.href ="/"},"leave")}}>Quitter la session</Button>
-        </div>
-    </div>
-    </div>
-</main>
+    </main>
+</PageSwitchLayout>
 
 <style>
     main {
@@ -99,31 +181,72 @@
     }
 
     .session {
-        grid-row: 1;
-        grid-column: 1;
+        overflow-wrap: break-word;
     }
 
     .page {
-        grid-row: 1;
-        grid-column: 2;
+        overflow-wrap: break-word;
     }
 
     .title {
-        grid-row: 1;
-        grid-column: 1;
+        overflow-wrap: break-word;
     }
 
     .desc {
-        grid-row: 1;
-        grid-column: 1;
+        overflow-wrap: break-word;
     }
 
     .bordered {
         border-left: 4px solid #34FFAD;
     }
 
-    .slider {
-        grid-row: 2;
-        grid-column: 1/3;
+    @media screen and (max-width: 1000px) {
+        .timer-tags {
+            flex-direction: column;
+            width: 100%;
+            align-items: center;
+        }
+    }
+
+    @media screen and (max-width: 700px) {
+        .content h1 {
+            font-size: 2rem;
+        }
+
+        .content h2 {
+            font-size: 1.5rem;
+        }
+
+        main .container {
+            padding: 2rem;
+            width: 95%;
+        }
+    }
+
+    @media screen and (max-width: 650px) {
+        .sitetitle {
+            padding-left: 0;
+            display: flex;
+            justify-content: center;
+        }
+    }
+
+    @media screen and (max-width: 500px) {
+        .header {
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .content h1 {
+            font-size: 1.5rem;
+        }
+
+        .content h2 {
+            font-size: 1.25rem;
+        }
+
+        main .container {
+            padding: 1rem;
+        }
     }
 </style>

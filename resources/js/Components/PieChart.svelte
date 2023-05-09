@@ -108,14 +108,31 @@
     });
 </script>
 
-<div class="flex flex-row items-center justify-center h-[300px]">
+<div class="container flex flex-row items-center justify-center min-h-[300px] h-fit w-full">
 <PieChart {data} {options} />
-<div class="flex flex-col gap-4">
+<div class="flex flex-col gap-4 w-fit">
 {#each data as item}
-    <div class="flex flex-row items-center">
+    <div class="flex flex-row items-center ml-2">
         <div class="w-4 h-4 rounded-full" style="background-color: {options.color.scale[item.group]}"></div>
-        <div class="ml-2">{item.group}, nombre de votes: {item.value}</div>
+        <div class="legend ml-2 w-5/6"><p class="text">{item.group}, nombre de votes: {item.value}</p></div>
     </div>
 {/each}
 </div>
 </div>
+
+<style>
+.text {
+  line-height: 1rem;
+  overflow-wrap: anywhere;
+}
+@media screen and (max-width: 1500px) {
+    .container {
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    .legend {
+      width: 100%;
+    }
+  }
+</style>

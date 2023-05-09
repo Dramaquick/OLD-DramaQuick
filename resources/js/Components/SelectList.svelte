@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
     import clickOutside from './util/clickOutside.js';
 
     /*
@@ -24,7 +24,11 @@
     // Valeur sélectionnée par défaut
     export let value = -1;
 
-    export let width = false;
+    export let width : number | boolean = false;
+
+    // Est dans la création de question
+    export let isQuestionCreator = false;
+
     /*
     📍 Variables du composant
      */
@@ -50,8 +54,30 @@
     }
 </script>
 
-{#if width}
-    <div class={`select-list ${isOpen ? "open" : ""}`} use:clickOutside on:outclick={() => isOpen = false} style="width: {width}">
+{#if isQuestionCreator}
+    <div class={`select-list ${isOpen ? "open" : ""} ${[1,4,5].includes(value) ? "select-list-alternative" : ""}`} use:clickOutside on:outclick={() => { isOpen = false; }}>
+        <div class="selected-item" on:click={() => isOpen = !isOpen }>
+            {#if value}
+                <div class="selected-item__text">{items.find(item => item.id === value).name}</div>
+            {:else}
+                <div class="selected-item__text placeholder">{placeholder}</div>
+            {/if}
+            <div class={`selected-item__icon ${isOpen ? "open" : ""}`}>
+                <svg width="9" height="6" viewBox="0 0 9 6" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M0.722304 1.82842L1.91605 0.555557L4.69453 3.51957L7.473 0.555557L8.66675 1.82842L5.68913 5.00488C5.55853 5.14424 5.40347 5.25478 5.23282 5.3302C5.06216 5.40563 4.87925 5.44445 4.69453 5.44445C4.5098 5.44445 4.32689 5.40563 4.15624 5.3302C3.98558 5.25478 3.83052 5.14424 3.69992 5.00488L0.722304 1.82842Z"/>
+                </svg>
+            </div>
+        </div>
+        <div bind:this={scrollDiv} class={`select-items ${isOpen ? "open" : ""} ${closed}`}>
+            {#each items as item (item.id)}
+                <div class="select-item" on:click={() => {value = item.id; isOpen = !isOpen}} >
+                    <div class="select-item__text">{item.name}</div>
+                </div>
+            {/each}
+        </div>
+    </div>
+{:else if !width}
+    <div class={`select-list ${isOpen ? "open" : ""}`} use:clickOutside on:outclick={() => { isOpen = false; }}>
         <div class="selected-item" on:click={() => isOpen = !isOpen }>
             {#if value}
                 <div class="selected-item__text">{items.find(item => item.id === value).name}</div>
@@ -73,7 +99,7 @@
         </div>
     </div>
 {:else}
-<div class={`select-list ${isOpen ? "open" : ""}`} use:clickOutside on:outclick={() => isOpen = false}>
+<div class={`select-list ${isOpen ? "open" : ""}`} use:clickOutside on:outclick={() => isOpen = false} style="width: {width}px">
     <div class="selected-item" on:click={() => isOpen = !isOpen }>
         {#if value}
             <div class="selected-item__text">{items.find(item => item.id === value).name}</div>
@@ -118,6 +144,10 @@
 
     .select-list.open .selected-item__icon svg {
         fill: #00E589;
+    }
+
+    .select-list-alternative {
+        width: clamp(11.875rem, 80%, 20rem);
     }
 
     .selected-item {

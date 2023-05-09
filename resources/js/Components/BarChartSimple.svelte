@@ -106,17 +106,34 @@
     );
   </script>
   
-  <div class="flex flex-row w-full items-center gap-12 h-[300px]">
+  <div class="container flex flex-row w-full items-center gap-12 min-h-[300px] h-fit w-full">
     <BarChartSimple
       data={data}
       options={options}
     />
     <div class="flex flex-col gap-4 w-fit">
       {#each Object.entries(classement) as [key, value]}
-        <div class="flex flex-row gap-4 items-center">
+        <div class="flex flex-row gap-4 items-center ml-2">
           <div class="w-4 h-4 rounded-full" style="background-color: {CountColor[value]}"></div>
-          <div class="w-max">{key}, nombre de votes: {value}</div>
+          <div class="legend ml-2 w-5/6"><p class="text">{key}, nombre de votes: {value}</p></div>
         </div>
       {/each}
     </div>
   </div>
+
+<style>
+  .text {
+    line-height: 1rem;
+    overflow-wrap: anywhere;
+  }
+  @media screen and (max-width: 1500px) {
+    .container {
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    .legend {
+      width: 100%;
+    }
+  }
+</style>

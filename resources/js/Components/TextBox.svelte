@@ -17,10 +17,10 @@
     export let autocomplete = "off";
     export let pattern = null;
     export let minlength = null;
-    export let maxlength = null;
     export let showIcon = true;
     export let style = "";
     export let type = "text";
+    export let maxlength = null;
 
     function onInput() {
         dispatch("input", value);

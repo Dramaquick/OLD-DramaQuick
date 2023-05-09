@@ -1,4 +1,7 @@
 import _ from 'lodash';
+import Echo from 'laravel-echo';
+import io from 'socket.io-client';
+window.io = io;
 window._ = _;
 
 /**
@@ -18,13 +21,22 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
  * allows your team to easily build robust real-time web applications.
  */
 
-// import Echo from 'laravel-echo';
+// CSRF TOKEN HACK
+const name = 'XSRF-TOKEN';
+const cookies = '; ' + document.cookie;
+const parts = cookies.split('; ' + name + '=');
+let value = parts.length == 2 ? parts.pop().split(';').shift() : null;
+value = decodeURIComponent(value);
 
-// window.Pusher = require('pusher-js');
+window.Echo = new Echo({
+    broadcaster: 'socket.io',
+    host: "http://154.49.216.217:6003",
+    csrfToken: value,
+});
 
-// window.Echo = new Echo({
-//     broadcaster: 'pusher',
-//     key: import.meta.env.VITE_PUSHER_APP_KEY,
-//     cluster: import.meta.env.VITE_PUSHER_APP_CLUSTER,
-//     forceTLS: true
-// });
+/**
+ * Funny little cactus :)
+ */
+
+console.log("%c🌵", "font-size: 100px;");
+console.log("%cWhat are you doing here? 🤔", "color: #bada55; font-size: 20px; padding: 10px; font-weight: bold;");

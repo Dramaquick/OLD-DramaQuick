@@ -5,7 +5,7 @@
     export let disabled = false;
     export let selected;
     export let name = "";
-    export let value = "";
+    export let value = 0;
 
 </script>
 

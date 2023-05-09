@@ -2,7 +2,7 @@
     export let links;
     import MainLayout from "@/Layouts/Authenticated.svelte";
 
-    import { useForm, inertia } from "@inertiajs/inertia-svelte";
+    import { useForm, inertia } from "@inertiajs/svelte";
 
     let form = useForm({
         title: null,

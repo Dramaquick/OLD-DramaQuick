@@ -1,11 +1,11 @@
-<script>
+<script lang="ts">
     let className = "";
 
     export { className as class };
     export let disabled = false;
     export let style = "";
     export let action = () => {};
-    export let width = false;
+    export let width: string | number = null;
 </script>
 
 {#if !width}

@@ -1,6 +1,13 @@
 <?php
 
 use App\Http\Controllers\LinkController;
+use App\Http\Controllers\SessionController;
+use App\Http\Controllers\UsernameController;
+use App\Http\Controllers\ChangeEmailController;
+use App\Http\Controllers\AvatarController;
+use App\Http\Controllers\QuestionController;
+use App\Http\Controllers\TagController;
+use App\Http\Controllers\AnswerController;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -32,21 +39,91 @@ Route::get('/', function () {
 
 require __DIR__ . '/auth.php';
 
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+// ----------------- Auth -----------------
 
-Route::get('/about', function () {
-    return Inertia::render('About');
-})->middleware(['auth', 'verified'])->name('about');
+Route::get('/login', function () {
+    return Inertia::render('Auth/Login');
+})->name('login');
 
-Route::get('/components', function () {
-    return Inertia::render('Components');
+Route::get('/register', function () {
+    return Inertia::render('Auth/Register');
+})->name('register');
+
+// ----------------- Quiz -----------------
+
+// Access quiz
+Route::get('/quiz/{session}', [SessionController::class, 'show'])
+->middleware(['auth', 'verified'])->where('session', '[0-9]+')->name('session.show');
+
+// Create quiz
+Route::post('/quiz/store', [SessionController::class, 'store'])
+->middleware(['auth', 'verified'])->name('session.store');
+
+// Create quiz page
+Route::get('/quiz/create', function () {
+    return Inertia::render('Session/Session-create');
+})->middleware(['auth', 'verified'])->name('session.create');
+
+// Access final page of quiz
+Route::get('/quiz/{session}/end', [SessionController::class, 'end'])
+->middleware(['auth', 'verified'])->where('session', '[0-9]+')->name('session.end');
+
+// Get number participants of a session
+
+Route::get('/quiz/{session}/participants', [SessionController::class, 'getNumberUsers'])
+->middleware(['auth', 'verified'])->name('session.participants');
+
+// ----------------- Question -----------------
+
+// Access question
+
+Route::get('/question/{session}/{question}', [QuestionController::class, 'show'])
+->middleware(['auth', 'verified'])->where('session', '[0-9]+')->name('question.show');
+
+// access result question
+
+Route::get('/question/result/{session}/{question}', [AnswerController::class, 'show'])
+->middleware(['auth', 'verified'])->where('session', '[0-9]+')->name('question.result');
+
+// ----------------- User -----------------
+
+// Change username
+Route::put('/user/username', [UsernameController::class, 'update'])
+->middleware(['auth', 'verified'])->name('user.username.update');
+
+// Change email
+Route::put('/user/email', [ChangeEmailController::class, 'update'])
+->middleware(['auth', 'verified'])->name('user.email.update');
+
+// Change avatar
+Route::post('/user/avatar', [AvatarController::class, 'store'])
+->middleware(['auth', 'verified'])->name('user.avatar.update');
+
+// Profile
+Route::get('/profile', function () {
+    return Inertia::render('Profile');
+})->middleware(['auth', 'verified'])->name('profile');
+
+Route::get('/nextquestion/{session}', [SessionController::class, 'nextQuestion'])
+->middleware(['auth', 'verified'])->name('session.nextQuestion');
+
+Route::get('/answer/{session}/{question}', [QuestionController::class, 'show'])
+->middleware(['auth', 'verified'])->name('answer.show');
+
+Route::get('/leave', [SessionController::class, 'leave'])
+->middleware(['auth', 'verified'])->name('session.leave');
+
+Route::get('/session/reset', [SessionController::class, 'reset'])
+->middleware(['auth', 'verified'])->name('session.reset');
+
+Route::get('/user/getsession', [SessionController::class, 'getUserSession'])
+->middleware(['auth', 'verified'])->name('user.getsession');
+// ----------------- Other -----------------
+
+Route::get('/fire-event', function () {
+    event(new \App\Events\TestEvent());
+    return 'Event has been sent!';
 });
-
-Route::get('/session-start', function () {
-    return Inertia::render('Session/Session-start');
-})->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::get('/session-text', function () {
     return Inertia::render('Session/Session-text');
@@ -78,11 +155,7 @@ Route::get('/session-slider', function () {
 
 Route::get('/session-finish', function () {
     return Inertia::render('Session/Session-finish');
-});
-
-Route::get('/session-create', function () {
-    return Inertia::render('Session/Session-create');
-})->middleware(['auth', 'verified'])->name('dashboard');
+})->middleware(['auth', 'verified'])->where('session', '[0-9]+');
 
 Route::get('/session-answer-text', function () {
     return Inertia::render('Session/Session-answer-text');
@@ -96,12 +169,3 @@ Route::get('/session-answer-bar', function () {
     return Inertia::render('Session/Session-answer-BarChart');
 });
 
-Route::get('/profile', function () {
-    return Inertia::render('Profile');
-})->middleware(['auth', 'verified'])->name('profile');
-
-
-// Links
-Route::get('/links', [LinkController::class, 'index'])->middleware(['auth', 'verified'])->name('links.index');
-Route::post('/links', [LinkController::class, 'store'])->name('links.store');
-Route::delete('/links/{link}', [LinkController::class, 'destroy'])->name('links.destroy');

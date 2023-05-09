@@ -1,7 +1,7 @@
 <script>
     import RangeSlider from "svelte-range-slider-pips";
     let sliderType = "simple";
-    let clazz;
+    let clazz = "";
 
     export { sliderType as type, clazz as class };
     export let values;

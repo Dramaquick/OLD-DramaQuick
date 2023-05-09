@@ -1,26 +1,20 @@
-<script>
-    import {inertia} from '@inertiajs/inertia-svelte';
+<script lang="ts">
+    import { inertia } from '@inertiajs/svelte';
 
-    export let user = {};
+    export let user: User;
 
-    let src = user.hasCustomIcon ? "/img/users/" + user.id + ".webp" : "/img/components/user.svg";
-    let hasCustomImage = user.hasCustomIcon;
+    let src = `/api/user/avatar/${user.id}?` + Date.now();
 </script>
 
 <div class="user-button-container">
-    {#if hasCustomImage}
-        <img class="user-image custom-image" src={src} alt="user_image"/>
-    {:else}
-        <img class="user-image" src={src} alt="user_image"/>
-    {/if}
+    <img class="user-image" src={src} alt="user_image"/>
     <!-- svelte-ignore a11y-mouse-events-have-key-events -->
     <div class="user-menu">
-        <a class="user-menu-item" href="/profile">Profile</a>
+        <a class="user-menu-item" href="/profile">Profil</a>
         <div class="separator"></div>
         <button use:inertia={{ href: "/logout", method: "post" }} class="user-menu-item">Se déconnecter</button>
     </div>
 </div>
-
 <style>
     .user-button-container {
         display: flex;
@@ -37,7 +31,7 @@
         flex-direction: column;
         justify-content: center;
         align-items: flex-start;
-        padding: 2rem 1.5rem;
+        padding: 1.75rem 1.5rem;
         gap: .75rem;
         width: 12rem;
 
@@ -52,6 +46,11 @@
 
     .user-menu-item {
         color: #666666;
+        transition: .2s;
+    }
+
+    .user-menu-item:hover {
+        color: #48db9b;
     }
 
     .user-button-container:hover .user-menu {
@@ -66,11 +65,7 @@
         background-color: #deeee7;
         width: 3rem;
         height: 3rem;
-        padding: 0.75rem;
-    }
-
-    .user-image.custom-image {
-        padding: 0;
+        /* padding: 0.75rem; */
     }
 
     .user-menu::before {
